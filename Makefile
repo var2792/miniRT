@@ -1,3 +1,5 @@
+#cc -I /usr/local/include/ miniRT/start.c -L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
+
 CC =			gcc
 
 FLAGS =			-Wall -Wextra -Werror
