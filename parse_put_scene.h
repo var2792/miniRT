@@ -5,7 +5,8 @@
 # include "file_help_function.h"
 # include "type_def.h"
 
-t_objscene	parse_put_scene(char **argv);
-void		ft_write_xyz(t_vector *vec, float x, float y, float z);
+t_objscene		parse_put_scene(char **argv);
+void			ft_write_xyz(t_vector *vec, float x, float y, float z);
+unsigned int	ft_colorvec_unsint(float br, t_vector vec);
 
 #endif

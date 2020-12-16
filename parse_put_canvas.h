@@ -6,6 +6,6 @@
 # include "file_help_function.h"
 # include "type_def.h"
 
-t_canvas	parse_put_canvas(t_objscene objects, t_vector pix);
+t_canvas	parse_put_canvas(t_objscene objects);
 
 #endif

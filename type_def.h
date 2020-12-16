@@ -1,6 +1,10 @@
 #ifndef TYPE_DEF_H
 # define TYPE_DEF_H
 
+# include <math.h>
+# include <stdio.h>
+# include <stdlib.h>
+
 typedef struct	s_vector
 {
 	float	x;
