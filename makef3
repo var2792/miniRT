@@ -1,0 +1,32 @@
+#cc -I /usr/local/include/ miniRT/start.c -L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
+
+CC =			gcc
+
+FLAGS =			-Wall -Wextra -Werror
+
+RM =			rm -rf
+
+SRC =			main.c
+
+OBJS =			$(SRCS:.c=.o)
+
+NAME =			miniRT
+
+%.o: %.c
+    $(CC) -Wall -Wextra -Werror -I/usr/include -Imlx_linux -O3 -c $< -o $@
+
+$(NAME) :		$(OBJS)
+				$(CC) -Lmlx_linux -lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+				#$(CC) $(FLAGS) $(OBJS) -o $(NAME)
+
+all:			$(NAME)
+
+clean:
+				$(RM) $(OBJS)
+
+fclean:			clean
+				$(RM) $(NAME)
+
+re:				fclean all
+
+.PHONY:			all, clean, fclean, re, bonus

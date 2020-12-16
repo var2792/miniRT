@@ -1,56 +1,29 @@
-#cc -I /usr/local/include/ miniRT/start.c -L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
 
-CC =			gcc
+SRCS		= main.c gnl/get_next_line.c gnl/get_next_line.h gnl/get_next_line_utils.c parse_put_scene.h parse_put_scene.c file_help_function.c file_help_function.h ft_strlen.c parse_put_canvas.c parse_put_canvas.h
 
-FLAGS =			-Wall -Wextra -Werror
+OBJS		=	${SRCS:.c=.o}
 
-RM =			rm -rf
+CFLAGS		= -Wall -Werror -Wextra
 
-DIR_HEADERS =	./includes/
+CC			= gcc
 
-DIR_SRCS =		./srcs/
+.c.o:		$(CC) -Wall -Wextra -Werror -I/usr/include -Imlx_linux -O3 -c $< -o $@
 
-DIR_OBJS =		./
+RM			= rm -rf
 
-LIBMLX =		minilibx-linux/libmlx_linux.a minilibx-linux/libmlx.a
+NAME		= miniRT
 
-SAVE =			-fsanitize=address
-6
-SRC =			main.c
+${NAME}:	${OBJS}
+			${CC} ${CFLAGS} ${OBJS} -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o ${NAME}
 
-SRCS =			$(SRC)
+all:		 ${NAME}
 
-COMPIL =		$(FLAGS) $(SAVE)
+#clean:
+#			${RM} ${OBJS} *.gch
 
-OBJS =			$(SRCS:.c=.o)
+#fclean:		clean
+#			${RM} ${NAME} a.out
 
-NAME =			miniRT
+#re:			fclean all
 
-%.o: %.c
-				@gcc $(FLAGS) -I $(DIR_HEADERS) -c $< -o $@
-				@echo "Compiled "$<" successfully!"
-
-$(NAME) :		$(OBJS)
-				@make -C ./minilibx_mms
-				@make -C ./minilibx_opengl
-				@cp ./minilibx-linux/libmlx_linux.a libmlx_linux.a
-				@cp ./minilibx-linux/libmlx.a libmlx.a
-				$(CC) $(COMPIL) -I $(DIR_HEADERS) $(LIBMLX) $(OBJS) -o $(NAME)
-
-all:			$(NAME)
-
-bonus:
-
-norme:
-				norminette $(DIR_SRCS)
-				norminette $(DIR_HEADERS)
-
-clean:
-				$(RM) $(OBJS)
-
-fclean:			clean
-				$(RM) $(NAME)
-
-re:				fclean all
-
-.PHONY:			all, clean, fclean, re, bonus
+.PHONY: 	all #clean fclean re
