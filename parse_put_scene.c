@@ -1,29 +1,6 @@
 
 #include "parse_put_scene.h"
 
-int		ft_isspase(int c)
-{
-	if (c == 32 && c == '\t')
-		return (1);
-	else
-		return (0);
-}
-
-int		ft_check_input_chars(char *line)
-{
-	if (ft_findchr("RAl", line[0]) >= 0)
-		return (0);
-	if (ft_findchr("p", line[0]) >= 0 && line[1] && ft_findchr("l", line[1]) >= 0)
-		return (0);
-	if (ft_findchr("s", line[0]) >= 0 && line[1] && (ft_findchr("p", line[1]) >= 0 || ft_findchr("q", line[1]) >= 0))
-		return (0);
-	if (ft_findchr("c", line[0]) >= 0 && line[1] && (ft_findchr("y", line[1]) >= 0 || ft_findchr(" \t", line[1]) >= 0))
-		return (0);
-	if (ft_findchr("t", line[0]) >= 0 && line[1] && ft_findchr("r", line[1]) >= 0)
-		return (0);
-	return (1);
-}
-
 void			ft_write_xyz(t_vector *vec, float x, float y, float z)
 {
 	vec->x = x;
@@ -51,89 +28,155 @@ unsigned int	ft_colorvec_unsint(float br, t_vector vec)
 	return (br * num);
 }
 
-void			ft_null_scene(t_objscene *scene)
+int		ft_check_input_chars(char **line, t_objscene *scene)
+{
+	if ((*line)[0] == 'R')
+		return (parse_resplution(line, scene));
+
+	if ((*line)[0] == 'A')
+		return (parse_ambient(line, scene));
+
+	if ((*line)[0] == 'c' && (*line)[1] != 'y')
+		return (parse_camera(line, scene));
+
+	if ((*line)[0] == 'l')
+		return (parse_light(line, scene));
+
+	if ((*line)[0] == 's' && (*line)[1] == 'p')
+		return (parse_sphere(line, scene));
+
+	if ((*line)[0] == 'p' && (*line)[1] == 'l')
+		return (parse_plane(line, scene));
+
+	if ((*line)[0] == 's' && (*line)[1] == 'q')
+		return (parse_square(line, scene));
+
+	if ((*line)[0] == 'c' && (*line)[1] == 'y')
+		return (parse_cylinder(line, scene));
+
+	if ((*line)[0] == 't' && (*line)[1] == 'r')
+		return (parse_triangle(line, scene));
+
+	return (1);
+}
+
+void			ft_example_scene(t_objscene *scene)
 {
 	scene->r.x = 512;// 860;// 1920;//
 	scene->r.y = 512;// 540;// 1080;//
 
 	scene->a.rat_amlig = 0.1;
 	ft_write_xyz(&(scene->a.color), 255, 255, 255);
-	scene->a.rgb_16 = ft_colorvec_unsint(1, scene->a.color);
-	//printf("it was a, and num = %u\n", scene->a.rgb_16);
 
-	ft_write_xyz(&(scene->c.coord), 0, 0, 0);
-	ft_write_xyz(&(scene->c.normal), 0.0, 0.0, 1.0);
-	scene->c.fov = 80;
+	ft_write_xyz(&(scene->c[0].coord), 0, 0, 0);
+	ft_write_xyz(&(scene->c[0].normal), 0.0, 0.0, 1.0);
+	scene->c[0].fov = 80;
+	scene->c[0].is = 1;
+	scene->c[1].is = 0;
 
-	ft_write_xyz(&(scene->l.coord), 0.0, 20.0, 10.0);
-	scene->l.brirat = 0.9;
-	ft_write_xyz(&(scene->l.color), 255, 255, 255);
-	scene->l.rgb_16 = ft_colorvec_unsint(1, scene->l.color);
+	ft_write_xyz(&(scene->l[0].coord), 0.0, 20.0, 10.0);
+	scene->l[0].brirat = 0.9;
+	ft_write_xyz(&(scene->l[0].color), 255, 255, 255);
+	scene->l[0].is = 1;
+	ft_write_xyz(&(scene->l[1].coord), 20.0, 10.0, 10.0);
+	scene->l[1].brirat = 0.9;
+	ft_write_xyz(&(scene->l[1].color), 255, 255, 255);
+	scene->l[1].is = 1;
+	scene->l[2].is = 0;
 	//printf("it was l, and num = %u\n", scene->l.rgb_16);
 
-	ft_write_xyz(&(scene->sp.coord), 0.0, 0.0, 20.0);
-	scene->sp.diam = 10;
-	ft_write_xyz(&(scene->sp.color), 10, 0, 255);
-	scene->sp.rgb_16 = ft_colorvec_unsint(1, scene->sp.color);
+	ft_write_xyz(&(scene->sp[0].coord), 0.0, 0.0, 20.0);
+	scene->sp[0].diam = 10;
+	ft_write_xyz(&(scene->sp[0].color), 10, 0, 255);
+	scene->sp[0].is = 1;
+	ft_write_xyz(&(scene->sp[1].coord), -5.0, 0.0, 20.0);
+	scene->sp[1].diam = 10;
+	ft_write_xyz(&(scene->sp[1].color), 255, 0, 0);
+	scene->sp[1].is = 1;
+	scene->sp[2].is = 0;
 	//printf("it was sp, and num = %u\n", scene->sp.rgb_16);
 
-	ft_write_xyz(&(scene->pl.coord), 0.0, 0.0, -10.0);
-	ft_write_xyz(&(scene->pl.normal), 0.0, 1.0, 0.0);
-	ft_write_xyz(&(scene->pl.color),  0, 0, 225);
-	scene->pl.rgb_16 = ft_colorvec_unsint(1, scene->pl.color);
-	//printf("it was pl, and num = %u\n", scene->pl.rgb_16);
+	ft_write_xyz(&(scene->pl[0].coord), 0.0, 0.0, -10.0);
+	ft_write_xyz(&(scene->pl[0].normal), 0.0, 1.0, 0.0);
+	ft_write_xyz(&(scene->pl[0].color),  0, 0, 225);
+	scene->pl[0].is = 1;
+	scene->pl[1].is = 0;
 
-	ft_write_xyz(&(scene->sq.coord),  0.0, 0.0, 20.6);
-	ft_write_xyz(&(scene->sq.normal), 1.0, 0.0, 0.0);
-	scene->sq.size = 12.6;
-	ft_write_xyz(&(scene->sq.color), 255, 0, 255);
-	scene->sq.rgb_16 = ft_colorvec_unsint(1, scene->sq.color);
-	//printf("it was sq, and num = %u\n", scene->sq.rgb_16);
+	ft_write_xyz(&(scene->sq[0].coord),  0.0, 0.0, 20.6);
+	ft_write_xyz(&(scene->sq[0].normal), 1.0, 0.0, 0.0);
+	scene->sq[0].size = 12.6;
+	ft_write_xyz(&(scene->sq[0].color), 42, 42, 0);
+	scene->sq[0].is = 1;
+	scene->sq[1].is = 0;
 
-	ft_write_xyz(&(scene->cy.coord), 50.0, 0.0, 20.6);
-	ft_write_xyz(&(scene->cy.normal), 0.0, 0.0, 1.0);
-	ft_write_xyz(&(scene->cy.color), 10, 0, 255);
-	scene->cy.diam = 14.2;
-	scene->cy.heig = 21.42;
-	scene->cy.rgb_16 = ft_colorvec_unsint(1, scene->cy.color);
-	//printf("it was cy, and num = %u\n", scene->cy.rgb_16);
+	ft_write_xyz(&(scene->cy[0].coord), 50.0, 0.0, 20.6);
+	ft_write_xyz(&(scene->cy[0].normal), 0.0, 0.0, 1.0);
+	ft_write_xyz(&(scene->cy[0].color), 10, 0, 255);
+	scene->cy[0].diam = 14.2;
+	scene->cy[0].heig = 21.42;
+	scene->cy[0].is = 1;
+	scene->cy[1].is = 0;
 
-	ft_write_xyz(&(scene->tr.coord_fir), 10.0, 20.0, 10.0);
-	ft_write_xyz(&(scene->tr.coord_sec), 10.0, 10.0, 20.0);
-	ft_write_xyz(&(scene->tr.coord_thi), 20.0, 10.0, 10.0);
-	ft_write_xyz(&(scene->tr.color), 0, 0, 255);
-	scene->tr.rgb_16 = ft_colorvec_unsint(1, scene->tr.color);
-	//printf("it was tr, and num = %u\n", scene->tr.rgb_16);
+	ft_write_xyz(&(scene->tr[0].coord_fir), 10.0, 20.0, 10.0);
+	ft_write_xyz(&(scene->tr[0].coord_sec), 10.0, 10.0, 20.0);
+	ft_write_xyz(&(scene->tr[0].coord_thi), 20.0, 10.0, 10.0);
+	ft_write_xyz(&(scene->tr[0].color), 0, 0, 255);
+	scene->tr[0].is = 1;
+	scene->tr[1].is = 0;
+}
+
+void			ft_null_scene(t_objscene *scene)
+{
+	int i;
+
+	scene->r.is = 0;
+
+	scene->a.rat_amlig = 0;
+	ft_write_xyz(&(scene->a.color), 0, 0, 0);
+
+	i = -1;
+	while (++i < 50)
+	{
+		scene->c[i].is = 0;
+		scene->l[i].is = 0;
+		scene->sp[i].is = 0;
+		scene->pl[i].is = 0;
+		scene->sq[i].is = 0;
+		scene->cy[i].is = 0;
+		scene->tr[i].is = 0;
+	}
 }
 
 t_objscene		parse_put_scene(char **argv)
 {
-	//int n;
-	//int len;
-	(void)argv;
-	//char *line;
 	t_objscene all_scene;
+	//ft_example_scene(&all_scene);
+	int n;
+	int fd;
+	int len;
+	char *line;
+	char *save_line;
 
-	//n = 1;
-	//len = 5;
+	n = 1;
+	fd = open("work.rt", O_RDWR);
 	ft_null_scene(&all_scene);
-	/*while (n > 0 && len > 0)
+	while (n > 0)
 	{
-		n = get_next_line(0, &line);
+		n = get_next_line(fd, &line);
+		save_line = line;
 		len = ft_strlen(line);
-		while (*line)
+		if (*line && len > 1)
 		{
-			while (ft_isspase(*line))
+			while (ft_check_isspace(*line))
 				line++;
-			if (ft_check_input_chars(line))
+			if (ft_check_input_chars(&line, &all_scene))
 			{
 				ft_putstr_fd("Not correct input.\n", 1);
-				return ;
+				break ;
 			}
-			else
-				break;
 		}
-		free(line);
-	}*/
+		free(save_line);
+	}
 	return (all_scene);
+	(void)argv;
 }

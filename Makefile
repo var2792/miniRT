@@ -1,5 +1,5 @@
 
-SRCS		= main.c gnl/get_next_line.c gnl/get_next_line.h gnl/get_next_line_utils.c parse_put_scene.h parse_put_scene.c file_help_function.c file_help_function.h ft_strlen.c parse_put_canvas.c parse_put_canvas.h belong_to_obj.c belong_to_obj.h light_change.c light_change.h operat_vecs.c operat_vecs.h
+SRCS		= main.c gnl/get_next_line.c gnl/get_next_line.h gnl/get_next_line_utils.c parse_put_scene.h parse_put_scene.c file_help_function.c file_help_function.h ft_strlen.c parse_put_canvas.c parse_put_canvas.h belong_to_obj.c belong_to_obj.h light_change.c light_change.h operat_vecs.c operat_vecs.h ft_atoi_float.c parse_file.c parse_file_sec.c parse_file.h
 
 OBJS		=	${SRCS:.c=.o}
 
@@ -18,12 +18,13 @@ ${NAME}:	${OBJS}
 
 all:		 ${NAME}
 
-#clean:
-#			${RM} ${OBJS} *.gch
+clean:
+			${RM} *.o
+			clear
 
-#fclean:		clean
-#			${RM} ${NAME} a.out
+fclean:		clean
+			${RM} ${NAME} a.out
 
-#re:			fclean all
+re:			fclean all
 
 .PHONY: 	all #clean fclean re

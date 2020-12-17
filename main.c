@@ -42,19 +42,22 @@ int	main(int argc, char **argv)
 	scene = parse_put_canvas(objects);
 	mlx_ptr = mlx_init();
 	win_ptr = mlx_new_window(mlx_ptr, objects.r.x, objects.r.y, "miniRT");
-	pix.x = 0;
-	pix.y = 0;
-	pix.z = 0;
+	ft_write_xyz(&pix, 0, 0, 0);
 	float color = 0;
 	while (pix.x <= objects.r.x)
 	{
 		while (pix.y <= objects.r.y)
 		{
-			color = belong_to_sphere(objects, scene, pix);
-			if (color >= 0)
-				mlx_pixel_put(mlx_ptr, win_ptr, pix.x, pix.y, (int)(color));
-			else
-				mlx_pixel_put(mlx_ptr, win_ptr, pix.x, pix.y, 0x00222222);
+			while (objects.sp[(int)pix.z].is)
+			{
+				color = belong_to_sphere(objects, scene, pix);
+				if (color >= 0)
+					mlx_pixel_put(mlx_ptr, win_ptr, pix.x, pix.y, (int)(color));
+				else if (pix.z == 0)
+					mlx_pixel_put(mlx_ptr, win_ptr, pix.x, pix.y, 0x00222222);
+				pix.z += 1;
+			}
+			pix.z = 0;
 			//if (pix.x == 285 && pix.y == 254)
 				//printf("%d\n", (int)color);
 			pix.y++;
