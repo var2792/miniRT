@@ -1,18 +1,20 @@
 #include "general_minirt.h"
 
+int	my_close(int keycode, void	*mlx_ptr, void	*win_ptr)
+{
+	(void)keycode;
+    mlx_destroy_window(mlx_ptr, win_ptr);
+	return (0);
+}
+
 int	mouse_hook(int button, int x, int y, void *param)
 {
-	if (1L<<3 && param)
-	{
-		ft_putstr_fd("The window is closed by buttonX.\n", 1);
-		exit(0);
-	}
 	if (1L<<6 && param)
 	{
-		ft_putnbr_fd(x, 0);
-		ft_putchar_fd('\t', 0);
+		ft_putnbr_fd(x, 1);
+		ft_putchar_fd('\t', 1);
 		ft_putnbr_fd(y, 0);
-		ft_putchar_fd('\n', 0);
+		ft_putchar_fd('\n', 1);
 	}
 	(void)button;
 	return (0);
@@ -20,7 +22,7 @@ int	mouse_hook(int button, int x, int y, void *param)
 
 int	press_esc_key(int key, void *param)
 {
-	if (key == 65307 && param)
+	if ((key == 65307 || key == 11965507) && param)
 	{
 		ft_putstr_fd("The window is closed by esc.\n", 1);
 		exit(0);
@@ -49,18 +51,21 @@ int	main(int argc, char **argv)
 		while (pix.y <= objects.r.y)
 		{
 			color = belong_to_sphere(objects, scene, pix);
-			if (color > 0)
+			if (color >= 0)
 				mlx_pixel_put(mlx_ptr, win_ptr, pix.x, pix.y, (int)(color));
 			else
 				mlx_pixel_put(mlx_ptr, win_ptr, pix.x, pix.y, 0x00222222);
+			//if (pix.x == 285 && pix.y == 254)
+				//printf("%d\n", (int)color);
 			pix.y++;
 		}
 		pix.y = 0;
 		pix.x++;
 	}
 	printf("End drawn\n");
-	//exit (0);
+
 	mlx_key_hook(win_ptr, press_esc_key, win_ptr);
+	//mlx_hook(win_ptr, 4, 1L<<0, my_close, win_ptr);
 	mlx_mouse_hook (win_ptr, mouse_hook, win_ptr);
 	mlx_loop(mlx_ptr);
 	(void)argc;

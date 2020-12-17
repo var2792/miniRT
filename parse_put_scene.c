@@ -65,8 +65,8 @@ void			ft_null_scene(t_objscene *scene)
 	ft_write_xyz(&(scene->c.normal), 0.0, 0.0, 1.0);
 	scene->c.fov = 80;
 
-	ft_write_xyz(&(scene->l.coord), -20.0, -50.0, 20.0);
-	scene->l.brirat = 0.6;
+	ft_write_xyz(&(scene->l.coord), 0.0, 20.0, 10.0);
+	scene->l.brirat = 0.9;
 	ft_write_xyz(&(scene->l.color), 255, 255, 255);
 	scene->l.rgb_16 = ft_colorvec_unsint(1, scene->l.color);
 	//printf("it was l, and num = %u\n", scene->l.rgb_16);

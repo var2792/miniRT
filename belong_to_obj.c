@@ -5,7 +5,6 @@ float		belong_to_sphere(t_objscene objects, t_canvas scene, t_vector pix)
 	float k[3];
 	float t[2];
 	t_vector p;
-	int fl;
 
 	scene.coord_v.x = (pix.x - objects.r.x / 2) * scene.viewport.x / objects.r.x;
 	scene.coord_v.y = (objects.r.y / 2 - pix.y) * scene.viewport.y / objects.r.y;
@@ -37,18 +36,11 @@ float		belong_to_sphere(t_objscene objects, t_canvas scene, t_vector pix)
 
 	if (t[0] <= 1 && t[1] <= 1)
 		return (-5);
-	fl = 0;
-	if ((t[0] < 0 || t[1] <= t[0]) && !fl)
-	{
+	if ((t[0] < 0 || t[1] <= t[0]))
 		p = add_t_vecs(1, scene.coord_0, t[1], raz_vecs(scene.coord_v, scene.coord_0));
-		fl = 1;
-	}
-	if ((t[1] < 1 || t[0] < t[1]) && !fl)
-	{
+	else //if ((t[1] < 1 || t[0] < t[1]))
 		p = add_t_vecs(1, scene.coord_0, t[0], raz_vecs(scene.coord_v, scene.coord_0));
-		fl = 1;
-	}
-	return (light_change(objects, p, fl));
+	return (light_change_sp(objects, p));
 	//return (-1);
 }
 
