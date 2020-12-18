@@ -10,9 +10,10 @@ float		belong_to_sphere(t_objscene objects, t_canvas scene, t_vector pix)
 	scene.coord_v.y = (objects.r.y / 2 - pix.y) * scene.viewport.y / objects.r.y;
 	scene.coord_v.z = scene.viewport.z;
 
-	k[0] = scalar_product_vecs(raz_vecs(scene.coord_v, scene.coord_0), raz_vecs(scene.coord_v, scene.coord_0));
-	k[1] = 2 * scalar_product_vecs(raz_vecs(scene.coord_0, objects.sp[(int)pix.z].coord), raz_vecs(scene.coord_v, scene.coord_0));
-	k[2] = scalar_product_vecs(raz_vecs(scene.coord_0, objects.sp[(int)pix.z].coord), raz_vecs(scene.coord_0, objects.sp[(int)pix.z].coord)) - objects.sp[(int)pix.z].diam * objects.sp[(int)pix.z].diam / 4;
+	scene.coord_v = rotation_multiply(objects, scene.coord_v);
+	k[0] = scalar_product_vecs(scene.coord_v, scene.coord_v);
+	k[1] = 2 * scalar_product_vecs(add_t_vecs( 1, scene.coord_0, -1, objects.sp[(int)pix.z].coord), add_t_vecs( 1, scene.coord_v, -1, scene.coord_0));
+	k[2] = scalar_product_vecs(add_t_vecs( 1, scene.coord_0, -1, objects.sp[(int)pix.z].coord), add_t_vecs( 1, scene.coord_0, -1, objects.sp[(int)pix.z].coord)) - objects.sp[(int)pix.z].diam * objects.sp[(int)pix.z].diam / 4;
 	t[1] = k[1] * k[1] - 4 * k[0] * k[2];
 	//printf("k1 = %f, k2 = %f, k3 = %f, D = %f\n", k[0], k[1], k[2], t[1]);
 	if (t[1] < 0 || (k[0] == 0 && k[1] == 0))
@@ -29,9 +30,10 @@ float		belong_to_sphere(t_objscene objects, t_canvas scene, t_vector pix)
 	if (t[0] <= 1 && t[1] <= 1)
 		return (-5);
 	if ((t[0] < 0 || t[1] <= t[0]))
-		p = add_t_vecs(1, scene.coord_0, t[1], raz_vecs(scene.coord_v, scene.coord_0));
+		p = add_t_vecs(1, scene.coord_0, t[1], add_t_vecs( 1, scene.coord_v, -1, scene.coord_0));
 	else //if ((t[1] < 1 || t[0] < t[1]))
-		p = add_t_vecs(1, scene.coord_0, t[0], raz_vecs(scene.coord_v, scene.coord_0));
+		p = add_t_vecs(1, scene.coord_0, t[0], add_t_vecs( 1, scene.coord_v, -1, scene.coord_0));
+
 	return (light_change_sp(objects, p, (int)pix.z));
 }
 

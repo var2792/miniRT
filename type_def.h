@@ -98,6 +98,7 @@ typedef struct	s_objscene
 	t_square		sq[50];
 	t_cylinder		cy[50];
 	t_triangle		tr[50];
+	t_vector		orig_cam;
 }				t_objscene;
 
 typedef struct	s_canvas

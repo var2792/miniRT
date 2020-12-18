@@ -133,6 +133,7 @@ void			ft_null_scene(t_objscene *scene)
 
 	scene->a.rat_amlig = 0;
 	ft_write_xyz(&(scene->a.color), 0, 0, 0);
+	ft_write_xyz(&(scene->orig_cam), 0, 0, 1);
 
 	i = -1;
 	while (++i < 50)
