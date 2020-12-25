@@ -5,6 +5,7 @@
 
 # include "file_help_function.h"
 # include "type_def.h"
+# include "operat_vecs.h"
 
 t_canvas	parse_put_canvas(t_objscene objects);
 

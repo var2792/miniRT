@@ -57,20 +57,22 @@ int		main(int argc, char **argv)
 	t_canvas	scene;
 	t_vector	pix;
 	float color = 0;
-	int n = 4;
+	int n = 1;
+	int i = 0;
 
 	objects = parse_put_scene(argv);
 	scene = parse_put_canvas(objects);
 	mlx_ptr = mlx_init();
 	win_ptr = mlx_new_window(mlx_ptr, objects.r.x, objects.r.y, "miniRT");
 	ft_write_xyz(&pix, 0, 0, 0);
+	clock_t t1 = clock();
 	while (pix.x <= objects.r.x)
 	{
 		while (pix.y <= objects.r.y)
 		{
 			while (objects.sp[(int)pix.z].is)
 			{
-				color = belong_to_sphere(objects, scene, pix);
+				color = belong_to_sphere(objects, &scene, pix, color, &i);
 				if (color >= 0)
 					put_npixel(mlx_ptr, win_ptr, pix, (int)(color), n);
 				else if (pix.z == 0)
@@ -85,8 +87,10 @@ int		main(int argc, char **argv)
 		pix.y = 0;
 		pix.x += n;
 	}
+	clock_t t2 = clock();
+	printf("O.c.x = %f, O.c.y = %f, O.c.z = %f,\n", objects.c[0].coord.x, objects.c[0].coord.y, objects.c[0].coord.z);
 	printf("c.n.x = %f, c.n.y = %f, c.n.z = %f,\n", objects.c[0].normal.x, objects.c[0].normal.y, objects.c[0].normal.z);
-	printf("End drawn\n");
+	printf("End drawn %f %i\n", (double)(t2 - t1) / CLOCKS_PER_SEC, i);
 	mlx_key_hook(win_ptr, press_esc_key, win_ptr);
 		//mlx_destroy_window(mlx_ptr, win_ptr);
 	//mlx_hook(win_ptr, 4, 1L<<0, my_close, win_ptr);
