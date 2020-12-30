@@ -1,15 +1,24 @@
 #include "general_minirt.h"
 
-int	my_close(int keycode, void	*mlx_ptr, void	*win_ptr)
+void            my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
-	(void)keycode;
-    mlx_destroy_window(mlx_ptr, win_ptr);
+    char    *dst;
+
+    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+    *(unsigned int*)dst = color;
+}
+
+int		exit_program(t_my_mlx *my_mlx)
+{
+	mlx_clear_window(my_mlx->mlx_ptr, my_mlx->win_ptr);
+	mlx_destroy_window(my_mlx->mlx_ptr, my_mlx->win_ptr);
+	exit(0);
 	return (0);
 }
 
-int	mouse_hook(int button, int x, int y, void *param)
+int	mouse_hook(int button, int x, int y)
 {
-	if (1L<<6 && param)
+	if (1L<<6)
 	{
 		ft_putnbr_fd(x, 1);
 		ft_putchar_fd('\t', 1);
@@ -20,83 +29,64 @@ int	mouse_hook(int button, int x, int y, void *param)
 	return (0);
 }
 
-int	press_esc_key(int key, void *param)
+int	press_esc_key(int key, t_my_mlx *my_mlx)
 {
-	if ((key == 65307 || key == 11965507) && param)
+	if ((key == 65307 || key == 11965507))
 	{
 		ft_putstr_fd("The window is closed by esc.\n", 1);
-		exit(0);
-
+		return (exit_program(my_mlx));
 	}
 	return (0);
 }
 
-void	put_npixel(void *mlx_ptr, void *win_ptr, t_vector pix, int color, int n)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while (i <= n)
-	{
-		j = 0;
-		while (j <= n)
-		{
-			mlx_pixel_put(mlx_ptr, win_ptr, pix.x + i, pix.y + j, color);
-			j++;
-		}
-		i++;
-	}
-}
-
 int		main(int argc, char **argv)
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
-	t_objscene	objects;
-	t_canvas	scene;
-	t_vector	pix;
-	float color = 0;
+	t_my_mlx	mymlx;
+	t_general	gen;
 	int n = 1;
 	int i = 0;
+	gen.color = 0;
 
-	objects = parse_put_scene(argv);
-	scene = parse_put_canvas(objects);
-	mlx_ptr = mlx_init();
-	win_ptr = mlx_new_window(mlx_ptr, objects.r.x, objects.r.y, "miniRT");
-	ft_write_xyz(&pix, 0, 0, 0);
+	gen.objects = parse_put_scene(argv);
+	gen.scene = parse_put_canvas(gen.objects);
+	mymlx.mlx_ptr = mlx_init();
+	mymlx.win_ptr = mlx_new_window(mymlx.mlx_ptr, gen.objects.r.x, gen.objects.r.y, "miniRT");
+    gen.img.img = mlx_new_image(mymlx.mlx_ptr, gen.objects.r.x, gen.objects.r.y);
+	gen.img.addr = mlx_get_data_addr(gen.img.img, &(gen.img.bits_per_pixel), &(gen.img.line_length), &(gen.img.endian));
+	printf("AA\n");
+	ft_write_xyz(&(gen.pix), 0, 0, 0);
 	clock_t t1 = clock();
-	while (pix.x <= objects.r.x)
+	while (gen.pix.x <= gen.objects.r.x)
 	{
-		while (pix.y <= objects.r.y)
+		while (gen.pix.y <= gen.objects.r.y)
 		{
-			while (objects.sp[(int)pix.z].is)
+			while (gen.objects.sp[(int)gen.pix.z].is)
 			{
-				color = belong_to_sphere(objects, &scene, pix, color, &i);
-				if (color >= 0)
-					put_npixel(mlx_ptr, win_ptr, pix, (int)(color), n);
-				else if (pix.z == 0)
-					put_npixel(mlx_ptr, win_ptr, pix, 0x00222222, n);
-				pix.z += 1;
+				gen.color = belong_to_sphere(gen.objects, &(gen.scene), gen.pix, gen.color, &i);
+				if (gen.color >= 0)
+					my_mlx_pixel_put(&(gen.img), gen.pix.x, gen.pix.y, (int)(gen.color));
+				else if (gen.pix.z == 0)
+					my_mlx_pixel_put(&(gen.img), gen.pix.x, gen.pix.y, 0x00222222);
+				gen.pix.z += 1;
 			}
-			pix.z = 0;
+			gen.pix.z = 0;
 			//if (pix.x == 285 && pix.y == 254)
 				//printf("%d\n", (int)color);
-			pix.y += n;
+			gen.pix.y += n;
 		}
-		pix.y = 0;
-		pix.x += n;
+		gen.pix.y = 0;
+		gen.pix.x += n;
 	}
+    mlx_put_image_to_window(mymlx.mlx_ptr, mymlx.win_ptr, gen.img.img, 0, 0);
 	clock_t t2 = clock();
-	printf("O.c.x = %f, O.c.y = %f, O.c.z = %f,\n", objects.c[0].coord.x, objects.c[0].coord.y, objects.c[0].coord.z);
-	printf("c.n.x = %f, c.n.y = %f, c.n.z = %f,\n", objects.c[0].normal.x, objects.c[0].normal.y, objects.c[0].normal.z);
+	printf("O.c.x = %f, O.c.y = %f, O.c.z = %f,\n", gen.objects.c[0].coord.x, gen.objects.c[0].coord.y, gen.objects.c[0].coord.z);
+	printf("c.n.x = %f, c.n.y = %f, c.n.z = %f,\n", gen.objects.c[0].normal.x, gen.objects.c[0].normal.y, gen.objects.c[0].normal.z);
 	printf("End drawn %f %i\n", (double)(t2 - t1) / CLOCKS_PER_SEC, i);
-	mlx_key_hook(win_ptr, press_esc_key, win_ptr);
-		//mlx_destroy_window(mlx_ptr, win_ptr);
-	//mlx_hook(win_ptr, 4, 1L<<0, my_close, win_ptr);
-	mlx_mouse_hook (win_ptr, mouse_hook, win_ptr);
-	mlx_loop(mlx_ptr);
+	mlx_hook(mymlx.win_ptr, 2, 1L << 0, press_esc_key, &mymlx);
+	mlx_hook(mymlx.win_ptr, 17, 1L << 17, exit_program, &mymlx);
+	mlx_mouse_hook (mymlx.win_ptr, mouse_hook, 0);
+	mlx_loop(mymlx.mlx_ptr);
 	(void)argc;
 	(void)argv;
-	(void)scene;
+	(void)gen.scene;
 }

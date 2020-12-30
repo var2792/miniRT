@@ -22,17 +22,17 @@ float		belong_to_sphere(t_objscene objects, t_canvas *scene, t_vector pix, float
 	t_vector p;
 	t_vector check;
 
-	ft_write_xyz(&check, scene->coord_v.x, scene->coord_v.y, scene->coord_v.z);
+	ft_write_xyz(&check, 0, 0, 0);
 	//printf("%f, %f - %f, %f\n", check.x, check.y ,scene->coord_v.x, scene->coord_v.y);
-	scene->coord_v.x = (pix.x - objects.r.x / 2) * scene->viewport.x / objects.r.x;
-	scene->coord_v.y = (objects.r.y / 2 - pix.y) * scene->viewport.y / objects.r.y;
-	scene->coord_v.z = scene->viewport.z;
+	scene->coord_v.x = (pix.x - objects.r.x / 2) * scene->viewport.x / objects.r.x + objects.c[0].coord.x;
+	scene->coord_v.y = (objects.r.y / 2 - pix.y) * scene->viewport.y / objects.r.y + objects.c[0].coord.y;
+	scene->coord_v.z = scene->viewport.z + 1;
 
-	scene->coord_v = rotation_multiply(objects, scene->coord_v); // только эта строка отвечает за поворот камеры
+	//scene->coord_v = rotation_multiply(objects, scene->coord_v); // только эта строка отвечает за поворот камеры
 	//if (check_prew_pix_xy(check,  objects, *scene, pix, i)) return (color); //проверка на повтор пикселей viewport -- замедляет тк слишком часто true???
 	(*i)++;
-	k[0] = scalar_product_vecs(scene->coord_v, scene->coord_v);
-	k[1] = 2 * scalar_product_vecs(add_t_vecs( 1, scene->coord_0, -1, objects.sp[(int)pix.z].coord), add_t_vecs( 1, scene->coord_v, -1, scene->coord_0));
+	k[0] = scalar_product_vecs(add_t_vecs( 1, scene->coord_v, -1, scene->coord_0), add_t_vecs( 1, scene->coord_v, -1, scene->coord_0));
+	k[1] = 2 * scalar_product_vecs(add_t_vecs( 1, scene->coord_0, -1, objects.sp[(int)pix.z].coord), add_t_vecs( 1, add_t_vecs( 1, scene->coord_v, -1, scene->coord_0), -1, scene->coord_0));
 	k[2] = scalar_product_vecs(add_t_vecs( 1, scene->coord_0, -1, objects.sp[(int)pix.z].coord), add_t_vecs( 1, scene->coord_0, -1, objects.sp[(int)pix.z].coord)) - objects.sp[(int)pix.z].diam * objects.sp[(int)pix.z].diam / 4;
 	t[1] = k[1] * k[1] - 4 * k[0] * k[2];
 	//printf("k1 = %f,\tk2 = %f,\tk3 = %f,\tD = %f\n", k[0], k[1], k[2], t[1]);

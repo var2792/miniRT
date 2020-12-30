@@ -8,6 +8,20 @@
 # include <fcntl.h>
 # include <time.h>
 
+typedef struct	s_my_mlx
+{
+	void		*mlx_ptr;
+	void		*win_ptr;
+}				t_my_mlx;
+
+typedef struct  s_data {
+    void        *img;
+    char        *addr;
+    int         bits_per_pixel;
+    int         line_length;
+    int         endian;
+}               t_data;
+
 typedef struct	s_vector
 {
 	float	x;
@@ -108,5 +122,15 @@ typedef struct	s_canvas
 	t_vector coord_v;
 	t_vector viewport;
 }				t_canvas;
+
+typedef struct	s_general
+{
+	t_data		img;
+	t_objscene	objects;
+	t_canvas	scene;
+	t_vector	pix;
+	float		color;
+}				t_general;
+
 
 #endif
