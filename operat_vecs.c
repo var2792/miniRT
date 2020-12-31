@@ -4,9 +4,9 @@ t_vector	multiply_mat_vec(t_vector mat[], t_vector vec)
 {
 	t_vector res;
 
-	res.x = vec.x * mat[0].x + vec.y * mat[1].x + vec.z * mat[2].x + mat[3].x;
-	res.y = vec.x * mat[0].y + vec.y * mat[1].y + vec.z * mat[2].y + mat[3].y;
-	res.z = vec.x * mat[0].z + vec.y * mat[1].z + vec.z * mat[2].z + mat[3].z;
+	res.x = vec.x * mat[0].x + vec.y * mat[1].x + vec.z * mat[2].x;// + mat[3].x;
+	res.y = vec.x * mat[0].y + vec.y * mat[1].y + vec.z * mat[2].y;// + mat[3].y;
+	res.z = vec.x * mat[0].z + vec.y * mat[1].z + vec.z * mat[2].z;// + mat[3].z;
 	return(res);
 }
 

@@ -6,7 +6,7 @@
 # include "light_change.h"
 # include "parse_put_canvas.h"
 
-float			belong_to_sphere(t_objscene objects, t_canvas *scene, t_vector pix, float color, int *i);
+float		belong_to_sphere(t_general *gen, int *i);
 int			belong_to_plane(t_objscene objects, t_canvas scene, t_vector pix);
 int			belong_to_square(t_objscene objects, t_canvas scene, t_vector pix);
 int			belong_to_cylinder(t_objscene objects, t_canvas scene, t_vector pix);

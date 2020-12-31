@@ -10,8 +10,8 @@
 
 typedef struct	s_my_mlx
 {
-	void		*mlx_ptr;
-	void		*win_ptr;
+	void		*ptr;
+	void		*win;
 }				t_my_mlx;
 
 typedef struct  s_data {
@@ -125,11 +125,13 @@ typedef struct	s_canvas
 
 typedef struct	s_general
 {
+	t_my_mlx	mlx;
 	t_data		img;
 	t_objscene	objects;
 	t_canvas	scene;
 	t_vector	pix;
 	float		color;
+	int			num_cam;
 }				t_general;
 
 

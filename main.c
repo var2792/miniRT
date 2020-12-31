@@ -10,8 +10,8 @@ void            my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 int		exit_program(t_my_mlx *my_mlx)
 {
-	mlx_clear_window(my_mlx->mlx_ptr, my_mlx->win_ptr);
-	mlx_destroy_window(my_mlx->mlx_ptr, my_mlx->win_ptr);
+	mlx_clear_window(my_mlx->ptr, my_mlx->win);
+	mlx_destroy_window(my_mlx->ptr, my_mlx->win);
 	exit(0);
 	return (0);
 }
@@ -41,19 +41,19 @@ int	press_esc_key(int key, t_my_mlx *my_mlx)
 
 int		main(int argc, char **argv)
 {
-	t_my_mlx	mymlx;
 	t_general	gen;
 	int n = 1;
 	int i = 0;
 	gen.color = 0;
+	gen.num_cam = 0;
 
 	gen.objects = parse_put_scene(argv);
-	gen.scene = parse_put_canvas(gen.objects);
-	mymlx.mlx_ptr = mlx_init();
-	mymlx.win_ptr = mlx_new_window(mymlx.mlx_ptr, gen.objects.r.x, gen.objects.r.y, "miniRT");
-    gen.img.img = mlx_new_image(mymlx.mlx_ptr, gen.objects.r.x, gen.objects.r.y);
+	gen.scene = parse_put_canvas(gen);
+	gen.mlx.ptr = mlx_init();
+	gen.mlx.win = mlx_new_window(gen.mlx.ptr, gen.objects.r.x, gen.objects.r.y, "miniRT");
+    gen.img.img = mlx_new_image(gen.mlx.ptr, gen.objects.r.x, gen.objects.r.y);
 	gen.img.addr = mlx_get_data_addr(gen.img.img, &(gen.img.bits_per_pixel), &(gen.img.line_length), &(gen.img.endian));
-	printf("AA\n");
+	//printf("AA\n");
 	ft_write_xyz(&(gen.pix), 0, 0, 0);
 	clock_t t1 = clock();
 	while (gen.pix.x <= gen.objects.r.x)
@@ -62,7 +62,7 @@ int		main(int argc, char **argv)
 		{
 			while (gen.objects.sp[(int)gen.pix.z].is)
 			{
-				gen.color = belong_to_sphere(gen.objects, &(gen.scene), gen.pix, gen.color, &i);
+				gen.color = belong_to_sphere(&gen, &i);
 				if (gen.color >= 0)
 					my_mlx_pixel_put(&(gen.img), gen.pix.x, gen.pix.y, (int)(gen.color));
 				else if (gen.pix.z == 0)
@@ -77,15 +77,15 @@ int		main(int argc, char **argv)
 		gen.pix.y = 0;
 		gen.pix.x += n;
 	}
-    mlx_put_image_to_window(mymlx.mlx_ptr, mymlx.win_ptr, gen.img.img, 0, 0);
+    mlx_put_image_to_window(gen.mlx.ptr, gen.mlx.win, gen.img.img, 0, 0);
 	clock_t t2 = clock();
 	printf("O.c.x = %f, O.c.y = %f, O.c.z = %f,\n", gen.objects.c[0].coord.x, gen.objects.c[0].coord.y, gen.objects.c[0].coord.z);
 	printf("c.n.x = %f, c.n.y = %f, c.n.z = %f,\n", gen.objects.c[0].normal.x, gen.objects.c[0].normal.y, gen.objects.c[0].normal.z);
 	printf("End drawn %f %i\n", (double)(t2 - t1) / CLOCKS_PER_SEC, i);
-	mlx_hook(mymlx.win_ptr, 2, 1L << 0, press_esc_key, &mymlx);
-	mlx_hook(mymlx.win_ptr, 17, 1L << 17, exit_program, &mymlx);
-	mlx_mouse_hook (mymlx.win_ptr, mouse_hook, 0);
-	mlx_loop(mymlx.mlx_ptr);
+	mlx_hook(gen.mlx.win, 2, 1L << 0, press_esc_key, &(gen.mlx));
+	mlx_hook(gen.mlx.win, 17, 1L << 17, exit_program, &(gen.mlx));
+	mlx_mouse_hook (gen.mlx.win, mouse_hook, 0);
+	mlx_loop(gen.mlx.ptr);
 	(void)argc;
 	(void)argv;
 	(void)gen.scene;

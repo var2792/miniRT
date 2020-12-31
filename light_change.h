@@ -6,6 +6,6 @@
 # include "parse_put_scene.h"
 # include "operat_vecs.h"
 
-float light_change_sp(t_objscene objects, t_canvas scene, t_vector p, int i);
+float light_change_sp(t_general gen, t_vector p, int i);
 
 #endif
