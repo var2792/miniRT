@@ -66,7 +66,7 @@ int		main(int argc, char **argv)
 				if (gen.color >= 0)
 					my_mlx_pixel_put(&(gen.img), gen.pix.x, gen.pix.y, (int)(gen.color));
 				else if (gen.pix.z == 0)
-					my_mlx_pixel_put(&(gen.img), gen.pix.x, gen.pix.y, 0x00222222);
+					my_mlx_pixel_put(&(gen.img), gen.pix.x, gen.pix.y, 0x00171717);
 				gen.pix.z += 1;
 			}
 			gen.pix.z = 0;

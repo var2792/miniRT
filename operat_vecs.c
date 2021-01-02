@@ -4,9 +4,9 @@ t_vector	multiply_mat_vec(t_vector mat[], t_vector vec)
 {
 	t_vector res;
 
-	res.x = vec.x * mat[0].x + vec.y * mat[1].x + vec.z * mat[2].x;// + mat[3].x;
-	res.y = vec.x * mat[0].y + vec.y * mat[1].y + vec.z * mat[2].y;// + mat[3].y;
-	res.z = vec.x * mat[0].z + vec.y * mat[1].z + vec.z * mat[2].z;// + mat[3].z;
+	res.x = vec.x * mat[0].x + vec.y * mat[1].x + vec.z * mat[2].x;// + mat[3].x / 9;
+	res.y = vec.x * mat[0].y + vec.y * mat[1].y + vec.z * mat[2].y;// + mat[3].y / 9;
+	res.z = vec.x * mat[0].z + vec.y * mat[1].z + vec.z * mat[2].z;// + mat[3].z / 9;
 	return(res);
 }
 
@@ -33,15 +33,13 @@ t_vector	rotation_multiply(t_objscene objects, t_vector vec)
 	ft_write_xyz(&(mat[1]), -sin(T[0]) * cos(T[2]) * sin(T[1]) + cos(T[0]) * sin(T[2]), cos(T[0]) * cos(T[2]) + sin(T[0]) * sin(T[1]) * sin(T[2]), -cos(T[1]) * sin(T[0]));
 	ft_write_xyz(&(mat[2]), cos(T[0]) * cos(T[2]) * sin(T[1]) + sin(T[0]) * sin(T[2]), sin(T[0]) * cos(T[2]) - cos(T[0]) * sin(T[1]) * sin(T[2]), cos(T[1]) * cos(T[0]));
 
-	/*ft_write_xyz(&(mat[0]), cos(T[1]) * cos(T[2]), -cos(T[1]) * sin(T[2]), sin(T[1]));
-	ft_write_xyz(&(mat[1]), sin(T[0]) * cos(T[2]) * sin(T[1]) + cos(T[0]) * sin(T[2]), cos(T[0]) * cos(T[2]) - sin(T[0]) * sin(T[1]) * sin(T[2]), -cos(T[1]) * sin(T[0]));
-	ft_write_xyz(&(mat[2]), -cos(T[0]) * cos(T[2]) * sin(T[1]) + sin(T[0]) * sin(T[2]), sin(T[0]) * cos(T[2]) + cos(T[0]) * sin(T[1]) * sin(T[2]), cos(T[1]) * cos(T[0]));
-
-	ft_write_xyz(&(mat[0]), cos(T[2]) * cos(T[1]) - cos(T[0]) * sin(T[2]) * sin(T[1]), sin(T[2]) * cos(T[1]) + cos(T[0]) * cos(T[2]) * sin(T[1]), sin(T[1]) * sin(T[0]));
-	ft_write_xyz(&(mat[1]), -cos(T[2]) * sin(T[1]) - cos(T[0]) * sin(T[2]) * cos(T[1]), -sin(T[2]) * sin(T[1]) + cos(T[0]) * cos(T[2]) * cos(T[1]), cos(T[1]) * sin(T[0]));
-	ft_write_xyz(&(mat[2]), sin(T[2]) * sin(T[0]), -cos(T[2]) * sin(T[0]), cos(T[0]));*/
-	ft_write_xyz(&(mat[3]), objects.c[0].coord.x, objects.c[0].coord.y, objects.c[0].coord.z);
+	//ft_write_xyz(&(mat[3]), objects.c[0].coord.x, objects.c[0].coord.y, objects.c[0].coord.z);
+	ft_write_xyz(&(mat[3]), 0, 0, 0);
 	res = multiply_mat_vec(mat, vec);
+	
+	res.x += objects.c[0].coord.x * tan(objects.c[0].fov / 2 * 3.1415926 / 180);
+	res.y += objects.c[0].coord.y * tan(objects.c[0].fov / 2 * 3.1415926 / 180);
+	res.z += objects.c[0].coord.z; // tan(objects.c[0].fov / 2 * 3.1415926 / 180);;
 	return (res);
 }
 
