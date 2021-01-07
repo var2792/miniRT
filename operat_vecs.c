@@ -18,7 +18,7 @@ t_vector	rotation_multiply(t_objscene objects, t_vector vec)
 
 	ft_write_xyz(&(mat[0]), 0, objects.c[0].normal.y, objects.c[0].normal.z);
 	T[0] = (lenght_vecs(mat[0]) < 0.01) ? 0 : acos(scalar_product_vecs(mat[0], objects.orig_cam) / lenght_vecs(mat[0]) / lenght_vecs(objects.orig_cam));
-	ft_write_xyz(&(mat[0]), objects.c[0].normal.x, 0, objects.c[0].normal.z);
+	ft_write_xyz(&(mat[0]), objects.c[0].normal.x, 0, 0);
 	T[1] = (lenght_vecs(mat[0]) < 0.01) ? 0 : acos(scalar_product_vecs(mat[0], objects.orig_cam) / lenght_vecs(mat[0]) / lenght_vecs(objects.orig_cam));
 	ft_write_xyz(&(mat[0]), objects.c[0].normal.x, objects.c[0].normal.y, objects.c[0].normal.z);
 	T[2] = (!(objects.c[0].normal.z < 0) || (lenght_vecs(mat[0]) < 0.01)) ? 0 : acos(scalar_product_vecs(mat[0], objects.orig_cam) / lenght_vecs(mat[0]) / lenght_vecs(objects.orig_cam));
