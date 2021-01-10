@@ -51,15 +51,27 @@ float	belong_to_sphere(t_general *gen, int *i)
 	float t[2];
 	t_vector p;
 	t_vector check;
+	int fl;
 
 	ft_write_xyz(&check, 0, 0, 0);
+	fl = 1;
 	//printf("%f, %f - %f, %f\n", check.x, check.y ,scene->coord_v.x, scene->coord_v.y);
 	gen->scene.coord_v.x = (gen->pix.x - gen->objects.r.x / 2) * gen->scene.viewport.x / gen->objects.r.x;
 	gen->scene.coord_v.y = (gen->objects.r.y / 2 - gen->pix.y) * gen->scene.viewport.y / gen->objects.r.y;
 	gen->scene.coord_v.z = gen->scene.viewport.z;
 
-	gen->scene.coord_v = rotation_multiply(gen->objects, gen->scene.coord_v); // только эта строка отвечает за поворот камеры
+	//gen->scene.coord_v = rotation_multiply(gen->objects, gen->scene.coord_v); // только эта строка отвечает за поворот камеры
 	//if (check_prew_pix_xy(check,  objects, *scene, pix, i)) return (color); //проверка на повтор пикселей viewport -- замедляет тк слишком часто true???
+	gen->scene.coord_v = multiply_mat_vec(gen->scene.rotmat, gen->scene.coord_v);
+	/*if (gen->pix.x == 0 && gen->pix.y == 0)
+		printf(" 0   0  %f, %f, %f\n", gen->scene.coord_v.x, gen->scene.coord_v.y, gen->scene.coord_v.z);
+	if (gen->pix.x == 0 && gen->pix.y == 512)
+		printf(" 0  512 %f, %f, %f\n", gen->scene.coord_v.x, gen->scene.coord_v.y, gen->scene.coord_v.z);
+	if (gen->pix.x == 512 && gen->pix.y == 0)
+		printf("512  0  %f, %f, %f\n", gen->scene.coord_v.x, gen->scene.coord_v.y, gen->scene.coord_v.z);
+	if (gen->pix.x == 512 && gen->pix.y == 512)
+		printf("512 512 %f, %f, %f\n", gen->scene.coord_v.x, gen->scene.coord_v.y, gen->scene.coord_v.z);*/
+		
 	(*i)++;
 	k[0] = scalar_product_vecs(add_t_vecs( 1, gen->scene.coord_v, -1, gen->scene.coord_0), add_t_vecs( 1, gen->scene.coord_v, -1, gen->scene.coord_0));
 	k[1] = 2 * scalar_product_vecs(add_t_vecs( 1, gen->scene.coord_0, -1, gen->objects.sp[(int)gen->pix.z].coord), add_t_vecs( 1, gen->scene.coord_v, -1, gen->scene.coord_0));
@@ -67,19 +79,27 @@ float	belong_to_sphere(t_general *gen, int *i)
 	t[1] = k[1] * k[1] - 4 * k[0] * k[2];
 	//printf("k1 = %f,\tk2 = %f,\tk3 = %f,\tD = %f\n", k[0], k[1], k[2], t[1]);
 	if (t[1] < 0 || (k[0] == 0 && k[1] == 0))
-		return (-5);
+		fl = 0;
 	t[0] = (-k[1] + sqrt(t[1]))/ 2 / k[0];
 	t[1] = (t[0] < 1 && t[1] < 0.01 && t[1] > -0.01) ? -5 : (-k[1] - sqrt(t[1]))/ 2 / k[0]; //если D == 0 и t[0] < 0
-	if (check_see_sp(*gen, t, (int)gen->pix.z))
-		return (-5);
-	if (t[0] <= 1 && t[1] <= 1)
-		return (-5);
+	if (check_see_sp(*gen, t, (int)gen->pix.z) || (t[0] <= 1 && t[1] <= 1))
+		fl = 0;
 	if ((t[0] < 0 || t[1] <= t[0]))
 		p = add_t_vecs(1, gen->scene.coord_0, t[1], add_t_vecs( 1, gen->scene.coord_v, -1, gen->scene.coord_0));
 	else //if ((t[1] < 1 || t[0] < t[1]))
 		p = add_t_vecs(1, gen->scene.coord_0, t[0], add_t_vecs( 1, gen->scene.coord_v, -1, gen->scene.coord_0));
-
-	return (light_change_sp(*gen, p, (int)gen->pix.z));
+	
+	/*(fl == 1 && z == 0) fun;
+	(fl == 1 && z != 0) fun;
+	(fl == 0 && z == 0) -5;
+	(fl == 0 && z != 0) color;*/
+	gen->color = (fl == 1) ? light_change_sp(*gen, p, (int)gen->pix.z) : gen->color;
+	gen->color = (fl == 0 && gen->pix.z == 0) ? -5 : gen->color;
+	//printf("%i\n", (int)gen->pix.z);
+	gen->pix.z += 1;
+	if (gen->objects.sp[(int)gen->pix.z].is == 1)
+		gen->color = belong_to_sphere(gen, i);
+	return (gen->color);
 	(void)i;
 }
 

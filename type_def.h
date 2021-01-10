@@ -121,6 +121,7 @@ typedef struct	s_canvas
 	t_vector coord_0;
 	t_vector coord_v;
 	t_vector viewport;
+	t_vector *rotmat;
 }				t_canvas;
 
 typedef struct	s_general

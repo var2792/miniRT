@@ -60,15 +60,11 @@ int		main(int argc, char **argv)
 	{
 		while (gen.pix.y <= gen.objects.r.y)
 		{
-			while (gen.objects.sp[(int)gen.pix.z].is)
-			{
-				gen.color = belong_to_sphere(&gen, &i);
+			belong_to_sphere(&gen, &i);
 				if (gen.color >= 0)
 					my_mlx_pixel_put(&(gen.img), gen.pix.x, gen.pix.y, (int)(gen.color));
-				else if (gen.pix.z == 0)
+				else //if (gen.pix.z == 0)
 					my_mlx_pixel_put(&(gen.img), gen.pix.x, gen.pix.y, 0x00171717);
-				gen.pix.z += 1;
-			}
 			gen.pix.z = 0;
 			//if (pix.x == 285 && pix.y == 254)
 				//printf("%d\n", (int)color);
@@ -82,6 +78,11 @@ int		main(int argc, char **argv)
 	printf("O.c.x = %f, O.c.y = %f, O.c.z = %f,\n", gen.objects.c[0].coord.x, gen.objects.c[0].coord.y, gen.objects.c[0].coord.z);
 	printf("c.n.x = %f, c.n.y = %f, c.n.z = %f,\n", gen.objects.c[0].normal.x, gen.objects.c[0].normal.y, gen.objects.c[0].normal.z);
 	printf("End drawn %f %i\n", (double)(t2 - t1) / CLOCKS_PER_SEC, i);
+	
+	t_vector check;
+	ft_write_xyz(&check, 0, 0, 1);//0.5, 0.5, 1);
+	check = multiply_mat_vec(gen.scene.rotmat, check);
+	printf("check: %f, %f, %f\n", check.x, check.y, check.z);
 	mlx_hook(gen.mlx.win, 2, 1L << 0, press_esc_key, &(gen.mlx));
 	mlx_hook(gen.mlx.win, 17, 1L << 17, exit_program, &(gen.mlx));
 	mlx_mouse_hook (gen.mlx.win, mouse_hook, 0);
