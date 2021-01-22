@@ -60,11 +60,14 @@ int		main(int argc, char **argv)
 	{
 		while (gen.pix.y <= gen.objects.r.y)
 		{
+			gen.color = -5;
 			belong_to_sphere(&gen, &i);
+			gen.pix.z = 0;
+			belong_to_plane(&gen, &i);
 				if (gen.color >= 0)
 					my_mlx_pixel_put(&(gen.img), gen.pix.x, gen.pix.y, (int)(gen.color));
-				else //if (gen.pix.z == 0)
-					my_mlx_pixel_put(&(gen.img), gen.pix.x, gen.pix.y, 0x00171717);
+				//else //if (gen.pix.z == 0)
+					//my_mlx_pixel_put(&(gen.img), gen.pix.x, gen.pix.y, 0x00171717);
 			gen.pix.z = 0;
 			//if (pix.x == 285 && pix.y == 254)
 				//printf("%d\n", (int)color);
@@ -77,7 +80,7 @@ int		main(int argc, char **argv)
 	clock_t t2 = clock();
 	printf("O.c.x = %f, O.c.y = %f, O.c.z = %f,\n", gen.objects.c[0].coord.x, gen.objects.c[0].coord.y, gen.objects.c[0].coord.z);
 	printf("c.n.x = %f, c.n.y = %f, c.n.z = %f,\n", gen.objects.c[0].normal.x, gen.objects.c[0].normal.y, gen.objects.c[0].normal.z);
-	printf("End drawn %f %i\n", (double)(t2 - t1) / CLOCKS_PER_SEC, i);
+	printf("End drawn with time is %f s and %i iterations\n", (double)(t2 - t1) / CLOCKS_PER_SEC, i);
 	
 	t_vector check;
 	ft_write_xyz(&check, 0, 0, 1);//0.5, 0.5, 1);

@@ -63,7 +63,7 @@ typedef struct	s_sphere
 	t_vector	coord;
 	float		diam;
 	t_vector	color;
-	int				is;
+	int			is;
 }				t_sphere;
 
 typedef struct	s_plane
@@ -71,7 +71,7 @@ typedef struct	s_plane
 	t_vector	coord;
 	t_vector	normal;
 	t_vector	color;
-	int				is;
+	int			is;
 }				t_plane;
 
 typedef struct	s_square
@@ -80,7 +80,7 @@ typedef struct	s_square
 	t_vector	normal;
 	t_vector	color;
 	float		size;
-	int				is;
+	int			is;
 }				t_square;
 
 typedef struct	s_cylinder
@@ -90,7 +90,7 @@ typedef struct	s_cylinder
 	float		diam;
 	float		heig;
 	t_vector	color;
-	int				is;
+	int			is;
 }				t_cylinder;
 
 typedef struct	s_triangle
@@ -99,7 +99,7 @@ typedef struct	s_triangle
 	t_vector	coord_sec;
 	t_vector	coord_thi;
 	t_vector	color;
-	int				is;
+	int			is;
 }				t_triangle;
 
 typedef struct	s_objscene
@@ -118,10 +118,10 @@ typedef struct	s_objscene
 
 typedef struct	s_canvas
 {
-	t_vector coord_0;
-	t_vector coord_v;
-	t_vector viewport;
-	t_vector *rotmat;
+	t_vector	coord_0;
+	t_vector	coord_v;
+	t_vector	viewport;
+	t_vector	*rotmat;
 }				t_canvas;
 
 typedef struct	s_general
