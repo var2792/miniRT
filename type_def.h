@@ -116,20 +116,20 @@ typedef struct	s_objscene
 	t_vector		orig_cam;
 }				t_objscene;
 
-typedef struct	s_canvas
+typedef struct	s_scene
 {
 	t_vector	coord_0;
 	t_vector	coord_v;
 	t_vector	viewport;
 	t_vector	*rotmat;
-}				t_canvas;
+}				t_scene;
 
 typedef struct	s_general
 {
 	t_my_mlx	mlx;
 	t_data		img;
 	t_objscene	objects;
-	t_canvas	scene;
+	t_scene		scene;
 	t_vector	pix;
 	float		color;
 	int			num_cam;

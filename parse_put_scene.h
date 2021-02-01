@@ -1,7 +1,7 @@
 #ifndef PARSE_PUT_SCENE_H
 # define PARSE_PUT_SCENE_H
 
-# include "gnl/get_next_line.h"
+# include "get_next_line.h"
 # include "file_help_function.h"
 # include "parse_file.h"
 # include "type_def.h"

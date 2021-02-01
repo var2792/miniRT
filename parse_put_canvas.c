@@ -24,7 +24,9 @@ t_vector	*rotation_matrix(t_vector cam, t_vector orig, t_vector coord)//t_objsce
 		T[1] *= (-1);
 	T[2] = 0;
 	//T[0] = 0; T[1] = 0; T[2] = 3.1415925;
-		printf("T[0] = %f, T[1] = %f, T[2]= %f\n", T[0] * 180 / 3.1415925, T[1] * 180 / 3.1415925, T[2] * 180 / 3.1415925);
+
+	//printf("T[0] = %f, T[1] = %f, T[2]= %f\n", T[0] * 180 / 3.1415925, T[1] * 180 / 3.1415925, T[2] * 180 / 3.1415925);
+
 /*   	if (T[0] > 0.001 || T[0] < -0.001)
 	{
 		ft_write_xyz(&(mat[0]), 1, 0, 0);
@@ -50,9 +52,9 @@ t_vector	*rotation_matrix(t_vector cam, t_vector orig, t_vector coord)//t_objsce
 	return (mat);
 }
 
-t_canvas	parse_put_canvas(t_general gen)
+t_scene	parse_put_canvas(t_general gen)
 {
-	t_canvas scene;
+	t_scene scene;
 
 	scene.coord_0.x = gen.objects.c[gen.num_cam].coord.x;
 	scene.coord_0.y = gen.objects.c[gen.num_cam].coord.y;
@@ -65,3 +67,12 @@ t_canvas	parse_put_canvas(t_general gen)
 	return (scene);
 }
 
+t_vector	trans_pix_v(t_general gen)
+{
+	gen.scene.coord_v.x = (gen.pix.x - gen.objects.r.x / 2) * gen.scene.viewport.x / gen.objects.r.x;
+	gen.scene.coord_v.y = (gen.objects.r.y / 2 - gen.pix.y) * gen.scene.viewport.y / gen.objects.r.y;
+	gen.scene.coord_v.z = gen.scene.viewport.z;
+
+	gen.scene.coord_v = multiply_mat_vec(gen.scene.rotmat, gen.scene.coord_v);  //только эта строка отвечает за поворот камеры
+	return (gen.scene.coord_v);
+}

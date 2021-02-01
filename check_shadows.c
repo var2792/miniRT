@@ -3,7 +3,7 @@
 float		check_shadow(int num_l, int num_ob, t_objscene objects, t_vector p)
 {
 	float res;
-	
+
 	res = 1;
 	if (num_ob > -1 && num_ob < 100) //sphere
 		res = check_shadow_sp(num_l, num_ob, objects, p);
@@ -14,17 +14,17 @@ float		check_shadow(int num_l, int num_ob, t_objscene objects, t_vector p)
 		res = (res > 0.5) ? check_shadow_sp(num_l, (int)(num_ob % 100), objects, p) : res;
 	else
 		res = (res > 0.5) ? check_shadow_sp(num_l, -1, objects, p) : res;
-	
+
 	if (num_ob > 199 && num_ob < 300) //square
 		res = (res > 0.5) ? check_shadow_sp(num_l, (int)(num_ob % 100), objects, p) : res;
 	else
 		res = (res > 0.5) ? check_shadow_sp(num_l, -1, objects, p) : res;
-		
+
 	if (num_ob > 299 && num_ob < 400) //cylinder
 		res = (res > 0.5) ? check_shadow_sp(num_l, (int)(num_ob % 100), objects, p) : res;
 	else
 		res = (res > 0.5) ? check_shadow_sp(num_l, -1, objects, p) : res;
-		
+
 	if (num_ob > 399 && num_ob < 500) //triangle
 		res = (res > 0.5) ? check_shadow_sp(num_l, (int)(num_ob % 100), objects, p) : res;
 	else
@@ -64,4 +64,3 @@ float		check_shadow_sp(int num_l, int num_sp, t_objscene objects, t_vector p)
 	(void)num_l;
 	(void)num_sp;
 }
-

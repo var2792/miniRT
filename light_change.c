@@ -16,7 +16,7 @@ float	light_change_sp(t_general gen, t_vector p, int i)
 		lig = add_t_vecs( 1, p, -1, gen.objects.l[num_l].coord);
 		if ((bright = scalar_product_vecs(norm, lig) / lenght_vecs(lig)) < 0)
 			bright = 0;
-		
+
 		res_br += gen.objects.l[num_l].brirat * bright * check_shadow(num_l, i, gen.objects, p);
 
 		gen.objects.l[0].color.x = (num_l == 0) ? gen.objects.l[num_l].brirat * gen.objects.l[num_l].color.x * res_br
@@ -52,7 +52,7 @@ float	light_change_pl(t_general gen, t_vector p, int i)
 	{
 		bright = 30 / lenght_vecs(add_t_vecs(1, p, -1, gen.objects.l[num_l].coord));
 		res_br += gen.objects.l[num_l].brirat * bright * check_shadow(num_l, i + 100, gen.objects, p);
-		
+
 		gen.objects.l[0].color.x = (num_l == 0) ? gen.objects.l[num_l].brirat * gen.objects.l[num_l].color.x * res_br
 		: gen.objects.l[0].color.x + gen.objects.l[num_l].brirat * gen.objects.l[num_l].color.x * res_br;
 		gen.objects.l[0].color.y = (num_l == 0) ? gen.objects.l[num_l].brirat * gen.objects.l[num_l].color.y * res_br
@@ -61,15 +61,15 @@ float	light_change_pl(t_general gen, t_vector p, int i)
 		: gen.objects.l[0].color.z + gen.objects.l[num_l].brirat * gen.objects.l[num_l].color.z * res_br;
 		num_l++;
 	}
-	
+
 	if (res_br > 1)
 		res_br = 1;
-		
+
 	gen.objects.pl[i].color = add_t_vecs(res_br, add_t_vecs(0.4, gen.objects.pl[i].color, 0.4, gen.objects.l[0].color), 0.2 * res_br, gen.objects.a.color);
 	gen.objects.pl[i].color.x = (gen.objects.pl[i].color.x > 255) ? 255 : gen.objects.pl[i].color.x;
 	gen.objects.pl[i].color.y = (gen.objects.pl[i].color.y > 255) ? 255 : gen.objects.pl[i].color.y;
 	gen.objects.pl[i].color.z = (gen.objects.pl[i].color.z > 255) ? 255 : gen.objects.pl[i].color.z;
-	
+
 	return(ft_colorvec_unsint(1, gen.objects.pl[i].color));
 	(void) p;
 	(void) i;

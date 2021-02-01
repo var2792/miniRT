@@ -3,7 +3,7 @@
 int		check_see_objs(t_general gen, t_vector ptr, int num_ob)
 {
 	int res;
-	
+
 	res = 0;
 	if (num_ob > -1 && num_ob < 100) //sphere
 		res = check_see_sp(gen, ptr, num_ob);
@@ -14,17 +14,17 @@ int		check_see_objs(t_general gen, t_vector ptr, int num_ob)
 		res = (res == 0) ? check_see_pl(gen, ptr, num_ob - 100) : res;
 	else
 		res = (res == 0) ? check_see_pl(gen, ptr, -1) : res;
-/*	
+/*
 	if (num_ob > 199 && num_ob < 300) //square
 		res = (res == 0) ? check_see_sp(num_l, (int)(num_ob % 100), objects, p) : res;
 	else
 		res = (res == 0) ? check_see_sp(num_l, -1, objects, p) : res;
-		
+
 	if (num_ob > 299 && num_ob < 400) //cylinder
 		res = (res == 0) ? check_see_sp(num_l, (int)(num_ob % 100), objects, p) : res;
 	else
 		res = (res == 0) ? check_see_sp(num_l, -1, objects, p) : res;
-		
+
 	if (num_ob > 399 && num_ob < 500) //triangle
 		res = (res == 0) ? check_see_sp(num_l, (int)(num_ob % 100), objects, p) : res;
 	else
@@ -57,7 +57,7 @@ int		check_see_sp(t_general gen, t_vector ptr, int num_sp)
 					p = add_t_vecs(1, gen.scene.coord_0, t_n[1], add_t_vecs( 1, gen.scene.coord_v, -1, gen.scene.coord_0));
 				else
 					p = add_t_vecs(1, gen.scene.coord_0, t_n[0], add_t_vecs( 1, gen.scene.coord_v, -1, gen.scene.coord_0));
-				
+
 				if (lenght_vecs(add_t_vecs(1, p, -1, gen.objects.c[gen.num_cam].coord)) <= lenght_vecs(add_t_vecs(1, ptr, -1, gen.objects.c[gen.num_cam].coord)))
 					return (1);
 			}
@@ -128,5 +128,3 @@ int		check_see_sp(t_general gen, float t[], int num_sp)
 	return (0);
 }
 */
-
-

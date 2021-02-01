@@ -1,6 +1,5 @@
 
-#include <math.h>
-#include <stdio.h>
+#include "general_minirt.h"
 
 int			ft_check_isspace(char s)
 {

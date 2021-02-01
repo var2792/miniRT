@@ -159,7 +159,7 @@ t_objscene		parse_put_scene(char **argv)
 	char *save_line;
 
 	n = 1;
-	fd = open("temp.rt", O_RDWR);
+	fd = open("tests/temp.rt", O_RDWR);
 	ft_null_scene(&all_scene);
 	while (n > 0)
 	{

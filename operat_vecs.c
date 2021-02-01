@@ -1,4 +1,4 @@
-# include "light_change.h"
+#include "operat_vecs.h"
 
 t_vector	multiply_mat_vec(t_vector *mat, t_vector vec)
 {

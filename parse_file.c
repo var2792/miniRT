@@ -21,6 +21,7 @@ int		parse_ambient(char **line, t_objscene *scene)
 {
 	(*line)++;
 	scene->a.rat_amlig = ft_atoi_float(line);
+	scene->a.rat_amlig = (scene->a.rat_amlig < 0.75) ? 0.1 : scene->a.rat_amlig;
 	scene->a.color.x = ft_atoi_float(line);
 	spase_com_sep(line);
 	scene->a.color.y = ft_atoi_float(line);
