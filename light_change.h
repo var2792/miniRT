@@ -9,5 +9,8 @@
 
 float light_change_sp(t_general gen, t_vector p, int i);
 float	light_change_pl(t_general gen, t_vector p, int i);
+float	light_change_sq(t_general gen, t_vector p, int i);
+float	light_change_tr(t_general gen, t_vector p, int i);
+float	light_change_cy(t_general gen, t_vector p, int i);
 
 #endif

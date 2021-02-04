@@ -3,6 +3,7 @@
 
 # include "file_help_function.h"
 # include "type_def.h"
+# include "points_funs.h"
 
 int		parse_resplution(char **line, t_objscene *scene);
 int		parse_ambient(char **line, t_objscene *scene);

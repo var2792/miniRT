@@ -7,8 +7,13 @@
 # include "parse_put_canvas.h"
 # include "check_see_objs.h"
 
-float		belong_to_sphere(t_general *gen, int *i);
-int			belong_to_plane(t_general *gen, int *i);
-int			belong_to_square(t_general *gen, int *i);
+int		belong_to_sphere(t_general *gen, int *i);
+int		belong_to_plane(t_general *gen, int *i);
+int		belong_to_square(t_general *gen, int *i);
+int		belong_to_triangle(t_general *gen, int *i);
+int		belong_to_cylinder(t_general *gen, int *i);
+
+int		point_in_square(t_square sq, t_vector p);
+int		point_in_triangle(t_triangle tr, t_vector p);
 
 #endif

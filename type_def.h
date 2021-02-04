@@ -80,12 +80,14 @@ typedef struct	s_square
 	t_vector	normal;
 	t_vector	color;
 	float		size;
+	t_vector	ps[4];
 	int			is;
 }				t_square;
 
 typedef struct	s_cylinder
 {
 	t_vector	coord;
+	t_vector	coord2;
 	t_vector	normal;
 	float		diam;
 	float		heig;
@@ -99,6 +101,7 @@ typedef struct	s_triangle
 	t_vector	coord_sec;
 	t_vector	coord_thi;
 	t_vector	color;
+	t_vector	normal;
 	int			is;
 }				t_triangle;
 

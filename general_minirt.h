@@ -7,7 +7,6 @@
 # include "parse_put_scene.h"
 # include "parse_put_canvas.h"
 # include "belong_to_obj.h"
-# include "drawing_objs.h"
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 

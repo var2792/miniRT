@@ -39,40 +39,46 @@ void	free_gen(t_general *gen)
 
 void	print_pic(t_general *gen, int *i)
 {
-		//gen->img.img = mlx_new_image(gen->mlx.ptr, gen->objects.r.x, gen->objects.r.y);
-		//gen->img.addr = mlx_get_data_addr(gen->img.img, &(gen->img.bits_per_pixel), &(gen->img.line_length), &(gen->img.endian));
-		gen->scene = parse_put_canvas(*gen);
-		ft_write_xyz(&(gen->pix), 0, 0, 0);
-		while (gen->pix.x <= gen->objects.r.x)
+	//gen->img.img = mlx_new_image(gen->mlx.ptr, gen->objects.r.x, gen->objects.r.y);
+	//gen->img.addr = mlx_get_data_addr(gen->img.img, &(gen->img.bits_per_pixel), &(gen->img.line_length), &(gen->img.endian));
+	gen->scene = parse_put_canvas(*gen);
+	ft_write_xyz(&(gen->pix), 0, 0, 0);
+	while (gen->pix.x <= gen->objects.r.x)
+	{
+		while (gen->pix.y <= gen->objects.r.y)
 		{
-			while (gen->pix.y <= gen->objects.r.y)
-			{
-				gen->scene.coord_v = trans_pix_v(*gen);
-				gen->color = -5;
-				belong_to_sphere(gen, i);
-				gen->pix.z = 0;
-				belong_to_plane(gen, i);
-				gen->pix.z = 0;
-				belong_to_square(gen, i);
-					if (gen->color >= 0)
-						my_mlx_pixel_put(&(gen->img), gen->pix.x, gen->pix.y, (int)(gen->color));
-					else
-						my_mlx_pixel_put(&(gen->img), gen->pix.x, gen->pix.y, 0);
-					//else //if (gen->pix.z == 0)
-						//my_mlx_pixel_put(&(gen->img), gen->pix.x, gen->pix.y, 0x00171717);
-				gen->pix.z = 0;
-				//if (pix.x == 285 && pix.y == 254)
-					//printf("%d\n", (int)color);
-				gen->pix.y += 1;
-			}
-			gen->pix.y = 0;
-			gen->pix.x += 1;
+			gen->scene.coord_v = trans_pix_v(*gen);
+			gen->color = -5;
+			belong_to_sphere(gen, i);
+			gen->pix.z = 0;
+			belong_to_plane(gen, i);
+			gen->pix.z = 0;
+			belong_to_square(gen, i);
+			gen->pix.z = 0;
+			belong_to_triangle(gen, i);
+			gen->pix.z = 0;
+			belong_to_cylinder(gen, i);
+				if (gen->color >= 0)
+					my_mlx_pixel_put(&(gen->img), gen->pix.x, gen->pix.y, (int)(gen->color));
+				else
+					my_mlx_pixel_put(&(gen->img), gen->pix.x, gen->pix.y, 0);
+				//else //if (gen->pix.z == 0)
+					//my_mlx_pixel_put(&(gen->img), gen->pix.x, gen->pix.y, 0x00171717);
+			gen->pix.z = 0;
+			//if (pix.x == 285 && pix.y == 254)
+				//printf("%d\n", (int)color);
+			gen->pix.y += 1;
 		}
+		gen->pix.y = 0;
+		gen->pix.x += 1;
+	}
 
-		gen->pix.z = 0;
-		//belong_to_square(gen, i); //cube
+	gen->pix.z = 0;
+	//belong_to_square(gen, i); //cube
 
-		mlx_put_image_to_window(gen->mlx.ptr, gen->mlx.win, gen->img.img, 0, 0);
+	mlx_put_image_to_window(gen->mlx.ptr, gen->mlx.win, gen->img.img, 0, 0);
+	printf("\nO.c.x = %f, O.c.y = %f, O.c.z = %f,\n", gen->objects.c[gen->num_cam].coord.x, gen->objects.c[gen->num_cam].coord.y, gen->objects.c[gen->num_cam].coord.z);
+	printf("c.n.x = %f, c.n.y = %f, c.n.z = %f,\n", gen->objects.c[gen->num_cam].normal.x, gen->objects.c[gen->num_cam].normal.y, gen->objects.c[gen->num_cam].normal.z);
 }
 
 int	press_esc_key(int key, t_general *gen)
@@ -129,8 +135,6 @@ int		main(int argc, char **argv)
 	print_pic(&gen, &i);
 
 	clock_t t2 = clock();
-	printf("\nO.c.x = %f, O.c.y = %f, O.c.z = %f,\n", gen.objects.c[0].coord.x, gen.objects.c[0].coord.y, gen.objects.c[0].coord.z);
-	printf("c.n.x = %f, c.n.y = %f, c.n.z = %f,\n", gen.objects.c[0].normal.x, gen.objects.c[0].normal.y, gen.objects.c[0].normal.z);
 	printf("\nEnd drawn with time is %f s and %i iterations\n", (double)(t2 - t1) / CLOCKS_PER_SEC, i);
 
 	/*t_vector check;

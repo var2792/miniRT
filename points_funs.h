@@ -7,7 +7,6 @@
 # include "parse_put_canvas.h"
 # include "check_see_objs.h"
 
-void	find_point_sq(t_general gen, t_vector (*P)[]);
-t_vector	convert_pinv(t_general gen, t_vector p);
+void	find_point_sq(t_square sq, t_vector (*P)[]);
 
 #endif

@@ -9,5 +9,7 @@
 int		check_see_objs(t_general gen, t_vector ptr, int num_sp);
 int		check_see_sp(t_general gen, t_vector ptr, int num_sp);
 int		check_see_pl(t_general gen, t_vector ptr, int num_pl);
+int		check_see_sq(t_general gen, t_vector ptr, int num_sq);
+int		check_see_tr(t_general gen, t_vector ptr, int num_tr);
 
 #endif

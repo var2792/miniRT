@@ -60,71 +60,6 @@ int		ft_check_input_chars(char **line, t_objscene *scene)
 	return (1);
 }
 
-void			ft_example_scene(t_objscene *scene)
-{
-	scene->r.x = 512;// 860;// 1920;//
-	scene->r.y = 512;// 540;// 1080;//
-
-	scene->a.rat_amlig = 0.1;
-	ft_write_xyz(&(scene->a.color), 255, 255, 255);
-
-	ft_write_xyz(&(scene->c[0].coord), 0, 0, 0);
-	ft_write_xyz(&(scene->c[0].normal), 0.0, 0.0, 1.0);
-	scene->c[0].fov = 80;
-	scene->c[0].is = 1;
-	scene->c[1].is = 0;
-
-	ft_write_xyz(&(scene->l[0].coord), 0.0, 20.0, 10.0);
-	scene->l[0].brirat = 0.9;
-	ft_write_xyz(&(scene->l[0].color), 255, 255, 255);
-	scene->l[0].is = 1;
-	ft_write_xyz(&(scene->l[1].coord), 20.0, 10.0, 10.0);
-	scene->l[1].brirat = 0.9;
-	ft_write_xyz(&(scene->l[1].color), 255, 255, 255);
-	scene->l[1].is = 1;
-	scene->l[2].is = 0;
-	//printf("it was l, and num = %u\n", scene->l.rgb_16);
-
-	ft_write_xyz(&(scene->sp[0].coord), 0.0, 0.0, 20.0);
-	scene->sp[0].diam = 10;
-	ft_write_xyz(&(scene->sp[0].color), 10, 0, 255);
-	scene->sp[0].is = 1;
-	ft_write_xyz(&(scene->sp[1].coord), -5.0, 0.0, 20.0);
-	scene->sp[1].diam = 10;
-	ft_write_xyz(&(scene->sp[1].color), 255, 0, 0);
-	scene->sp[1].is = 1;
-	scene->sp[2].is = 0;
-	//printf("it was sp, and num = %u\n", scene->sp.rgb_16);
-
-	ft_write_xyz(&(scene->pl[0].coord), 0.0, 0.0, -10.0);
-	ft_write_xyz(&(scene->pl[0].normal), 0.0, 1.0, 0.0);
-	ft_write_xyz(&(scene->pl[0].color),  0, 0, 225);
-	scene->pl[0].is = 1;
-	scene->pl[1].is = 0;
-
-	ft_write_xyz(&(scene->sq[0].coord),  0.0, 0.0, 20.6);
-	ft_write_xyz(&(scene->sq[0].normal), 1.0, 0.0, 0.0);
-	scene->sq[0].size = 12.6;
-	ft_write_xyz(&(scene->sq[0].color), 42, 42, 0);
-	scene->sq[0].is = 1;
-	scene->sq[1].is = 0;
-
-	ft_write_xyz(&(scene->cy[0].coord), 50.0, 0.0, 20.6);
-	ft_write_xyz(&(scene->cy[0].normal), 0.0, 0.0, 1.0);
-	ft_write_xyz(&(scene->cy[0].color), 10, 0, 255);
-	scene->cy[0].diam = 14.2;
-	scene->cy[0].heig = 21.42;
-	scene->cy[0].is = 1;
-	scene->cy[1].is = 0;
-
-	ft_write_xyz(&(scene->tr[0].coord_fir), 10.0, 20.0, 10.0);
-	ft_write_xyz(&(scene->tr[0].coord_sec), 10.0, 10.0, 20.0);
-	ft_write_xyz(&(scene->tr[0].coord_thi), 20.0, 10.0, 10.0);
-	ft_write_xyz(&(scene->tr[0].color), 0, 0, 255);
-	scene->tr[0].is = 1;
-	scene->tr[1].is = 0;
-}
-
 void			ft_null_scene(t_objscene *scene)
 {
 	int i;
@@ -159,6 +94,7 @@ t_objscene		parse_put_scene(char **argv)
 	char *save_line;
 
 	n = 1;
+	//fd = open("tests/work.rt", O_RDWR);
 	fd = open("tests/temp.rt", O_RDWR);
 	ft_null_scene(&all_scene);
 	while (n > 0)
