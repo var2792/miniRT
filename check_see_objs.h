@@ -1,7 +1,6 @@
 #ifndef CHECK_SEE_OBJS_H
 # define CHECK_SEE_OBJS_H
 
-# include "file_help_function.h"
 # include "type_def.h"
 # include "light_change.h"
 # include "parse_put_canvas.h"
@@ -11,5 +10,6 @@ int		check_see_sp(t_general gen, t_vector ptr, int num_sp);
 int		check_see_pl(t_general gen, t_vector ptr, int num_pl);
 int		check_see_sq(t_general gen, t_vector ptr, int num_sq);
 int		check_see_tr(t_general gen, t_vector ptr, int num_tr);
+int		check_see_cy(t_general gen, t_vector ptr, int num_cy);
 
 #endif

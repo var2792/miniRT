@@ -1,7 +1,6 @@
 #ifndef DRAW_LINES_H
 # define DRAW_LINES_H
 
-# include "file_help_function.h"
 # include "type_def.h"
 # include "general_minirt.h"
 # include "light_change.h"

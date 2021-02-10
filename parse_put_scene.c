@@ -83,10 +83,29 @@ void			ft_null_scene(t_objscene *scene)
 	}
 }
 
-t_objscene		parse_put_scene(char **argv)
+int check_name_file(char *argv)
 {
-	t_objscene all_scene;
-	//ft_example_scene(&all_scene);
+	int i;
+
+	i = 0;
+	while (argv[i] && argv[i] != '.')
+        i++;
+    if (!argv[i] || i < 1)
+        return (1);
+	else if (argv[i + 1] && argv[i + 1] != 'r')
+        return (1);
+	else if (argv[i + 2] && argv[i + 2] != 't')
+        return (1);
+	else if (argv[i + 3] != '\0')
+        return (1);
+    //if (!(argv[i] == '.' && argv[i + 1] && argv[i + 1] == 'r' && argv[i + 2] && argv[i + 2] == 't' && !argv[i + 3]))
+        //return (1);
+	return (0);
+}
+
+int		parse_put_scene(t_objscene *scene, char *argv)
+{
+	//ft_example_scene(&scene);
 	int n;
 	int fd;
 	int len;
@@ -94,26 +113,34 @@ t_objscene		parse_put_scene(char **argv)
 	char *save_line;
 
 	n = 1;
-	//fd = open("tests/work.rt", O_RDWR);
-	fd = open("tests/temp.rt", O_RDWR);
-	ft_null_scene(&all_scene);
+	if (check_name_file(argv))
+		return (1);
+	if ((fd = open(argv, O_RDWR)) < 0)
+		return (1);
+	ft_null_scene(scene);
 	while (n > 0)
 	{
 		n = get_next_line(fd, &line);
 		save_line = line;
-		len = ft_strlen(line);
+		len = ft_strilen(line);
 		if (*line && len > 1)
 		{
 			while (ft_check_isspace(*line))
 				line++;
-			if (ft_check_input_chars(&line, &all_scene))
+			len = ft_check_input_chars(&line, scene);
+			//while (ft_check_isspace(*line))
+				//line++;
+			if (len)
 			{
-				ft_putstr_fd("Not correct input.\n", 1);
-				break ;
+				ft_putstr_fd("Error: Not correct input file.\n", 1);
+				ft_putstr_fd(save_line, 1);
+				ft_putstr_fd(" <<=-\n", 1);
+				free(save_line);
+				return (1);
 			}
 		}
 		free(save_line);
 	}
-	return (all_scene);
+	return (0);
 	(void)argv;
 }

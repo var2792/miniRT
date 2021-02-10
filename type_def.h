@@ -1,6 +1,7 @@
 #ifndef TYPE_DEF_H
 # define TYPE_DEF_H
 
+# include "../libft/libft.h"
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -40,13 +41,14 @@ typedef struct	s_amblig
 {
 	float			rat_amlig;
 	t_vector		color;
+	int				is;
 }				t_amblig;
 
 typedef struct	s_camera
 {
 	t_vector		coord;
 	t_vector		normal;
-	unsigned int	fov;
+	int				fov;
 	int				is;
 }				t_camera;
 
@@ -87,7 +89,6 @@ typedef struct	s_square
 typedef struct	s_cylinder
 {
 	t_vector	coord;
-	t_vector	coord2;
 	t_vector	normal;
 	float		diam;
 	float		heig;

@@ -1,7 +1,6 @@
 #ifndef OPERAT_VECS_H
 # define OPERAT_VECS_H
 
-# include "file_help_function.h"
 # include "type_def.h"
 
 t_vector	multiply_mat_vec(t_vector *mat, t_vector vec);

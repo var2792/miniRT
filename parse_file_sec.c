@@ -19,6 +19,8 @@ int parse_sphere(char **line, t_objscene *scene)
 	scene->sp[i].color.y = ft_atoi_float(line);
 	spase_com_sep(line);
 	scene->sp[i].color.z = ft_atoi_float(line);
+	if (check_color(scene->sp[i].color))
+		return (1);
 	scene->sp[i].is = 1;
 	return (0);
 	(void)scene;
@@ -42,11 +44,15 @@ int parse_plane(char **line, t_objscene *scene)
 	scene->pl[i].normal.y = ft_atoi_float(line);
 	spase_com_sep(line);
 	scene->pl[i].normal.z = ft_atoi_float(line);
+	if (check_normal(scene->pl[i].normal))
+		return (1);
 	scene->pl[i].color.x = ft_atoi_float(line);
 	spase_com_sep(line);
 	scene->pl[i].color.y = ft_atoi_float(line);
 	spase_com_sep(line);
 	scene->pl[i].color.z = ft_atoi_float(line);
+	if (check_color(scene->pl[i].color))
+		return (1);
 	scene->pl[i].is = 1;
 	return (0);
 	(void)scene;
@@ -70,12 +76,16 @@ int parse_square(char **line, t_objscene *scene)
 	scene->sq[i].normal.y = ft_atoi_float(line);
 	spase_com_sep(line);
 	scene->sq[i].normal.z = ft_atoi_float(line);
+	if (check_normal(scene->sq[i].normal))
+		return (1);
 	scene->sq[i].size = ft_atoi_float(line);
 	scene->sq[i].color.x = ft_atoi_float(line);
 	spase_com_sep(line);
 	scene->sq[i].color.y = ft_atoi_float(line);
 	spase_com_sep(line);
 	scene->sq[i].color.z = ft_atoi_float(line);
+	if (check_color(scene->sq[i].color))
+		return (1);
 	find_point_sq(scene->sq[i], &(scene->sq[i].ps));
 	scene->sq[i].is = 1;
 	/*printf("+++++++++++++++++++\n");
@@ -107,6 +117,8 @@ int parse_cylinder(char **line, t_objscene *scene)
 	scene->cy[i].normal.y = ft_atoi_float(line);
 	spase_com_sep(line);
 	scene->cy[i].normal.z = ft_atoi_float(line);
+	if (check_normal(scene->cy[i].normal))
+		return (1);
 	scene->cy[i].diam = ft_atoi_float(line);
 	scene->cy[i].heig = ft_atoi_float(line);
 	scene->cy[i].color.x = ft_atoi_float(line);
@@ -114,8 +126,8 @@ int parse_cylinder(char **line, t_objscene *scene)
 	scene->cy[i].color.y = ft_atoi_float(line);
 	spase_com_sep(line);
 	scene->cy[i].color.z = ft_atoi_float(line);
-	scene->cy[i].coord2 = add_t_vecs(1, scene->cy[i].coord, scene->cy[i].heig / sqrt(scalar_product_vecs(scene->cy[i].normal, scene->cy[i].normal)), scene->cy[i].normal);
-	//printf("Cy %f %f %f\n", scene->cy[i].coord2.x, scene->cy[i].coord2.y, scene->cy[i].coord2.z);
+	if (check_color(scene->cy[i].color))
+		return (1);
 	scene->cy[i].is = 1;
 	return (0);
 	(void)scene;
@@ -149,6 +161,8 @@ int parse_triangle(char **line, t_objscene *scene)
 	scene->tr[i].color.y = ft_atoi_float(line);
 	spase_com_sep(line);
 	scene->tr[i].color.z = ft_atoi_float(line);
+	if (check_color(scene->tr[i].color))
+		return (1);
 	scene->tr[i].normal = vec_product_vecs(add_t_vecs(1, scene->tr[i].coord_sec, -1, scene->tr[i].coord_fir), add_t_vecs(1, scene->tr[i].coord_thi, -1, scene->tr[i].coord_fir));
 	scene->tr[i].normal = add_t_vecs(1 / lenght_vecs(scene->tr[i].normal), scene->tr[i].normal, 0, scene->tr[i].normal);
 	//printf("Tr %f %f %f\n", scene->tr[i].normal.x, scene->tr[i].normal.y, scene->tr[i].normal.z);
