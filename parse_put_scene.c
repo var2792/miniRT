@@ -62,25 +62,19 @@ int		ft_check_input_chars(char **line, t_scobjs *scene)
 
 void			ft_null_scene(t_scobjs *scene)
 {
-	int i;
 
 	scene->r.is = 0;
 
 	scene->a.is = 0;
 	ft_write_xyz(&(scene->orig_cam), 0, 0, 1);
 
-	//scene->c = NULL;
-	i = -1;
-	while (++i < 50)
-	{
-		//scene->c[i].is = 0;
-		scene->l[i].is = 0;
-		scene->sp[i].is = 0;
-		scene->pl[i].is = 0;
-		scene->sq[i].is = 0;
-		scene->cy[i].is = 0;
-		scene->tr[i].is = 0;
-	}
+	scene->c = NULL;
+	scene->l = NULL;
+	scene->sp = NULL;
+	scene->pl = NULL;
+	scene->sq = NULL;
+	scene->tr = NULL;
+	scene->cy = NULL;
 }
 
 int check_name_file(char *argv)

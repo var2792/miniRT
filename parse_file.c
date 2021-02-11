@@ -39,11 +39,9 @@ int		parse_ambient(char **line, t_scobjs *scene)
 
 int		parse_camera(char **line, t_scobjs *scene)
 {
-	int i;
 	t_camera *cont;
 	t_list *new;
 
-	i = 0;
 	(*line)++;
 	cont = malloc(sizeof(*cont));
 	cont->cd.x = ft_atoi_float(line);
@@ -57,38 +55,37 @@ int		parse_camera(char **line, t_scobjs *scene)
 	spase_com_sep(line);
 	cont->nm.z = ft_atoi_float(line);
 	if (check_normal(cont->nm))
-		return (0);
+		return (1);
 	if ((cont->fov = ft_atoi_float(line)) < 0 || cont->fov > 180)
 		return (1);
 	new = ft_lstnew(cont);
 	ft_lstadd_back(&(scene->c), new);
 	return (0);
-	(void)i;
 }
 
 int		parse_light(char **line, t_scobjs *scene)
 {
-	int i;
+	t_light *cont;
+	t_list *new;
 
-	i = 0;
 	(*line)++;
-	while (scene->l[i].is)
-		i++;
-	scene->l[i].cd.x = ft_atoi_float(line);
+	cont = malloc(sizeof(*cont));
+	cont->cd.x = ft_atoi_float(line);
 	spase_com_sep(line);
-	scene->l[i].cd.y = ft_atoi_float(line);
+	cont->cd.y = ft_atoi_float(line);
 	spase_com_sep(line);
-	scene->l[i].cd.z = ft_atoi_float(line);
-	if ((scene->l[i].br = ft_atoi_float(line)) < 0 || scene->l[i].br > 1)
+	cont->cd.z = ft_atoi_float(line);
+	if ((cont->br = ft_atoi_float(line)) < 0 || cont->br > 1)
 		return (1);
-	scene->l[i].cl.x = ft_atoi_float(line);
+	cont->cl.x = ft_atoi_float(line);
 	spase_com_sep(line);
-	scene->l[i].cl.y = ft_atoi_float(line);
+	cont->cl.y = ft_atoi_float(line);
 	spase_com_sep(line);
-	scene->l[i].cl.z = ft_atoi_float(line);
-	if (check_color(scene->l[i].cl))
+	cont->cl.z = ft_atoi_float(line);
+	if (check_color(cont->cl))
 		return (1);
-	scene->l[i].is = 1;
+	new = ft_lstnew(cont);
+	ft_lstadd_back(&(scene->l), new);
 	return (0);
 	(void)scene;
 }

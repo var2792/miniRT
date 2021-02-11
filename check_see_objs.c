@@ -39,19 +39,23 @@ int		check_see_sp(t_general gen, t_vector ptr, int num_sp)
 	float t_n[2];
 	int i;
 	t_vector p;
+	t_list *temp;
+	t_sphere *sp;
 
 	i = 0;
-	while (gen.objs.sp[i].is)
+	temp = gen.objs.sp;
+	while (temp)
 	{
 		if (i != num_sp)
 		{
+			sp = temp->content;
 			p = sum_vs(1, gen.scene.cdv, -1, gen.scene.cdo);
-			k[0] = len_vec(cross_prv(sum_vs(1, gen.objs.sp[i].cd, -1, gen.scene.cdo), p)) / len_vec(p);
-			if (k[0] <= gen.objs.sp[i].d * 2)
+			k[0] = len_vec(cross_prv(sum_vs(1, sp->cd, -1, gen.scene.cdo), p)) / len_vec(p);
+			if (k[0] <= sp->d * 2)
 			{
 				k[0] = dot_prv(p, p);
-				k[1] = 2 * dot_prv(sum_vs( 1, gen.scene.cdo, -1, gen.objs.sp[i].cd), p);
-				k[2] = dot_prv(sum_vs( 1, gen.scene.cdo, -1, gen.objs.sp[i].cd), sum_vs( 1, gen.scene.cdo, -1, gen.objs.sp[i].cd)) - gen.objs.sp[i].d * gen.objs.sp[i].d / 4;
+				k[1] = 2 * dot_prv(sum_vs( 1, gen.scene.cdo, -1, sp->cd), p);
+				k[2] = dot_prv(sum_vs( 1, gen.scene.cdo, -1, sp->cd), sum_vs( 1, gen.scene.cdo, -1, sp->cd)) - sp->d * sp->d / 4;
 				t_n[1] = k[1] * k[1] - 4 * k[0] * k[2];
 				if (!(t_n[1] < 0 || (k[0] == 0 && k[1] == 0)))
 				{
@@ -67,6 +71,7 @@ int		check_see_sp(t_general gen, t_vector ptr, int num_sp)
 				}
 			}
 		}
+		temp = temp->next;
 		i++;
 	}
 	return (0);
@@ -74,26 +79,28 @@ int		check_see_sp(t_general gen, t_vector ptr, int num_sp)
 	(void) ptr;
 }
 
-
 int		check_see_pl(t_general gen, t_vector ptr, int num_pl)
 {
 	int i;
-	float t, t1, t2;
+	float t;
 	t_vector p;
+	t_list *temp;
+	t_plane *pl;
 
 	i = 0;
-	while (gen.objs.pl[i].is)
+	temp = gen.objs.pl;
+	while (temp)
 	{
 		if (i != num_pl)
 		{
-			t1 = dot_prv(gen.objs.pl[i].nm, gen.objs.pl[i].cd) - dot_prv(gen.objs.pl[i].nm, gen.scene.cdo);
-			t2 = dot_prv(gen.objs.pl[i].nm, gen.scene.cdv) - dot_prv(gen.objs.pl[i].nm, gen.scene.cdo);
-			t = t1 / t2;
-			//printf("PL %f\n", t);
+			pl = temp->content;
+			t = dot_prv(pl->nm, pl->cd) - dot_prv(pl->nm, gen.scene.cdo);
+			t = t / dot_prv(pl->nm, gen.scene.cdv) - dot_prv(pl->nm, gen.scene.cdo);
 			p = sum_vs(1, gen.scene.cdo, t, sum_vs( 1, gen.scene.cdv, -1, gen.scene.cdo));
 			if ((t >= 1 && t < 200) && len_vec(sum_vs(1, p, -1, gen.scene.cdo)) <= len_vec(sum_vs(1, ptr, -1, gen.scene.cdo)))
 					return (1);
 		}
+		temp = temp->next;
 		i++;
 	}
 	return (0);
@@ -106,21 +113,26 @@ int		check_see_sq(t_general gen, t_vector ptr, int num_sq)
 	int i;
 	float t1, t2;
 	t_vector p;
+	t_list *temp;
+	t_square *sq;
 
 	i = 0;
-	while (gen.objs.sq[i].is)
+	temp = gen.objs.sq;
+	while (temp)
 	{
 		if (i != num_sq)
 		{
-			t1 = dot_prv(gen.objs.sq[i].nm, gen.objs.sq[i].cd) - dot_prv(gen.objs.sq[i].nm, gen.scene.cdo);
-			t2 = dot_prv(gen.objs.sq[i].nm, gen.scene.cdv) - dot_prv(gen.objs.sq[i].nm, gen.scene.cdo);
+			sq = temp->content;
+			t1 = dot_prv(sq->nm, sq->cd) - dot_prv(sq->nm, gen.scene.cdo);
+			t2 = dot_prv(sq->nm, gen.scene.cdv) - dot_prv(sq->nm, gen.scene.cdo);
 			t1 = t1 / t2;
 	//printf("PL %f\n", t);
 			p = sum_vs(1, gen.scene.cdo, t1, sum_vs( 1, gen.scene.cdv, -1, gen.scene.cdo));
-			if (point_in_square(gen.objs.sq[i], p))
+			if (point_in_square(*sq, p))
 				if (len_vec(sum_vs(1, p, -1, gen.scene.cdo)) <= len_vec(sum_vs(1, ptr, -1, gen.scene.cdo)))
 					return (1);
 		}
+		temp = temp->next;
 		i++;
 	}
 	return (0);
@@ -133,21 +145,26 @@ int		check_see_tr(t_general gen, t_vector ptr, int num_tr)
 	int i;
 	float t1, t2;
 	t_vector p;
+	t_list *temp;
+	t_triangle *tr;
 
 	i = 0;
-	while (gen.objs.tr[i].is)
+	temp = gen.objs.tr;
+	while (temp)
 	{
 		if (i != num_tr)
 		{
-			t1 = dot_prv(gen.objs.tr[i].nm, gen.objs.tr[i].cd1) - dot_prv(gen.objs.tr[i].nm, gen.scene.cdo);
-			t2 = dot_prv(gen.objs.tr[i].nm, gen.scene.cdv) - dot_prv(gen.objs.tr[i].nm, gen.scene.cdo);
+			tr = temp->content;
+			t1 = dot_prv(tr->nm, tr->cd1) - dot_prv(tr->nm, gen.scene.cdo);
+			t2 = dot_prv(tr->nm, gen.scene.cdv) - dot_prv(tr->nm, gen.scene.cdo);
 			t1 = t1 / t2;
 	//printf("PL %f\n", t);
 			p = sum_vs(1, gen.scene.cdo, t1, sum_vs( 1, gen.scene.cdv, -1, gen.scene.cdo));
-			if (point_in_triangle(gen.objs.tr[i], p))
+			if (point_in_triangle(*tr, p))
 				if (len_vec(sum_vs(1, p, -1, gen.scene.cdo)) <= len_vec(sum_vs(1, ptr, -1, gen.scene.cdo)))
 					return (1);
 		}
+		temp = temp->next;
 		i++;
 	}
 	return (0);
@@ -162,21 +179,25 @@ int		check_see_cy(t_general gen, t_vector ptr, int num_cy)
 	int i;
 	int fl;
 	t_vector p;
+	t_list *temp;
+	t_cylinder *cy;
 
 	i = 0;
-	while (gen.objs.cy[i].is)
+	temp = gen.objs.cy;
+	while (temp)
 	{
 		if (i != num_cy)
 		{
-			p = cross_prv(sum_vs(1, gen.scene.cdv, -1, gen.scene.cdo), gen.objs.cy[i].nm);
-			k[0] = fabs(dot_prv(sum_vs(1, gen.objs.cy[i].cd, -1, gen.scene.cdo), p) / len_vec(p));
-			if (k[0] <= gen.objs.cy[i].d / 2)
+			cy = temp->content;
+			p = cross_prv(sum_vs(1, gen.scene.cdv, -1, gen.scene.cdo), cy->nm);
+			k[0] = fabs(dot_prv(sum_vs(1, cy->cd, -1, gen.scene.cdo), p) / len_vec(p));
+			if (k[0] <= cy->d / 2)
 			{
 				fl = 1;
 				p = sum_vs(1, gen.scene.cdv, -1, gen.scene.cdo);
-				k[0] = dot_prv(cross_prv(p, gen.objs.cy[i].nm), cross_prv(p, gen.objs.cy[i].nm)); //(Vn,Vn)
-				k[1] = 2 * dot_prv(cross_prv(p, gen.objs.cy[i].nm), sum_vs(1, cross_prv(gen.scene.cdo, gen.objs.cy[i].nm), -1, cross_prv(gen.objs.cy[i].cd, gen.objs.cy[i].nm))); // 2(Vn,On-Cn)
-				k[2] = dot_prv(sum_vs(1, cross_prv(gen.scene.cdo, gen.objs.cy[i].nm), -1, cross_prv(gen.objs.cy[i].cd, gen.objs.cy[i].nm)), sum_vs(1, cross_prv(gen.scene.cdo, gen.objs.cy[i].nm), -1, cross_prv(gen.objs.cy[i].cd, gen.objs.cy[i].nm))) - dot_prv(gen.objs.cy[i].nm, gen.objs.cy[i].nm) * gen.objs.cy[i].d * gen.objs.cy[i].d / 4; //(On-Cn,On-Cn)-(n,n)*d*d/4
+				k[0] = dot_prv(cross_prv(p, cy->nm), cross_prv(p, cy->nm)); //(Vn,Vn)
+				k[1] = 2 * dot_prv(cross_prv(p, cy->nm), sum_vs(1, cross_prv(gen.scene.cdo, cy->nm), -1, cross_prv(cy->cd, cy->nm))); // 2(Vn,On-Cn)
+				k[2] = dot_prv(sum_vs(1, cross_prv(gen.scene.cdo, cy->nm), -1, cross_prv(cy->cd, cy->nm)), sum_vs(1, cross_prv(gen.scene.cdo, cy->nm), -1, cross_prv(cy->cd, cy->nm))) - dot_prv(cy->nm, cy->nm) * cy->d * cy->d / 4; //(On-Cn,On-Cn)-(n,n)*d*d/4
 				t_n[1] = k[1] * k[1] - 4 * k[0] * k[2];
 				if (!(t_n[1] < 0 || (k[0] == 0 && k[1] == 0)))
 				{
@@ -185,23 +206,24 @@ int		check_see_cy(t_general gen, t_vector ptr, int num_cy)
 					if (t_n[0] >= 0)
 					{
 						p = sum_vs(1, gen.scene.cdo, t_n[0], sum_vs( 1, gen.scene.cdv, -1, gen.scene.cdo));
-						if (len_vec(sum_vs(1, p, -1, gen.objs.cy[(int)gen.pix.z].cd)) <= sqrt(gen.objs.cy[(int)gen.pix.z].h * gen.objs.cy[(int)gen.pix.z].h / 4 + gen.objs.cy[(int)gen.pix.z].d * gen.objs.cy[(int)gen.pix.z].d / 4))
+						if (len_vec(sum_vs(1, p, -1, cy->cd)) <= sqrt(cy->h * cy->h / 4 + cy->d * cy->d / 4))
 							fl = 2;
 					}
 					if (t_n[1] >= 0 && fl != 2)
 					{
 						p = sum_vs(1, gen.scene.cdo, t_n[1], sum_vs( 1, gen.scene.cdv, -1, gen.scene.cdo));
-						if (len_vec(sum_vs(1, p, -1, gen.objs.cy[(int)gen.pix.z].cd)) <= sqrt(gen.objs.cy[(int)gen.pix.z].h * gen.objs.cy[(int)gen.pix.z].h / 4 + gen.objs.cy[(int)gen.pix.z].d * gen.objs.cy[(int)gen.pix.z].d / 4))
+						if (len_vec(sum_vs(1, p, -1, cy->cd)) <= sqrt(cy->h * cy->h / 4 + cy->d * cy->d / 4))
 							fl = 3;
 					}
-					fl = belong_to_cyhead0(gen, i, &p, fl);
-					fl = belong_to_cyhead1(gen, i, &p, fl);
+					fl = belong_to_cyhead0(gen, *cy, &p, fl);
+					fl = belong_to_cyhead1(gen, *cy, &p, fl);
 
 					if (fl > 1 && len_vec(sum_vs(1, p, -1, gen.scene.cdo)) <= len_vec(sum_vs(1, ptr, -1, gen.scene.cdo)))
 						return (1);
 				}
 			}
 		}
+		temp = temp->next;
 		i++;
 	}
 	return (0);

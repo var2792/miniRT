@@ -1,6 +1,6 @@
 #include "drawing_objs.h"
 
-int		belong_to_square(t_general *gen, int *i)
+int		bbelong_to_square(t_general *gen, int *i)
 {
 	t_vector P[8];
 
@@ -20,7 +20,7 @@ int		belong_to_square(t_general *gen, int *i)
 	return (gen->cl);
 }
 
-int		belong_to_cylinder(t_scobjs objects, t_scene scene, t_vector pix)
+int		bbelong_to_cylinder(t_scobjs objects, t_scene scene, t_vector pix)
 {
 	(void)objects;
 	(void)scene;
@@ -28,7 +28,7 @@ int		belong_to_cylinder(t_scobjs objects, t_scene scene, t_vector pix)
 	return (1);
 }
 
-int		belong_to_triangle(t_scobjs objects, t_scene scene, t_vector pix)
+int		bbelong_to_triangle(t_scobjs objects, t_scene scene, t_vector pix)
 {
 	(void)objects;
 	(void)scene;

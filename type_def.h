@@ -56,7 +56,6 @@ typedef struct	s_light
 	t_vector		cd;
 	float			br;
 	t_vector		cl;
-	int				is;
 }				t_light;
 
 typedef struct	s_sphere
@@ -110,12 +109,12 @@ typedef struct	s_scobjs
 	t_resplution	r;
 	t_amblig		a;
 	t_list			*c;
-	t_light			l[50];
-	t_sphere		sp[50];
-	t_plane			pl[50];
-	t_square		sq[50];
-	t_cylinder		cy[50];
-	t_triangle		tr[50];
+	t_list			*l;
+	t_list			*sp;
+	t_list			*pl;
+	t_list			*sq;
+	t_list			*tr;
+	t_list			*cy;
 	t_vector		orig_cam;
 }				t_scobjs;
 

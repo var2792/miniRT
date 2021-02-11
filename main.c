@@ -49,19 +49,27 @@ void	print_pic(t_general *gen, t_camera *cam, int *i)
 		{
 			gen->scene.cdv = trans_pixv(*gen);
 			gen->cl = -5;
-			belong_to_sphere(gen, i);
+			//printf("\nAA\n\n");
+			if (gen->objs.sp != NULL)
+				belong_to_sphere(gen, gen->objs.sp->content, i);
 			gen->pix.z = 0;
-			belong_to_plane(gen, i);
+			if (gen->objs.pl != NULL)
+				belong_to_plane(gen, gen->objs.pl->content, i);
 			gen->pix.z = 0;
-			belong_to_square(gen, i);
+			if (gen->objs.sq != NULL)
+				belong_to_square(gen, gen->objs.sq->content, i);
 			gen->pix.z = 0;
-			belong_to_triangle(gen, i);
+			if (gen->objs.tr != NULL)
+				belong_to_triangle(gen, gen->objs.tr->content, i);
 			gen->pix.z = 0;
-			belong_to_cylinder(gen, i);
-				if (gen->cl >= 0)
-					my_mlx_pixel_put(&(gen->img), gen->pix.x, gen->pix.y, (int)(gen->cl));
-				else
-					my_mlx_pixel_put(&(gen->img), gen->pix.x, gen->pix.y, 0);
+			//t_cylinder *cy = gen->objs.cy->content;
+			//printf("Cy %f %f %f\n", cy->cl.x, cy->cl.y, cy->cl.z);
+			if (gen->objs.cy != NULL)
+				belong_to_cylinder(gen, gen->objs.cy->content, i);
+			if (gen->cl >= 0)
+				my_mlx_pixel_put(&(gen->img), gen->pix.x, gen->pix.y, (int)(gen->cl));
+			else
+				my_mlx_pixel_put(&(gen->img), gen->pix.x, gen->pix.y, 0);
 				//else //if (gen->pix.z == 0)
 					//my_mlx_pixel_put(&(gen->img), gen->pix.x, gen->pix.y, 0x00171717);
 			gen->pix.z = 0;
@@ -74,7 +82,7 @@ void	print_pic(t_general *gen, t_camera *cam, int *i)
 	gen->pix.z = 0;
 
 	mlx_put_image_to_window(gen->mlx.ptr, gen->mlx.win, gen->img.img, 0, 0);
-	//printf("\nO.c.x = %f, O.c.y = %f, O.c.z = %f,\n", gen->objs.c[gen->num_cam].cd.x, gen->objs.c[gen->num_cam].cd.y, gen->objs.c[gen->num_cam].cd.z);
+	printf("\nc.x = %f, c.y = %f, c.z = %f,\n", cam->cd.x, cam->cd.y, cam->cd.z);
 	//printf("c.n.x = %f, c.n.y = %f, c.n.z = %f,\n", gen->objs.c[gen->num_cam].nm.x, gen->objs.c[gen->num_cam].nm.y, gen->objs.c[gen->num_cam].nm.z);
 	(void)cam;
 }

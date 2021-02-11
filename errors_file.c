@@ -8,6 +8,8 @@ int	check_normal(t_vector normal)
 		return (1);
 	if (normal.x < -1 || normal.z > 1)
 		return (1);
+	if (len_vec(normal) < 0.01)
+		return (1);
 	return (0);
 }
 
