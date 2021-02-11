@@ -13,7 +13,7 @@ void	draw_side_sq(t_general *gen, t_vector P[])
 	while (++i < 8)
 		V[i] = convert_pinv(*gen, P[i]);
 
-	gen->color = ft_colorvec_unsint(1, gen->objects.sq[0].color);
+	gen->cl = ft_colorvec_unsint(1, gen->objs.sq[0].cl);
 
 	//printf("A\n"); p0.x <= p1.x
 	/*while (V[0].x <= V[1].x)
@@ -35,13 +35,13 @@ void	draw_side_sq(t_general *gen, t_vector P[])
 	draw_line_canvas(gen, V[3], V[2]);
 	//printf("B\n");
 
-	gen->color = ft_colorvec_unsint(1, gen->objects.sq[1].color);
+	gen->cl = ft_colorvec_unsint(1, gen->objs.sq[1].cl);
 	draw_line_canvas(gen, V[7], V[4]);
 	draw_line_canvas(gen, V[4], V[5]);
 	draw_line_canvas(gen, V[6], V[5]);
 	draw_line_canvas(gen, V[7], V[6]);
 
-	gen->color = ft_colorvec_unsint(1, gen->objects.sp[0].color);
+	gen->cl = ft_colorvec_unsint(1, gen->objs.sp[0].cl);
 	draw_line_canvas(gen, V[3], V[7]);
 	draw_line_canvas(gen, V[4], V[0]);
 	draw_line_canvas(gen, V[2], V[6]);
@@ -62,14 +62,14 @@ void	draw_line_canvas(t_general *gen, t_vector p0, t_vector p1)
 			while (p1.x <= p0.x)
 			{
 				//printf("A\n");
-				my_mlx_pixel_put(&(gen->img), p1.x, p0.y, (int)(gen->color));
+				my_mlx_pixel_put(&(gen->img), p1.x, p0.y, (int)(gen->cl));
 				next_pof_line(&(p1.x), &(p0.y), dx, dy); //p0.y += dy / dx; //p1.x += 1;
 			}
 		else
 			while (p0.x <= p1.x)
 			{
 				//printf("B\n");
-				my_mlx_pixel_put(&(gen->img), p0.x, p0.y, (int)(gen->color));
+				my_mlx_pixel_put(&(gen->img), p0.x, p0.y, (int)(gen->cl));
 				next_pof_line(&(p0.x), &(p0.y), dx, dy); //p0.y += dy / dx; //p0.x += 1;
 			}
 	}
@@ -81,14 +81,14 @@ void	draw_line_canvas(t_general *gen, t_vector p0, t_vector p1)
 			while (p1.y <= p0.y)
 			{
 				//printf("C\n");
-				my_mlx_pixel_put(&(gen->img), p0.x, p1.y, (int)(gen->color));
+				my_mlx_pixel_put(&(gen->img), p0.x, p1.y, (int)(gen->cl));
 				next_pof_line(&(p1.y), &(p0.x), dy, dx); //p0.x += dx / dy; //p1.y += 1;
 			}
 		else
 			while (p0.y <= p1.y)
 			{
 				//printf("D\n");
-				my_mlx_pixel_put(&(gen->img), p0.x, p0.y, (int)(gen->color));
+				my_mlx_pixel_put(&(gen->img), p0.x, p0.y, (int)(gen->cl));
 				next_pof_line(&(p0.y), &(p0.x), dy, dx); //p0.x += dx / dy; //p0.y += 1;
 			}
 	}

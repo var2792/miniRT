@@ -41,28 +41,28 @@ int		check_see_sp(t_general gen, t_vector ptr, int num_sp)
 	t_vector p;
 
 	i = 0;
-	while (gen.objects.sp[i].is)
+	while (gen.objs.sp[i].is)
 	{
 		if (i != num_sp)
 		{
-			p = add_t_vecs(1, gen.scene.coord_v, -1, gen.scene.coord_0);
-			k[0] = lenght_vecs(vec_product_vecs(add_t_vecs(1, gen.objects.sp[i].coord, -1, gen.scene.coord_0), p)) / lenght_vecs(p);
-			if (k[0] <= gen.objects.sp[i].diam * 2)
+			p = sum_vs(1, gen.scene.cdv, -1, gen.scene.cdo);
+			k[0] = len_vec(cross_prv(sum_vs(1, gen.objs.sp[i].cd, -1, gen.scene.cdo), p)) / len_vec(p);
+			if (k[0] <= gen.objs.sp[i].d * 2)
 			{
-				k[0] = scalar_product_vecs(p, p);
-				k[1] = 2 * scalar_product_vecs(add_t_vecs( 1, gen.scene.coord_0, -1, gen.objects.sp[i].coord), p);
-				k[2] = scalar_product_vecs(add_t_vecs( 1, gen.scene.coord_0, -1, gen.objects.sp[i].coord), add_t_vecs( 1, gen.scene.coord_0, -1, gen.objects.sp[i].coord)) - gen.objects.sp[i].diam * gen.objects.sp[i].diam / 4;
+				k[0] = dot_prv(p, p);
+				k[1] = 2 * dot_prv(sum_vs( 1, gen.scene.cdo, -1, gen.objs.sp[i].cd), p);
+				k[2] = dot_prv(sum_vs( 1, gen.scene.cdo, -1, gen.objs.sp[i].cd), sum_vs( 1, gen.scene.cdo, -1, gen.objs.sp[i].cd)) - gen.objs.sp[i].d * gen.objs.sp[i].d / 4;
 				t_n[1] = k[1] * k[1] - 4 * k[0] * k[2];
 				if (!(t_n[1] < 0 || (k[0] == 0 && k[1] == 0)))
 				{
 					t_n[0] = (-k[1] + sqrt(t_n[1]))/ 2 / k[0];
 					t_n[1] = (t_n[0] < 1 && t_n[1] < 0.01 && t_n[1] > -0.01) ? -5 : (-k[1] - sqrt(t_n[1]))/ 2 / k[0];
 					if ((t_n[0] < 0 || t_n[1] <= t_n[0]))
-						p = add_t_vecs(1, gen.scene.coord_0, t_n[1], add_t_vecs( 1, gen.scene.coord_v, -1, gen.scene.coord_0));
+						p = sum_vs(1, gen.scene.cdo, t_n[1], sum_vs( 1, gen.scene.cdv, -1, gen.scene.cdo));
 					else
-						p = add_t_vecs(1, gen.scene.coord_0, t_n[0], add_t_vecs( 1, gen.scene.coord_v, -1, gen.scene.coord_0));
+						p = sum_vs(1, gen.scene.cdo, t_n[0], sum_vs( 1, gen.scene.cdv, -1, gen.scene.cdo));
 
-					if (lenght_vecs(add_t_vecs(1, p, -1, gen.objects.c[gen.num_cam].coord)) <= lenght_vecs(add_t_vecs(1, ptr, -1, gen.objects.c[gen.num_cam].coord)))
+					if (len_vec(sum_vs(1, p, -1, gen.objs.c[gen.num_cam].cd)) <= len_vec(sum_vs(1, ptr, -1, gen.objs.c[gen.num_cam].cd)))
 						return (1);
 				}
 			}
@@ -82,16 +82,16 @@ int		check_see_pl(t_general gen, t_vector ptr, int num_pl)
 	t_vector p;
 
 	i = 0;
-	while (gen.objects.pl[i].is)
+	while (gen.objs.pl[i].is)
 	{
 		if (i != num_pl)
 		{
-			t1 = scalar_product_vecs(gen.objects.pl[i].normal, gen.objects.pl[i].coord) - scalar_product_vecs(gen.objects.pl[i].normal, gen.objects.c[gen.num_cam].coord);
-			t2 = scalar_product_vecs(gen.objects.pl[i].normal, gen.scene.coord_v) - scalar_product_vecs(gen.objects.pl[i].normal, gen.objects.c[gen.num_cam].coord);
+			t1 = dot_prv(gen.objs.pl[i].nm, gen.objs.pl[i].cd) - dot_prv(gen.objs.pl[i].nm, gen.objs.c[gen.num_cam].cd);
+			t2 = dot_prv(gen.objs.pl[i].nm, gen.scene.cdv) - dot_prv(gen.objs.pl[i].nm, gen.objs.c[gen.num_cam].cd);
 			t = t1 / t2;
 			//printf("PL %f\n", t);
-			p = add_t_vecs(1, gen.scene.coord_0, t, add_t_vecs( 1, gen.scene.coord_v, -1, gen.scene.coord_0));
-			if ((t >= 1 && t < 200) && lenght_vecs(add_t_vecs(1, p, -1, gen.objects.c[gen.num_cam].coord)) <= lenght_vecs(add_t_vecs(1, ptr, -1, gen.objects.c[gen.num_cam].coord)))
+			p = sum_vs(1, gen.scene.cdo, t, sum_vs( 1, gen.scene.cdv, -1, gen.scene.cdo));
+			if ((t >= 1 && t < 200) && len_vec(sum_vs(1, p, -1, gen.objs.c[gen.num_cam].cd)) <= len_vec(sum_vs(1, ptr, -1, gen.objs.c[gen.num_cam].cd)))
 					return (1);
 		}
 		i++;
@@ -108,17 +108,17 @@ int		check_see_sq(t_general gen, t_vector ptr, int num_sq)
 	t_vector p;
 
 	i = 0;
-	while (gen.objects.sq[i].is)
+	while (gen.objs.sq[i].is)
 	{
 		if (i != num_sq)
 		{
-			t1 = scalar_product_vecs(gen.objects.sq[i].normal, gen.objects.sq[i].coord) - scalar_product_vecs(gen.objects.sq[i].normal, gen.objects.c[gen.num_cam].coord);
-			t2 = scalar_product_vecs(gen.objects.sq[i].normal, gen.scene.coord_v) - scalar_product_vecs(gen.objects.sq[i].normal, gen.objects.c[gen.num_cam].coord);
+			t1 = dot_prv(gen.objs.sq[i].nm, gen.objs.sq[i].cd) - dot_prv(gen.objs.sq[i].nm, gen.objs.c[gen.num_cam].cd);
+			t2 = dot_prv(gen.objs.sq[i].nm, gen.scene.cdv) - dot_prv(gen.objs.sq[i].nm, gen.objs.c[gen.num_cam].cd);
 			t1 = t1 / t2;
 	//printf("PL %f\n", t);
-			p = add_t_vecs(1, gen.scene.coord_0, t1, add_t_vecs( 1, gen.scene.coord_v, -1, gen.scene.coord_0));
-			if (point_in_square(gen.objects.sq[i], p))
-				if (lenght_vecs(add_t_vecs(1, p, -1, gen.objects.c[gen.num_cam].coord)) <= lenght_vecs(add_t_vecs(1, ptr, -1, gen.objects.c[gen.num_cam].coord)))
+			p = sum_vs(1, gen.scene.cdo, t1, sum_vs( 1, gen.scene.cdv, -1, gen.scene.cdo));
+			if (point_in_square(gen.objs.sq[i], p))
+				if (len_vec(sum_vs(1, p, -1, gen.objs.c[gen.num_cam].cd)) <= len_vec(sum_vs(1, ptr, -1, gen.objs.c[gen.num_cam].cd)))
 					return (1);
 		}
 		i++;
@@ -135,17 +135,17 @@ int		check_see_tr(t_general gen, t_vector ptr, int num_tr)
 	t_vector p;
 
 	i = 0;
-	while (gen.objects.tr[i].is)
+	while (gen.objs.tr[i].is)
 	{
 		if (i != num_tr)
 		{
-			t1 = scalar_product_vecs(gen.objects.tr[i].normal, gen.objects.tr[i].coord_fir) - scalar_product_vecs(gen.objects.tr[i].normal, gen.objects.c[gen.num_cam].coord);
-			t2 = scalar_product_vecs(gen.objects.tr[i].normal, gen.scene.coord_v) - scalar_product_vecs(gen.objects.tr[i].normal, gen.objects.c[gen.num_cam].coord);
+			t1 = dot_prv(gen.objs.tr[i].nm, gen.objs.tr[i].cd1) - dot_prv(gen.objs.tr[i].nm, gen.objs.c[gen.num_cam].cd);
+			t2 = dot_prv(gen.objs.tr[i].nm, gen.scene.cdv) - dot_prv(gen.objs.tr[i].nm, gen.objs.c[gen.num_cam].cd);
 			t1 = t1 / t2;
 	//printf("PL %f\n", t);
-			p = add_t_vecs(1, gen.scene.coord_0, t1, add_t_vecs( 1, gen.scene.coord_v, -1, gen.scene.coord_0));
-			if (point_in_triangle(gen.objects.tr[i], p))
-				if (lenght_vecs(add_t_vecs(1, p, -1, gen.objects.c[gen.num_cam].coord)) <= lenght_vecs(add_t_vecs(1, ptr, -1, gen.objects.c[gen.num_cam].coord)))
+			p = sum_vs(1, gen.scene.cdo, t1, sum_vs( 1, gen.scene.cdv, -1, gen.scene.cdo));
+			if (point_in_triangle(gen.objs.tr[i], p))
+				if (len_vec(sum_vs(1, p, -1, gen.objs.c[gen.num_cam].cd)) <= len_vec(sum_vs(1, ptr, -1, gen.objs.c[gen.num_cam].cd)))
 					return (1);
 		}
 		i++;
@@ -164,19 +164,19 @@ int		check_see_cy(t_general gen, t_vector ptr, int num_cy)
 	t_vector p;
 
 	i = 0;
-	while (gen.objects.cy[i].is)
+	while (gen.objs.cy[i].is)
 	{
 		if (i != num_cy)
 		{
-			p = vec_product_vecs(add_t_vecs(1, gen.scene.coord_v, -1, gen.scene.coord_0), gen.objects.cy[i].normal);
-			k[0] = fabs(scalar_product_vecs(add_t_vecs(1, gen.objects.cy[i].coord, -1, gen.scene.coord_0), p) / lenght_vecs(p));
-			if (k[0] <= gen.objects.cy[i].diam / 2)
+			p = cross_prv(sum_vs(1, gen.scene.cdv, -1, gen.scene.cdo), gen.objs.cy[i].nm);
+			k[0] = fabs(dot_prv(sum_vs(1, gen.objs.cy[i].cd, -1, gen.scene.cdo), p) / len_vec(p));
+			if (k[0] <= gen.objs.cy[i].d / 2)
 			{
 				fl = 1;
-				p = add_t_vecs(1, gen.scene.coord_v, -1, gen.scene.coord_0);
-				k[0] = scalar_product_vecs(vec_product_vecs(p, gen.objects.cy[i].normal), vec_product_vecs(p, gen.objects.cy[i].normal)); //(Vn,Vn)
-				k[1] = 2 * scalar_product_vecs(vec_product_vecs(p, gen.objects.cy[i].normal), add_t_vecs(1, vec_product_vecs(gen.scene.coord_0, gen.objects.cy[i].normal), -1, vec_product_vecs(gen.objects.cy[i].coord, gen.objects.cy[i].normal))); // 2(Vn,On-Cn)
-				k[2] = scalar_product_vecs(add_t_vecs(1, vec_product_vecs(gen.scene.coord_0, gen.objects.cy[i].normal), -1, vec_product_vecs(gen.objects.cy[i].coord, gen.objects.cy[i].normal)), add_t_vecs(1, vec_product_vecs(gen.scene.coord_0, gen.objects.cy[i].normal), -1, vec_product_vecs(gen.objects.cy[i].coord, gen.objects.cy[i].normal))) - scalar_product_vecs(gen.objects.cy[i].normal, gen.objects.cy[i].normal) * gen.objects.cy[i].diam * gen.objects.cy[i].diam / 4; //(On-Cn,On-Cn)-(n,n)*d*d/4
+				p = sum_vs(1, gen.scene.cdv, -1, gen.scene.cdo);
+				k[0] = dot_prv(cross_prv(p, gen.objs.cy[i].nm), cross_prv(p, gen.objs.cy[i].nm)); //(Vn,Vn)
+				k[1] = 2 * dot_prv(cross_prv(p, gen.objs.cy[i].nm), sum_vs(1, cross_prv(gen.scene.cdo, gen.objs.cy[i].nm), -1, cross_prv(gen.objs.cy[i].cd, gen.objs.cy[i].nm))); // 2(Vn,On-Cn)
+				k[2] = dot_prv(sum_vs(1, cross_prv(gen.scene.cdo, gen.objs.cy[i].nm), -1, cross_prv(gen.objs.cy[i].cd, gen.objs.cy[i].nm)), sum_vs(1, cross_prv(gen.scene.cdo, gen.objs.cy[i].nm), -1, cross_prv(gen.objs.cy[i].cd, gen.objs.cy[i].nm))) - dot_prv(gen.objs.cy[i].nm, gen.objs.cy[i].nm) * gen.objs.cy[i].d * gen.objs.cy[i].d / 4; //(On-Cn,On-Cn)-(n,n)*d*d/4
 				t_n[1] = k[1] * k[1] - 4 * k[0] * k[2];
 				if (!(t_n[1] < 0 || (k[0] == 0 && k[1] == 0)))
 				{
@@ -184,20 +184,20 @@ int		check_see_cy(t_general gen, t_vector ptr, int num_cy)
 					t_n[1] = (-k[1] + sqrt(t_n[1]))/ 2 / k[0];
 					if (t_n[0] >= 0)
 					{
-						p = add_t_vecs(1, gen.scene.coord_0, t_n[0], add_t_vecs( 1, gen.scene.coord_v, -1, gen.scene.coord_0));
-						if (lenght_vecs(add_t_vecs(1, p, -1, gen.objects.cy[(int)gen.pix.z].coord)) <= sqrt(gen.objects.cy[(int)gen.pix.z].heig * gen.objects.cy[(int)gen.pix.z].heig / 4 + gen.objects.cy[(int)gen.pix.z].diam * gen.objects.cy[(int)gen.pix.z].diam / 4))
+						p = sum_vs(1, gen.scene.cdo, t_n[0], sum_vs( 1, gen.scene.cdv, -1, gen.scene.cdo));
+						if (len_vec(sum_vs(1, p, -1, gen.objs.cy[(int)gen.pix.z].cd)) <= sqrt(gen.objs.cy[(int)gen.pix.z].h * gen.objs.cy[(int)gen.pix.z].h / 4 + gen.objs.cy[(int)gen.pix.z].d * gen.objs.cy[(int)gen.pix.z].d / 4))
 							fl = 2;
 					}
 					if (t_n[1] >= 0 && fl != 2)
 					{
-						p = add_t_vecs(1, gen.scene.coord_0, t_n[1], add_t_vecs( 1, gen.scene.coord_v, -1, gen.scene.coord_0));
-						if (lenght_vecs(add_t_vecs(1, p, -1, gen.objects.cy[(int)gen.pix.z].coord)) <= sqrt(gen.objects.cy[(int)gen.pix.z].heig * gen.objects.cy[(int)gen.pix.z].heig / 4 + gen.objects.cy[(int)gen.pix.z].diam * gen.objects.cy[(int)gen.pix.z].diam / 4))
+						p = sum_vs(1, gen.scene.cdo, t_n[1], sum_vs( 1, gen.scene.cdv, -1, gen.scene.cdo));
+						if (len_vec(sum_vs(1, p, -1, gen.objs.cy[(int)gen.pix.z].cd)) <= sqrt(gen.objs.cy[(int)gen.pix.z].h * gen.objs.cy[(int)gen.pix.z].h / 4 + gen.objs.cy[(int)gen.pix.z].d * gen.objs.cy[(int)gen.pix.z].d / 4))
 							fl = 3;
 					}
 					fl = belong_to_cyhead0(gen, i, &p, fl);
 					fl = belong_to_cyhead1(gen, i, &p, fl);
 
-					if (fl > 1 && lenght_vecs(add_t_vecs(1, p, -1, gen.objects.c[gen.num_cam].coord)) <= lenght_vecs(add_t_vecs(1, ptr, -1, gen.objects.c[gen.num_cam].coord)))
+					if (fl > 1 && len_vec(sum_vs(1, p, -1, gen.objs.c[gen.num_cam].cd)) <= len_vec(sum_vs(1, ptr, -1, gen.objs.c[gen.num_cam].cd)))
 						return (1);
 				}
 			}

@@ -66,8 +66,8 @@ void			ft_null_scene(t_objscene *scene)
 
 	scene->r.is = 0;
 
-	scene->a.rat_amlig = 0;
-	ft_write_xyz(&(scene->a.color), 0, 0, 0);
+	scene->a.rat = 0;
+	ft_write_xyz(&(scene->a.cl), 0, 0, 0);
 	ft_write_xyz(&(scene->orig_cam), 0, 0, 1);
 
 	i = -1;

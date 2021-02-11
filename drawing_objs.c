@@ -4,11 +4,11 @@ int		belong_to_square(t_general *gen, int *i)
 {
 	t_vector P[8];
 
-	/*gen->scene.coord_v.x = (gen->pix.x - gen->objects.r.x / 2) * gen->scene.viewport.x / gen->objects.r.x;
-	gen->scene.coord_v.y = (gen->objects.r.y / 2 - gen->pix.y) * gen->scene.viewport.y / gen->objects.r.y;
-	gen->scene.coord_v.z = gen->scene.viewport.z;
+	/*gen->scene.cdv.x = (gen->pix.x - gen->objs.r.x / 2) * gen->scene.viewport.x / gen->objs.r.x;
+	gen->scene.cdv.y = (gen->objs.r.y / 2 - gen->pix.y) * gen->scene.viewport.y / gen->objs.r.y;
+	gen->scene.cdv.z = gen->scene.viewport.z;
 
-	gen->scene.coord_v = multiply_mat_vec(gen->scene.rotmat, gen->scene.coord_v);*/
+	gen->scene.cdv = mult_m_v(gen->scene.rotmat, gen->scene.cdv);*/
 	(*i)++;
 	find_point_sq(*gen, &P);
 	/*printf("%f, %f, %f\n", P[0].x, P[0].y, P[0].z);
@@ -17,7 +17,7 @@ int		belong_to_square(t_general *gen, int *i)
 	printf("%f, %f, %f\n", P[7].x, P[7].y, P[7].z);*/
 	draw_side_sq(gen, P);
 
-	return (gen->color);
+	return (gen->cl);
 }
 
 int		belong_to_cylinder(t_objscene objects, t_scene scene, t_vector pix)

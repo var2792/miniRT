@@ -1,6 +1,6 @@
 #include "operat_vecs.h"
 
-t_vector	multiply_mat_vec(t_vector *mat, t_vector vec)
+t_vector	mult_m_v(t_vector *mat, t_vector vec)
 {
 	t_vector res;
 
@@ -10,7 +10,7 @@ t_vector	multiply_mat_vec(t_vector *mat, t_vector vec)
 	return(res);
 }
 
-t_vector	add_t_vecs(float t1, t_vector vec1, float t2, t_vector vec2)
+t_vector	sum_vs(float t1, t_vector vec1, float t2, t_vector vec2)
 {
 	t_vector raz;
 
@@ -20,7 +20,7 @@ t_vector	add_t_vecs(float t1, t_vector vec1, float t2, t_vector vec2)
 	return (raz);
 }
 
-t_vector		vec_product_vecs(t_vector vec1, t_vector vec2)
+t_vector		cross_prv(t_vector vec1, t_vector vec2)
 {
 	t_vector res;
 
@@ -30,12 +30,12 @@ t_vector		vec_product_vecs(t_vector vec1, t_vector vec2)
 	return (res);
 }
 
-float		scalar_product_vecs(t_vector vec1, t_vector vec2)
+float		dot_prv(t_vector vec1, t_vector vec2)
 {
 	return (vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z);
 }
 
-float		lenght_vecs(t_vector vec)
+float		len_vec(t_vector vec)
 {
 	return (sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z));
 }
