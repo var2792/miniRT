@@ -1,11 +1,12 @@
 #include "parse_put_canvas.h"
 
-t_vector	*rotation_matrix(t_vector cam, t_vector orig, t_vector coord)//t_objscene objects)
+t_vector	*rotation_matrix(t_vector cam, t_vector orig, t_vector coord)//t_scobjs objects)
 {
 	t_vector *mat;
 	float T[3];
 
-	mat = malloc(sizeof(t_vector) * 4);
+	if (!(mat = malloc(sizeof(t_vector) * 4)))
+		return (NULL);
 	ft_write_xyz(&(mat[0]), 0, cam.y, cam.z);
 	T[0] = (len_vec(mat[0]) < 0.01) ? 0 : acos(dot_prv(mat[0], orig) / len_vec(mat[0]) / len_vec(orig));
 	ft_write_xyz(&(mat[0]), cam.x, 0, cam.z);

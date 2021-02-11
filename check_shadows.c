@@ -1,6 +1,6 @@
 #include "check_shadows.h"
 
-float		check_shadow(int num_l, int num_ob, t_objscene objects, t_vector p)
+float		check_shadow(int num_l, int num_ob, t_scobjs objects, t_vector p)
 {
 	float res, temp;
 
@@ -34,7 +34,7 @@ float		check_shadow(int num_l, int num_ob, t_objscene objects, t_vector p)
 	return (res);
 }
 
-float		check_shadow_sp(int num_l, int num_sp, t_objscene objects, t_vector p)
+float		check_shadow_sp(int num_l, int num_sp, t_scobjs objects, t_vector p)
 { // на бодобии этой функции сделать видимость/наложение сфер
 	float k[3];
 	float t_n[2];
@@ -82,7 +82,7 @@ float		check_orient(t_vector normal, t_vector l, t_vector cor_0, t_vector p)
 	return (1);
 }
 
-float		check_shadow_pl(int num_l, int num_pl, t_objscene objects, t_vector p)
+float		check_shadow_pl(int num_l, int num_pl, t_scobjs objects, t_vector p)
 { // на бодобии этой функции сделать видимость/наложение сфер
 	float t1, t2, t;
 	int i;
@@ -103,7 +103,7 @@ float		check_shadow_pl(int num_l, int num_pl, t_objscene objects, t_vector p)
 	return (1);
 }
 
-float		check_shadow_sq(int num_l, int num_sq, t_objscene objects, t_vector p)
+float		check_shadow_sq(int num_l, int num_sq, t_scobjs objects, t_vector p)
 { // на бодобии этой функции сделать видимость/наложение сфер
 	float t1, t2;
 	int i;
@@ -128,7 +128,7 @@ float		check_shadow_sq(int num_l, int num_sq, t_objscene objects, t_vector p)
 	return (1);
 }
 
-float		check_shadow_tr(int num_l, int num_tr, t_objscene objects, t_vector p)
+float		check_shadow_tr(int num_l, int num_tr, t_scobjs objects, t_vector p)
 {
 	float t1, t2;
 	int i;
@@ -152,7 +152,7 @@ float		check_shadow_tr(int num_l, int num_tr, t_objscene objects, t_vector p)
 	return (1);
 }
 
-int		shadow_cyhead0(t_objscene objects, int i, t_vector pcy, int num_l)
+int		shadow_cyhead0(t_scobjs objects, int i, t_vector pcy, int num_l)
 {
 	t_vector p, h;
 	float t1, t2;
@@ -170,7 +170,7 @@ int		shadow_cyhead0(t_objscene objects, int i, t_vector pcy, int num_l)
 	return (0);
 }
 
-int		shadow_cyhead1(t_objscene objects, int i, t_vector pcy, int num_l)
+int		shadow_cyhead1(t_scobjs objects, int i, t_vector pcy, int num_l)
 {
 	t_vector p, h;
 	float t1, t2;
@@ -188,7 +188,7 @@ int		shadow_cyhead1(t_objscene objects, int i, t_vector pcy, int num_l)
 	return (0);
 }
 
-float		check_shadow_cy(int num_l, int num_cy, t_objscene objects, t_vector pt)
+float		check_shadow_cy(int num_l, int num_cy, t_scobjs objects, t_vector pt)
 { // на бодобии этой функции сделать видимость/наложение сфер
 	float k[3];
 	float t_n[2];

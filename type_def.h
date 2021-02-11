@@ -106,7 +106,7 @@ typedef struct	s_triangle
 	int			is;
 }				t_triangle;
 
-typedef struct	s_objscene
+typedef struct	s_scobjs
 {
 	t_resplution	r;
 	t_amblig		a;
@@ -118,7 +118,7 @@ typedef struct	s_objscene
 	t_cylinder		cy[50];
 	t_triangle		tr[50];
 	t_vector		orig_cam;
-}				t_objscene;
+}				t_scobjs;
 
 typedef struct	s_scene
 {
@@ -132,7 +132,7 @@ typedef struct	s_general
 {
 	t_my_mlx	mlx;
 	t_data		img;
-	t_objscene	objs;
+	t_scobjs	objs;
 	t_scene		scene;
 	t_vector	pix;
 	float		cl;

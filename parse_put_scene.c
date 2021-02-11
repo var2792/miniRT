@@ -28,7 +28,7 @@ unsigned int	ft_colorvec_unsint(float br, t_vector vec)
 	return (br * num);
 }
 
-int		ft_check_input_chars(char **line, t_objscene *scene)
+int		ft_check_input_chars(char **line, t_scobjs *scene)
 {
 	if ((*line)[0] == 'R')
 		return (parse_resplution(line, scene));
@@ -60,7 +60,7 @@ int		ft_check_input_chars(char **line, t_objscene *scene)
 	return (1);
 }
 
-void			ft_null_scene(t_objscene *scene)
+void			ft_null_scene(t_scobjs *scene)
 {
 	int i;
 
@@ -103,7 +103,7 @@ int check_name_file(char *argv)
 	return (0);
 }
 
-int		parse_put_scene(t_objscene *scene, char *argv)
+int		parse_put_scene(t_scobjs *scene, char *argv)
 {
 	//ft_example_scene(&scene);
 	int n;

@@ -6,7 +6,7 @@ void	spase_com_sep(char **line)
 		(*line)++;
 }
 
-int		parse_resplution(char **line, t_objscene *scene)
+int		parse_resplution(char **line, t_scobjs *scene)
 {
 	(*line)++;
 	scene->r.x = ft_atoi_float(line);
@@ -19,7 +19,7 @@ int		parse_resplution(char **line, t_objscene *scene)
 	return (0);
 }
 
-int		parse_ambient(char **line, t_objscene *scene)
+int		parse_ambient(char **line, t_scobjs *scene)
 {
 	(*line)++;
 	scene->a.rat = ft_atoi_float(line);
@@ -36,7 +36,7 @@ int		parse_ambient(char **line, t_objscene *scene)
 	return (0);
 }
 
-int		parse_camera(char **line, t_objscene *scene)
+int		parse_camera(char **line, t_scobjs *scene)
 {
 	int i;
 
@@ -63,7 +63,7 @@ int		parse_camera(char **line, t_objscene *scene)
 	(void)scene;
 }
 
-int		parse_light(char **line, t_objscene *scene)
+int		parse_light(char **line, t_scobjs *scene)
 {
 	int i;
 

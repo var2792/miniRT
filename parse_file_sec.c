@@ -1,6 +1,6 @@
 # include "parse_file.h"
 
-int parse_sphere(char **line, t_objscene *scene)
+int parse_sphere(char **line, t_scobjs *scene)
 {
 	int i;
 
@@ -26,7 +26,7 @@ int parse_sphere(char **line, t_objscene *scene)
 	(void)scene;
 }
 
-int parse_plane(char **line, t_objscene *scene)
+int parse_plane(char **line, t_scobjs *scene)
 {
 	int i;
 
@@ -58,7 +58,7 @@ int parse_plane(char **line, t_objscene *scene)
 	(void)scene;
 }
 
-int parse_square(char **line, t_objscene *scene)
+int parse_square(char **line, t_scobjs *scene)
 {
 	int i;
 
@@ -99,7 +99,7 @@ int parse_square(char **line, t_objscene *scene)
 	(void)scene;
 }
 
-int parse_cylinder(char **line, t_objscene *scene)
+int parse_cylinder(char **line, t_scobjs *scene)
 {
 	int i;
 
@@ -133,7 +133,7 @@ int parse_cylinder(char **line, t_objscene *scene)
 	(void)scene;
 }
 
-int parse_triangle(char **line, t_objscene *scene)
+int parse_triangle(char **line, t_scobjs *scene)
 {
 	int i;
 

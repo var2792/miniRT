@@ -9,7 +9,7 @@
 # include "draw_lines.h"
 
 int			belong_to_square(t_general *gen, int *i);
-int			belong_to_cylinder(t_objscene objects, t_scene scene, t_vector pix);
-int			belong_to_triangle(t_objscene objects, t_scene	scene, t_vector pix);
+int			belong_to_cylinder(t_scobjs objects, t_scene scene, t_vector pix);
+int			belong_to_triangle(t_scobjs objects, t_scene	scene, t_vector pix);
 
 #endif

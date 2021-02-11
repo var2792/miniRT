@@ -20,7 +20,7 @@ int		belong_to_square(t_general *gen, int *i)
 	return (gen->cl);
 }
 
-int		belong_to_cylinder(t_objscene objects, t_scene scene, t_vector pix)
+int		belong_to_cylinder(t_scobjs objects, t_scene scene, t_vector pix)
 {
 	(void)objects;
 	(void)scene;
@@ -28,7 +28,7 @@ int		belong_to_cylinder(t_objscene objects, t_scene scene, t_vector pix)
 	return (1);
 }
 
-int		belong_to_triangle(t_objscene objects, t_scene scene, t_vector pix)
+int		belong_to_triangle(t_scobjs objects, t_scene scene, t_vector pix)
 {
 	(void)objects;
 	(void)scene;
