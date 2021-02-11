@@ -1,7 +1,7 @@
 #ifndef TYPE_DEF_H
 # define TYPE_DEF_H
 
-# include "../libft/libft.h"
+# include "libft/libft.h"
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -49,7 +49,6 @@ typedef struct	s_camera
 	t_vector		cd;
 	t_vector		nm;
 	int				fov;
-	int				is;
 }				t_camera;
 
 typedef struct	s_light
@@ -110,7 +109,7 @@ typedef struct	s_scobjs
 {
 	t_resplution	r;
 	t_amblig		a;
-	t_camera		c[50];
+	t_list			*c;
 	t_light			l[50];
 	t_sphere		sp[50];
 	t_plane			pl[50];

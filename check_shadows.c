@@ -78,7 +78,7 @@ float		check_orient(t_vector normal, t_vector l, t_vector cor_0, t_vector p)
 	t = sum_vs(1, p, -1, l);
 	alfa = dot_prv(t, normal) / len_vec(t) / len_vec(normal);
 	if (alfa < 0)
-		return (0.1);
+		return (0);
 	return (1);
 }
 

@@ -51,7 +51,7 @@ float	light_change_pl(t_general gen, t_vector p, int i)
 	while (gen.objs.l[num_l].is)
 	{
 		bright = 30 / len_vec(sum_vs(1, p, -1, gen.objs.l[num_l].cd));
-		res_br += gen.objs.l[num_l].br * bright * check_orient(gen.objs.pl[i].nm, gen.objs.l[num_l].cd, gen.scene.cdo, p) * check_shadow(num_l, i + 100, gen.objs, p);
+		res_br += gen.objs.l[num_l].br * bright * (check_orient(gen.objs.pl[i].nm, gen.objs.l[num_l].cd, gen.scene.cdo, p) ? check_shadow(num_l, i + 100, gen.objs, p) : 0);
 
 		gen.objs.l[0].cl.x = (num_l == 0) ? gen.objs.l[num_l].br * gen.objs.l[num_l].cl.x * res_br
 		: gen.objs.l[0].cl.x + gen.objs.l[num_l].br * gen.objs.l[num_l].cl.x * res_br;

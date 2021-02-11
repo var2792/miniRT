@@ -59,11 +59,11 @@ int		belong_to_plane(t_general *gen, int *i)
 
 	(*i)++;
 
-	t1 = dot_prv(gen->objs.pl[(int)gen->pix.z].nm, gen->objs.pl[(int)gen->pix.z].cd) - dot_prv(gen->objs.pl[(int)gen->pix.z].nm, gen->objs.c[gen->num_cam].cd);
-	t2 = dot_prv(gen->objs.pl[(int)gen->pix.z].nm, gen->scene.cdv) - dot_prv(gen->objs.pl[(int)gen->pix.z].nm, gen->objs.c[gen->num_cam].cd);
+	t1 = dot_prv(gen->objs.pl[(int)gen->pix.z].nm, gen->objs.pl[(int)gen->pix.z].cd) - dot_prv(gen->objs.pl[(int)gen->pix.z].nm, gen->scene.cdo);
+	t2 = dot_prv(gen->objs.pl[(int)gen->pix.z].nm, gen->scene.cdv) - dot_prv(gen->objs.pl[(int)gen->pix.z].nm, gen->scene.cdo);
 	t = t1 / t2;
 	ft_write_xyz(&p, 0, 0, 0);
-	p = sum_vs(1, gen->objs.c[gen->num_cam].cd, t, sum_vs( 1, gen->scene.cdv, -1, gen->objs.c[gen->num_cam].cd));
+	p = sum_vs(1, gen->scene.cdo, t, sum_vs( 1, gen->scene.cdv, -1, gen->scene.cdo));
 
 	if (!check_see_objs(*gen, p, 100 + (int)gen->pix.z) && (t > 1 && t < 200))
 		gen->cl = light_change_pl(*gen, p, (int)gen->pix.z);
@@ -81,10 +81,10 @@ int		belong_to_square(t_general *gen, int *i)
 
 	(*i)++;
 
-	t1 = dot_prv(gen->objs.sq[(int)gen->pix.z].nm, gen->objs.sq[(int)gen->pix.z].cd) - dot_prv(gen->objs.sq[(int)gen->pix.z].nm, gen->objs.c[gen->num_cam].cd);
-	t2 = dot_prv(gen->objs.sq[(int)gen->pix.z].nm, gen->scene.cdv) - dot_prv(gen->objs.sq[(int)gen->pix.z].nm, gen->objs.c[gen->num_cam].cd);
+	t1 = dot_prv(gen->objs.sq[(int)gen->pix.z].nm, gen->objs.sq[(int)gen->pix.z].cd) - dot_prv(gen->objs.sq[(int)gen->pix.z].nm, gen->scene.cdo);
+	t2 = dot_prv(gen->objs.sq[(int)gen->pix.z].nm, gen->scene.cdv) - dot_prv(gen->objs.sq[(int)gen->pix.z].nm, gen->scene.cdo);
 	t1 = t1 / t2;
-	p = sum_vs(1, gen->objs.c[gen->num_cam].cd, t1, sum_vs( 1, gen->scene.cdv, -1, gen->objs.c[gen->num_cam].cd));
+	p = sum_vs(1, gen->scene.cdo, t1, sum_vs( 1, gen->scene.cdv, -1, gen->scene.cdo));
 
 	if (point_in_square(gen->objs.sq[(int)gen->pix.z], p))
 		if (!check_see_objs(*gen, p, 200 + (int)gen->pix.z))
@@ -102,10 +102,10 @@ int		belong_to_triangle(t_general *gen, int *i)
 
 	(*i)++;
 
-	t1 = dot_prv(gen->objs.tr[(int)gen->pix.z].nm, gen->objs.tr[(int)gen->pix.z].cd1) - dot_prv(gen->objs.tr[(int)gen->pix.z].nm, gen->objs.c[gen->num_cam].cd);
-	t2 = dot_prv(gen->objs.tr[(int)gen->pix.z].nm, gen->scene.cdv) - dot_prv(gen->objs.tr[(int)gen->pix.z].nm, gen->objs.c[gen->num_cam].cd);
+	t1 = dot_prv(gen->objs.tr[(int)gen->pix.z].nm, gen->objs.tr[(int)gen->pix.z].cd1) - dot_prv(gen->objs.tr[(int)gen->pix.z].nm, gen->scene.cdo);
+	t2 = dot_prv(gen->objs.tr[(int)gen->pix.z].nm, gen->scene.cdv) - dot_prv(gen->objs.tr[(int)gen->pix.z].nm, gen->scene.cdo);
 	t1 = t1 / t2;
-	p = sum_vs(1, gen->objs.c[gen->num_cam].cd, t1, sum_vs( 1, gen->scene.cdv, -1, gen->objs.c[gen->num_cam].cd));
+	p = sum_vs(1, gen->scene.cdo, t1, sum_vs( 1, gen->scene.cdv, -1, gen->scene.cdo));
 
 	if (point_in_triangle(gen->objs.tr[(int)gen->pix.z], p))
 		if (!check_see_objs(*gen, p, 300 + (int)gen->pix.z))
@@ -153,11 +153,11 @@ int		belong_to_cylinder(t_general *gen, int *i)
 				fl = 3;
 		}
 
+		fl = belong_to_cyhead0(*gen, (int)gen->pix.z, &p, fl);
+		fl = belong_to_cyhead1(*gen, (int)gen->pix.z, &p, fl);
 		if (check_see_objs(*gen, p, 400 + (int)gen->pix.z) || (t[0] <= 1 && t[1] <= 1))
 			fl = 0;
 
-		fl = belong_to_cyhead0(*gen, (int)gen->pix.z, &p, fl);
-		fl = belong_to_cyhead1(*gen, (int)gen->pix.z, &p, fl);
 		gen->cl = (fl > 1) ? light_change_cy(*gen, p, (int)gen->pix.z, fl) : gen->cl;
 	}
 	//gen->pix.z += 1;
@@ -182,7 +182,7 @@ int		belong_to_cyhead0(t_general gen, int i, t_vector *pcy, int fl)
 	t1 = dot_prv(gen.objs.cy[i].nm, h) - dot_prv(gen.objs.cy[i].nm, gen.scene.cdo);
 	t2 = dot_prv(gen.objs.cy[i].nm, gen.scene.cdv) - dot_prv(gen.objs.cy[i].nm, gen.scene.cdo);
 	t1 = t1 / t2;
-	p = sum_vs(1, gen.objs.c[gen.num_cam].cd, t1, sum_vs(1, gen.scene.cdv, -1, gen.objs.c[gen.num_cam].cd));
+	p = sum_vs(1, gen.scene.cdo, t1, sum_vs(1, gen.scene.cdv, -1, gen.scene.cdo));
 	if (len_vec(sum_vs(1, p, -1, h)) <= gen.objs.cy[i].d / 2)
 		if ((fl > 1 && len_vec(sum_vs(1, p, -1, gen.scene.cdo)) <= len_vec(sum_vs(1, *pcy, -1, gen.scene.cdo))) || fl < 2)
 		{
@@ -207,7 +207,7 @@ int		belong_to_cyhead1(t_general gen, int i, t_vector *pcy, int fl)
 	t1 = dot_prv(gen.objs.cy[i].nm, h) - dot_prv(gen.objs.cy[i].nm, gen.scene.cdo);
 	t2 = dot_prv(gen.objs.cy[i].nm, gen.scene.cdv) - dot_prv(gen.objs.cy[i].nm, gen.scene.cdo);
 	t1 = t1 / t2;
-	p = sum_vs(1, gen.objs.c[gen.num_cam].cd, t1, sum_vs(1, gen.scene.cdv, -1, gen.objs.c[gen.num_cam].cd));
+	p = sum_vs(1, gen.scene.cdo, t1, sum_vs(1, gen.scene.cdv, -1, gen.scene.cdo));
 	if (len_vec(sum_vs(1, p, -1, h)) <= gen.objs.cy[i].d / 2)
 		if ((fl > 1 && len_vec(sum_vs(1, p, -1, gen.scene.cdo)) <= len_vec(sum_vs(1, *pcy, -1, gen.scene.cdo))) || fl < 2)
 		{

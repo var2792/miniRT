@@ -66,14 +66,14 @@ void			ft_null_scene(t_scobjs *scene)
 
 	scene->r.is = 0;
 
-	scene->a.rat = 0;
-	ft_write_xyz(&(scene->a.cl), 0, 0, 0);
+	scene->a.is = 0;
 	ft_write_xyz(&(scene->orig_cam), 0, 0, 1);
 
+	//scene->c = NULL;
 	i = -1;
 	while (++i < 50)
 	{
-		scene->c[i].is = 0;
+		//scene->c[i].is = 0;
 		scene->l[i].is = 0;
 		scene->sp[i].is = 0;
 		scene->pl[i].is = 0;
@@ -89,23 +89,20 @@ int check_name_file(char *argv)
 
 	i = 0;
 	while (argv[i] && argv[i] != '.')
-        i++;
+		i++;
     if (!argv[i] || i < 1)
-        return (1);
+		return (1);
 	else if (argv[i + 1] && argv[i + 1] != 'r')
-        return (1);
+		return (1);
 	else if (argv[i + 2] && argv[i + 2] != 't')
-        return (1);
+		return (1);
 	else if (argv[i + 3] != '\0')
-        return (1);
-    //if (!(argv[i] == '.' && argv[i + 1] && argv[i + 1] == 'r' && argv[i + 2] && argv[i + 2] == 't' && !argv[i + 3]))
-        //return (1);
+		return (1);
 	return (0);
 }
 
-int		parse_put_scene(t_scobjs *scene, char *argv)
+int		parse_file(t_scobjs *objs, char *argv)
 {
-	//ft_example_scene(&scene);
 	int n;
 	int fd;
 	int len;
@@ -117,7 +114,7 @@ int		parse_put_scene(t_scobjs *scene, char *argv)
 		return (1);
 	if ((fd = open(argv, O_RDWR)) < 0)
 		return (1);
-	ft_null_scene(scene);
+	ft_null_scene(objs);
 	while (n > 0)
 	{
 		n = get_next_line(fd, &line);
@@ -127,7 +124,7 @@ int		parse_put_scene(t_scobjs *scene, char *argv)
 		{
 			while (ft_check_isspace(*line))
 				line++;
-			len = ft_check_input_chars(&line, scene);
+			len = ft_check_input_chars(&line, objs);
 			//while (ft_check_isspace(*line))
 				//line++;
 			if (len)
@@ -141,6 +138,8 @@ int		parse_put_scene(t_scobjs *scene, char *argv)
 		}
 		free(save_line);
 	}
+	if (!objs->r.is || !objs->c || !objs->a.is)
+		return (1);
 	return (0);
 	(void)argv;
 }

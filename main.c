@@ -37,11 +37,11 @@ void	free_gen(t_general *gen)
 	//free(gen->img.addr);
 }
 
-void	print_pic(t_general *gen, int *i)
+void	print_pic(t_general *gen, t_camera *cam, int *i)
 {
 	//gen->img.img = mlx_new_image(gen->mlx.ptr, gen->objs.r.x, gen->objs.r.y);
 	//gen->img.addr = mlx_get_data_addr(gen->img.img, &(gen->img.bits_per_pixel), &(gen->img.line_length), &(gen->img.endian));
-	gen->scene = parse_put_canvas(*gen);
+	gen->scene = parse_put_canvas(gen->objs, cam);
 	ft_write_xyz(&(gen->pix), 0, 0, 0);
 	while (gen->pix.x < gen->objs.r.x)
 	{
@@ -76,10 +76,13 @@ void	print_pic(t_general *gen, int *i)
 	mlx_put_image_to_window(gen->mlx.ptr, gen->mlx.win, gen->img.img, 0, 0);
 	//printf("\nO.c.x = %f, O.c.y = %f, O.c.z = %f,\n", gen->objs.c[gen->num_cam].cd.x, gen->objs.c[gen->num_cam].cd.y, gen->objs.c[gen->num_cam].cd.z);
 	//printf("c.n.x = %f, c.n.y = %f, c.n.z = %f,\n", gen->objs.c[gen->num_cam].nm.x, gen->objs.c[gen->num_cam].nm.y, gen->objs.c[gen->num_cam].nm.z);
+	(void)cam;
 }
 
-int	press_esc_key(int key, t_general *gen)
+int	press_keys(int key, t_general *gen)
 {
+	t_list *next;
+	t_camera *cam;
 	int i = 0;
 	if (key == 65307)
 	{
@@ -89,65 +92,92 @@ int	press_esc_key(int key, t_general *gen)
 
 	if (key == 65363) //->
 	{
-		if (gen->objs.c[gen->num_cam + 1].is)
+		if ((next = ft_lstnum(gen->objs.c, gen->num_cam + 1)) != NULL)
 		{
 			ft_putstr_fd(" C->\n", 1);
 			gen->num_cam += 1;
 			mlx_clear_window(gen->mlx.ptr, gen->mlx.win);
 			free_gen(gen);
-			print_pic(gen, &i);
+			print_pic(gen, next->content, &i);
+		}
+		else
+		{
+			ft_putstr_fd(" C->\n", 1);
+			mlx_clear_window(gen->mlx.ptr, gen->mlx.win);
+			free_gen(gen);
+			gen->num_cam = 0;
+			next = ft_lstnum(gen->objs.c, gen->num_cam);
+			print_pic(gen, next->content, &i);
 		}
 	}
 
 	if (key == 65361) //<-
 	{
-		if (gen->num_cam != 0 && gen->objs.c[gen->num_cam - 1].is)
+
+		if ((next = ft_lstnum(gen->objs.c, gen->num_cam - 1)) != NULL)
 		{
 			ft_putstr_fd(" C<-\n", 1);
-			gen->num_cam--;
+			gen->num_cam -= 1;
 			mlx_clear_window(gen->mlx.ptr, gen->mlx.win);
-			print_pic(gen, &i);
+			free_gen(gen);
+			print_pic(gen, next->content, &i);
+		}
+		else
+		{
+			ft_putstr_fd(" C<-\n", 1);
+			mlx_clear_window(gen->mlx.ptr, gen->mlx.win);
+			free_gen(gen);
+			gen->num_cam = ft_lstsize(gen->objs.c) - 1;
+			next = ft_lstnum(gen->objs.c, gen->num_cam);
+			print_pic(gen, next->content, &i);
 		}
 	}
 
 	if (key == 119) //w
 	{
-		gen->objs.c[gen->num_cam].cd.z += 2;
+		cam = ft_lstnum(gen->objs.c, gen->num_cam)->content;
+		cam->cd.z += 2;
 		mlx_clear_window(gen->mlx.ptr, gen->mlx.win);
-		print_pic(gen, &i);
+		print_pic(gen, cam, &i);
 	}
 	if (key == 115) //s
 	{
-		gen->objs.c[gen->num_cam].cd.z -= 2;
+		cam = ft_lstnum(gen->objs.c, gen->num_cam)->content;
+		cam->cd.z -= 2;
 		mlx_clear_window(gen->mlx.ptr, gen->mlx.win);
-		print_pic(gen, &i);
+		print_pic(gen, cam, &i);
 	}
 	if (key == 97) //a
 	{
-		gen->objs.c[gen->num_cam].cd.x -= 2;
+		cam = ft_lstnum(gen->objs.c, gen->num_cam)->content;
+		cam->cd.x -= 2;
 		mlx_clear_window(gen->mlx.ptr, gen->mlx.win);
-		print_pic(gen, &i);
+		print_pic(gen, cam, &i);
 	}
 	if (key == 100) //d
 	{
-		gen->objs.c[gen->num_cam].cd.x += 2;
+		cam = ft_lstnum(gen->objs.c, gen->num_cam)->content;
+		cam->cd.x += 2;
 		mlx_clear_window(gen->mlx.ptr, gen->mlx.win);
-		print_pic(gen, &i);
+		print_pic(gen, cam, &i);
 	}
 	if (key == 122) //z
 	{
-		gen->objs.c[gen->num_cam].cd.y += 2;
+		cam = ft_lstnum(gen->objs.c, gen->num_cam)->content;
+		cam->cd.y += 2;
 		mlx_clear_window(gen->mlx.ptr, gen->mlx.win);
-		print_pic(gen, &i);
+		print_pic(gen, cam, &i);
 	}
 	if (key == 120) //x
 	{
-		gen->objs.c[gen->num_cam].cd.y -= 2;
+		cam = ft_lstnum(gen->objs.c, gen->num_cam)->content;
+		cam->cd.y -= 2;
 		mlx_clear_window(gen->mlx.ptr, gen->mlx.win);
-		print_pic(gen, &i);
+		print_pic(gen, cam, &i);
 	}
 	//ft_putnbr_fd(key, 1); ft_putstr_fd("\n", 1);
 	return (0);
+	(void)i;
 }
  //sq 0.0,5.0,16.0 0,1,0 6.0 200,200,50 //pl -21.0,0.0,20.0 1.0,0.0,0.0 0,0,225
 int		main(int argc, char **argv)
@@ -158,7 +188,7 @@ int		main(int argc, char **argv)
 	gen.num_cam = 0;
 
 	clock_t t1 = clock();
-	if (argc < 2 || parse_put_scene(&(gen.objs), argv[1]))
+	if (argc < 2 || parse_file(&(gen.objs), argv[1]))
 	{
 		ft_putstr_fd("Error: No file or wrong name.\n", 1);
 		return (0);
@@ -167,9 +197,9 @@ int		main(int argc, char **argv)
 	gen.mlx.win = mlx_new_window(gen.mlx.ptr, gen.objs.r.x, gen.objs.r.y, "miniRT");
 	gen.img.img = mlx_new_image(gen.mlx.ptr, gen.objs.r.x, gen.objs.r.y);
 	gen.img.addr = mlx_get_data_addr(gen.img.img, &(gen.img.bits_per_pixel), &(gen.img.line_length), &(gen.img.endian));
-	//printf("AA\n");
+	//printf("\nAA\n\n");
 
-	print_pic(&gen, &i);
+	print_pic(&gen, gen.objs.c->content, &i);
 
 	clock_t t2 = clock();
 	printf("\nEnd drawn with time is %f s and %i iterations\n", (double)(t2 - t1) / CLOCKS_PER_SEC, i);
@@ -178,7 +208,7 @@ int		main(int argc, char **argv)
 	ft_write_xyz(&check, -1, 0, 0);//0.5, 0.5, 1);
 	check = mult_m_v(gen.scene.rotmat, check);
 	printf("check: %f, %f, %f\n", check.x, check.y, check.z);*/
-	mlx_hook(gen.mlx.win, 2, 1L << 0, press_esc_key, &gen);
+	mlx_hook(gen.mlx.win, 2, 1L << 0, press_keys, &gen);
 	mlx_hook(gen.mlx.win, 17, 1L << 17, exit_program, 0);
 	mlx_mouse_hook (gen.mlx.win, mouse_hook, 0);
 	mlx_loop(gen.mlx.ptr);

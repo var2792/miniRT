@@ -33,34 +33,37 @@ int		parse_ambient(char **line, t_scobjs *scene)
 	scene->a.cl.z = ft_atoi_float(line);
 	if (check_color(scene->a.cl))
 		return (1);
+	scene->a.is = 1;
 	return (0);
 }
 
 int		parse_camera(char **line, t_scobjs *scene)
 {
 	int i;
+	t_camera *cont;
+	t_list *new;
 
 	i = 0;
 	(*line)++;
-	while (scene->c[i].is)
-		i++;
-	scene->c[i].cd.x = ft_atoi_float(line);
+	cont = malloc(sizeof(*cont));
+	cont->cd.x = ft_atoi_float(line);
 	spase_com_sep(line);
-	scene->c[i].cd.y = ft_atoi_float(line);
+	cont->cd.y = ft_atoi_float(line);
 	spase_com_sep(line);
-	scene->c[i].cd.z = ft_atoi_float(line);
-	scene->c[i].nm.x = ft_atoi_float(line);
+	cont->cd.z = ft_atoi_float(line);
+	cont->nm.x = ft_atoi_float(line);
 	spase_com_sep(line);
-	scene->c[i].nm.y = ft_atoi_float(line);
+	cont->nm.y = ft_atoi_float(line);
 	spase_com_sep(line);
-	scene->c[i].nm.z = ft_atoi_float(line);
-	if (check_normal(scene->c[i].nm))
+	cont->nm.z = ft_atoi_float(line);
+	if (check_normal(cont->nm))
 		return (0);
-	if ((scene->c[i].fov = ft_atoi_float(line)) < 0 || scene->c[i].fov > 180)
+	if ((cont->fov = ft_atoi_float(line)) < 0 || cont->fov > 180)
 		return (1);
-	scene->c[i].is = 1;
+	new = ft_lstnew(cont);
+	ft_lstadd_back(&(scene->c), new);
 	return (0);
-	(void)scene;
+	(void)i;
 }
 
 int		parse_light(char **line, t_scobjs *scene)
