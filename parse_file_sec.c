@@ -16,7 +16,8 @@ int parse_sphere(char **line, t_scobjs *scene)
 	cont->cl.x = ft_atoi_float(line);
 	spase_com_sep(line);
 	cont->cl.y = ft_atoi_float(line);
-	spase_com_sep(line);
+	if (!spase_com_sep(line))
+		return (1);
 	cont->cl.z = ft_atoi_float(line);
 	if (check_color(cont->cl))
 		return (1);
@@ -48,7 +49,8 @@ int parse_plane(char **line, t_scobjs *scene)
 	cont->cl.x = ft_atoi_float(line);
 	spase_com_sep(line);
 	cont->cl.y = ft_atoi_float(line);
-	spase_com_sep(line);
+	if (!spase_com_sep(line))
+		return (1);
 	cont->cl.z = ft_atoi_float(line);
 	if (check_color(cont->cl))
 		return (1);
@@ -81,7 +83,8 @@ int parse_square(char **line, t_scobjs *scene)
 	cont->cl.x = ft_atoi_float(line);
 	spase_com_sep(line);
 	cont->cl.y = ft_atoi_float(line);
-	spase_com_sep(line);
+	if (!spase_com_sep(line))
+		return (1);
 	cont->cl.z = ft_atoi_float(line);
 	if (check_color(cont->cl))
 		return (1);
@@ -123,7 +126,8 @@ int parse_cylinder(char **line, t_scobjs *scene)
 	cont->cl.x = ft_atoi_float(line);
 	spase_com_sep(line);
 	cont->cl.y = ft_atoi_float(line);
-	spase_com_sep(line);
+	if (!spase_com_sep(line))
+		return (1);
 	cont->cl.z = ft_atoi_float(line);
 	if (check_color(cont->cl))
 		return (1);
@@ -159,7 +163,8 @@ int parse_triangle(char **line, t_scobjs *scene)
 	cont->cl.x = ft_atoi_float(line);
 	spase_com_sep(line);
 	cont->cl.y = ft_atoi_float(line);
-	spase_com_sep(line);
+	if (!spase_com_sep(line))
+		return (1);
 	cont->cl.z = ft_atoi_float(line);
 	if (check_color(cont->cl))
 		return (1);

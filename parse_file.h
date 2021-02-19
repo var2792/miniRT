@@ -14,7 +14,7 @@ int		parse_plane(char **line, t_scobjs *scene);
 int		parse_square(char **line, t_scobjs *scene);
 int		parse_cylinder(char **line, t_scobjs *scene);
 int		parse_triangle(char **line, t_scobjs *scene);
-void	spase_com_sep(char **line);
+int		spase_com_sep(char **line);
 
 int	check_normal(t_vector normal);
 int	check_color(t_vector color);

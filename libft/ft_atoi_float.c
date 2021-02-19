@@ -19,7 +19,7 @@ float		ft_atoi_float(char **str)
 	m = 1;
 	f = 0;
 	dec = 1;
-	while (ft_isspace(**str) && **str != '\0')
+	while (ft_check_isspace(**str) && **str != '\0')
 		(*str)++;
 	if (**str == '-' || **str == '+')
 	{

@@ -196,11 +196,13 @@ int		main(int argc, char **argv)
 	gen.num_cam = 0;
 
 	clock_t t1 = clock();
-	if (argc < 2 || parse_file(&(gen.objs), argv[1]))
+	if (argc < 2 || argc > 3)
 	{
-		ft_putstr_fd("Error: No file or wrong name.\n", 1);
+		ft_putstr_fd("Error: Wrong function call.\n", 1);
 		return (0);
 	}
+	if (parse_file(&(gen.objs), argv[1]))
+		return (0);
 	gen.mlx.ptr = mlx_init();
 	gen.mlx.win = mlx_new_window(gen.mlx.ptr, gen.objs.r.x, gen.objs.r.y, "miniRT");
 	gen.img.img = mlx_new_image(gen.mlx.ptr, gen.objs.r.x, gen.objs.r.y);

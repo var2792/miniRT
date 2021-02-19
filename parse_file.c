@@ -1,9 +1,16 @@
 # include "parse_file.h"
 
-void	spase_com_sep(char **line)
+int		spase_com_sep(char **line)
 {
-	while (ft_check_isspace(**line) || **line == ',')
+	if (ft_check_isspace(**line) || **line == ',')
 		(*line)++;
+	if (ft_check_isspace(**line) || **line == ',')
+		return (spase_com_sep(line));
+	if (ft_isdigit(**line) || **line == '-' || **line == '+')
+		return (1);
+	else
+		return (0);
+
 }
 
 int		parse_resplution(char **line, t_scobjs *scene)
@@ -29,7 +36,8 @@ int		parse_ambient(char **line, t_scobjs *scene)
 	scene->a.cl.x = ft_atoi_float(line);
 	spase_com_sep(line);
 	scene->a.cl.y = ft_atoi_float(line);
-	spase_com_sep(line);
+	if (!spase_com_sep(line))
+		return  (1);
 	scene->a.cl.z = ft_atoi_float(line);
 	if (check_color(scene->a.cl))
 		return (1);
@@ -52,7 +60,8 @@ int		parse_camera(char **line, t_scobjs *scene)
 	cont->nm.x = ft_atoi_float(line);
 	spase_com_sep(line);
 	cont->nm.y = ft_atoi_float(line);
-	spase_com_sep(line);
+	if (!spase_com_sep(line))
+		return (1);
 	cont->nm.z = ft_atoi_float(line);
 	if (check_normal(cont->nm))
 		return (1);
@@ -80,7 +89,8 @@ int		parse_light(char **line, t_scobjs *scene)
 	cont->cl.x = ft_atoi_float(line);
 	spase_com_sep(line);
 	cont->cl.y = ft_atoi_float(line);
-	spase_com_sep(line);
+	if (!spase_com_sep(line))
+		return (1);
 	cont->cl.z = ft_atoi_float(line);
 	if (check_color(cont->cl))
 		return (1);

@@ -119,13 +119,13 @@ int		parse_file(t_scobjs *objs, char *argv)
 			while (ft_check_isspace(*line))
 				line++;
 			len = ft_check_input_chars(&line, objs);
-			//while (ft_check_isspace(*line))
-				//line++;
-			if (len)
+			while (ft_check_isspace(*line))
+				line++;
+			if (len || *line != 0)
 			{
-				ft_putstr_fd("Error: Not correct input file.\n", 1);
+				ft_putstr_fd("Error: Wrong line\t--\t", 1);
 				ft_putstr_fd(save_line, 1);
-				ft_putstr_fd(" <<=-\n", 1);
+				ft_putstr_fd("\n", 1);
 				free(save_line);
 				return (1);
 			}
@@ -133,7 +133,10 @@ int		parse_file(t_scobjs *objs, char *argv)
 		free(save_line);
 	}
 	if (!objs->r.is || !objs->c || !objs->a.is)
+	{
+		ft_putstr_fd("Error: Not full file.\n", 1);
 		return (1);
+	}
 	return (0);
 	(void)argv;
 }

@@ -36,7 +36,7 @@ float		check_shadow(t_light num_l, int num_ob, t_scobjs objects, t_vector p)
 float		check_shadow_sp(t_light num_l, int num_sp, t_scobjs objects, t_vector p)
 { // на бодобии этой функции сделать видимость/наложение сфер
 	float k[3];
-	float t_n[2];
+	float t[2];
 	int i;
 	t_list *temp;
 	t_sphere *sp;
@@ -54,12 +54,12 @@ float		check_shadow_sp(t_light num_l, int num_sp, t_scobjs objects, t_vector p)
 				k[0] = dot_prv(sum_vs(1, p, -1, num_l.cd), sum_vs( 1, p, -1, num_l.cd));
 				k[1] = 2 * dot_prv(sum_vs(1, num_l.cd, -1, sp->cd), sum_vs( 1, p, -1, num_l.cd));
 				k[2] = dot_prv(sum_vs(1, num_l.cd, -1, sp->cd), sum_vs(1, num_l.cd, -1, sp->cd)) - sp->d * sp->d / 4;
-				t_n[1] = k[1] * k[1] - 4 * k[0] * k[2];
-				if (!(t_n[1] < 0 || (k[0] == 0 && k[1] == 0)))
+				t[1] = k[1] * k[1] - 4 * k[0] * k[2];
+				if (!(t[1] < 0 || (k[0] == 0 && k[1] == 0)))
 				{
-					t_n[0] = (-k[1] + sqrt(t_n[1]))/ 2 / k[0];
-					t_n[1] = (-k[1] - sqrt(t_n[1]))/ 2 / k[0];
-					if ((t_n[0] > 0 && t_n[0] < 1) || (t_n[1] > 0 && t_n[1] < 1))
+					t[0] = (-k[1] + sqrt(t[1]))/ 2 / k[0];
+					t[1] = (-k[1] - sqrt(t[1]))/ 2 / k[0];
+					if ((t[0] > 0 && t[0] < 1) || (t[1] > 0 && t[1] < 1))
 						return (0);
 				}
 			}
@@ -210,7 +210,7 @@ int		shadow_cyhead1(t_cylinder cy, t_vector pcy, t_light num_l)
 float		check_shadow_cy(t_light num_l, int num_cy, t_scobjs objects, t_vector pt)
 { // на бодобии этой функции сделать видимость/наложение сфер
 	float k[3];
-	float t_n[2];
+	float t[2];
 	int i;
 	t_vector p;
 	t_list *temp;
@@ -223,7 +223,7 @@ float		check_shadow_cy(t_light num_l, int num_cy, t_scobjs objects, t_vector pt)
 		if (i != num_cy)
 		{
 			cy = temp->content;
-			//gen->scene.cdv->pt, gen->scene.cdo->objs.l[num_l].cd
+			//gen->scene.cdv->pt, gen->scene.cdo->num_l.cd
 			p = cross_prv(sum_vs(1, pt, -1, num_l.cd), cy->nm);
 			k[0] = fabs(dot_prv(sum_vs(1, cy->cd, -1, num_l.cd), p) / len_vec(p));
 			if (k[0] <= cy->d / 2)
@@ -232,13 +232,17 @@ float		check_shadow_cy(t_light num_l, int num_cy, t_scobjs objects, t_vector pt)
 				k[0] = dot_prv(cross_prv(p, cy->nm), cross_prv(p, cy->nm)); //(Vn,Vn)
 				k[1] = 2 * dot_prv(cross_prv(p, cy->nm), sum_vs(1, cross_prv(num_l.cd, cy->nm), -1, cross_prv(cy->cd, cy->nm))); // 2(Vn,On-Cn)
 				k[2] = dot_prv(sum_vs(1, cross_prv(num_l.cd, cy->nm), -1, cross_prv(cy->cd, cy->nm)), sum_vs(1, cross_prv(num_l.cd, cy->nm), -1, cross_prv(cy->cd, cy->nm))) - dot_prv(cy->nm, cy->nm) * cy->d * cy->d / 4; //(On-Cn,On-Cn)-(n,n)*d*d/4
-				t_n[1] = k[1] * k[1] - 4 * k[0] * k[2];
-				if (!(t_n[1] < 0 || (k[0] == 0 && k[1] == 0)))
+				t[1] = k[1] * k[1] - 4 * k[0] * k[2];
+				if (!(t[1] < 0 || (k[0] == 0 && k[1] == 0)))
 				{
-					t_n[0] = (-k[1] + sqrt(t_n[1]))/ 2 / k[0];
-					t_n[1] = (-k[1] - sqrt(t_n[1]))/ 2 / k[0];
-					if ((t_n[0] > 0 && t_n[0] < 1) || (t_n[1] > 0 && t_n[1] < 1))
-						return (0);
+					t[0] = (-k[1] + sqrt(t[1]))/ 2 / k[0];
+					t[1] = (-k[1] - sqrt(t[1]))/ 2 / k[0];
+					if ((t[0] > 0 && t[0] < 1) || (t[1] > 0 && t[1] < 1))
+					{
+						p = sum_vs(1, num_l.cd, (t[0] < t[1]) ? t[0] : t[1], sum_vs( 1, pt, -1, num_l.cd));
+						if (len_vec(sum_vs(1, p, -1, cy->cd)) <= sqrt(cy->h * cy->h / 4 + cy->d * cy->d / 4))
+							return (0);
+					}
 				}
 				if (shadow_cyhead0(*cy, pt, num_l) || shadow_cyhead1(*cy, pt, num_l))
 					return (0);
