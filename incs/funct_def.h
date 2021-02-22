@@ -16,7 +16,7 @@ float		bright_nl(t_cylinder cy, t_light num_l, t_vector p, int fl);
 unsigned int	rescolcy(t_vector cycl, t_vector sum, t_vector acl, float br);
 int				shadow_cy(t_cylinder *cy, t_light num_l, t_vector pt);
 int		see_cy(t_general gen, t_cylinder *cy, t_vector *p);
-int		belong_cy(t_general *gen, t_cylinder *cy, t_vector *p);
+int		belong_cy(t_general gen, t_cylinder cy, t_vector *p);
 //print_pic
 void	print_pic(t_general *gen, t_camera *cam);
 void	start_create(t_general *gen);
@@ -35,7 +35,7 @@ t_vector	trans_pixv(t_general gen);
 t_vector		ft_write_xyz(t_vector *vec, float x, float y, float z);
 unsigned int	ft_colorvec_unsint(float br, t_vector vec);
 //PARSE_FILE
-int		parse_file(t_scobjs *all_scene, char *argv);
+int		parse_file(t_scobjs *objs, char *argv);
 int		parse_resplution(char **line, t_scobjs *scene);
 int		parse_ambient(char **line, t_scobjs *scene);
 int		parse_camera(char **line, t_scobjs *scene);

@@ -86,20 +86,20 @@ int		see_cy(t_general gen, t_cylinder *cy, t_vector *p)
 	return (fl);
 }
 
-int		belong_cy(t_general *gen, t_cylinder *cy, t_vector *p)
+int		belong_cy(t_general gen, t_cylinder cy, t_vector *p)
 {
 	//float k[3];
 	float t[2];
 	int fl;
 
 	fl = 1;
-	if ((t[1] = find_discr(cross_prv(sum_vs(1, gen->scene.cdv, -1, gen->scene.cdo), cy->nm), sum_vs(1, cross_prv(gen->scene.cdo, cy->nm), -1, cross_prv(cy->cd, cy->nm)), dot_prv(cy->nm, cy->nm) * cy->d * cy->d / 4, &(t[0]))) < 1)
+	if ((t[1] = find_discr(cross_prv(sum_vs(1, gen.scene.cdv, -1, gen.scene.cdo), cy.nm), sum_vs(1, cross_prv(gen.scene.cdo, cy.nm), -1, cross_prv(cy.cd, cy.nm)), dot_prv(cy.nm, cy.nm) * cy.d * cy.d / 4, &(t[0]))) < 1)
 	 	fl = 0;
-	// p = sum_vs(1, gen->scene.cdv, -1, gen->scene.cdo); //V-O = V
-	// k[0] = dot_prv(cross_prv(p, cy->nm), cross_prv(p, cy->nm)); //(Vn,Vn)
-	// p = sum_vs(1, cross_prv(gen->scene.cdo, cy->nm), -1, cross_prv(cy->cd, cy->nm)); //On-Cn
-	// k[1] = 2 * dot_prv(cross_prv(sum_vs(1, gen->scene.cdv, -1, gen->scene.cdo), cy->nm), p); // 2(Vn,On-Cn)
-	// k[2] = dot_prv(p, p) - dot_prv(cy->nm, cy->nm) * cy->d * cy->d / 4; //(On-Cn,On-Cn)-(n,n)*d*d/4
+	// p = sum_vs(1, gen.scene.cdv, -1, gen.scene.cdo); //V-O = V
+	// k[0] = dot_prv(cross_prv(p, cy.nm), cross_prv(p, cy.nm)); //(Vn,Vn)
+	// p = sum_vs(1, cross_prv(gen.scene.cdo, cy.nm), -1, cross_prv(cy.cd, cy.nm)); //On-Cn
+	// k[1] = 2 * dot_prv(cross_prv(sum_vs(1, gen.scene.cdv, -1, gen.scene.cdo), cy.nm), p); // 2(Vn,On-Cn)
+	// k[2] = dot_prv(p, p) - dot_prv(cy.nm, cy.nm) * cy.d * cy.d / 4; //(On-Cn,On-Cn)-(n,n)*d*d/4
 	// t[1] = k[1] * k[1] - 4 * k[0] * k[2];
 	// if (t[1] < 0 || (fabs(k[0]) < 0.01 && fabs(k[1]) < 0.01))
 	// 	fl = 0;
@@ -122,14 +122,14 @@ int		belong_cy(t_general *gen, t_cylinder *cy, t_vector *p)
 	// }
 	if (t[0] > 1 && fl > 0)
 	{
-		*p = sum_vs(1, gen->scene.cdo, t[0], sum_vs( 1, gen->scene.cdv, -1, gen->scene.cdo));
-		if (len_vec(sum_vs(1, *p, -1, cy->cd)) <= sqrt(cy->h * cy->h / 4 + cy->d * cy->d / 4))
+		*p = sum_vs(1, gen.scene.cdo, t[0], sum_vs( 1, gen.scene.cdv, -1, gen.scene.cdo));
+		if (len_vec(sum_vs(1, *p, -1, cy.cd)) <= sqrt(cy.h * cy.h / 4 + cy.d * cy.d / 4))
 			fl = 2;
 	}
 	if (t[1] > 1 && fl > 0 && fl != 2)
 	{
-		*p = sum_vs(1, gen->scene.cdo, t[1], sum_vs( 1, gen->scene.cdv, -1, gen->scene.cdo));
-		if (len_vec(sum_vs(1, *p, -1, cy->cd)) <= sqrt(cy->h * cy->h / 4 + cy->d * cy->d / 4))
+		*p = sum_vs(1, gen.scene.cdo, t[1], sum_vs( 1, gen.scene.cdv, -1, gen.scene.cdo));
+		if (len_vec(sum_vs(1, *p, -1, cy.cd)) <= sqrt(cy.h * cy.h / 4 + cy.d * cy.d / 4))
 			fl = 3;
 	}
 	return (fl);

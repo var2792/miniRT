@@ -24,9 +24,9 @@ t_vector	*rotation_matrix(t_vector cam, t_vector orig, t_vector coord)
 	if (!(mat = malloc(sizeof(t_vector) * 4)))
 		return (NULL);
 	ft_write_xyz(&(mat[0]), 0, cam.y, cam.z);
-	T[0] = (len_vec(mat[0]) < 0.01) ? 0 : acos(dot_prv(mat[0], orig) / len_vec(mat[0]) / len_vec(orig));
+	T[0] = (len_vec(mat[0]) < 0.001) ? 0 : acos(dot_prv(mat[0], orig) / len_vec(mat[0]) / len_vec(orig));
 	ft_write_xyz(&(mat[0]), cam.x, 0, cam.z);
-	T[1] = (len_vec(mat[0]) < 0.01) ? 0 : acos(dot_prv(mat[0], orig) / len_vec(mat[0]) / len_vec(orig));
+	T[1] = (len_vec(mat[0]) < 0.001) ? 0 : acos(dot_prv(mat[0], orig) / len_vec(mat[0]) / len_vec(orig));
 	T[2] = (cam.z < 0) ? 3.1415928 : 0;
 	correct_angle(&(T[0]), &(T[1]), &(T[2]), cam);
 	//printf("T[0] = %f, T[1] = %f, T[2]= %f\n", T[0] * 180 / 3.1415925, T[1] * 180 / 3.1415925, T[2] * 180 / 3.1415925);

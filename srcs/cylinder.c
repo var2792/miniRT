@@ -6,7 +6,7 @@ int		belong_to_cylinder(t_general *gen, t_cylinder *cy)
 	t_vector p;
 	int fl;
 
-	fl = belong_cy(gen, cy, &p);
+	fl = belong_cy(*gen, *cy, &p);
 
 	//if (fl > 1)
 		//if (fabs(len_vec(cross_prv(sum_vs(1, p, -1, cy->cd), cy->nm)) / len_vec(cy->nm) - cy->d / 2) < 0.01)

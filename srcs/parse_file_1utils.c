@@ -21,12 +21,10 @@ int		sep_fl(float *num, char **line, int fl)
 int		parse_resplution(char **line, t_scobjs *scene)
 {
 	(*line)++;
-	scene->r.x = ft_atoi_float(line);
-	scene->r.y = ft_atoi_float(line);
+	scene->r.x = ft_atoi_dinam(line);
+	scene->r.y = ft_atoi_dinam(line);
 	if (scene->r.x <= 0 || scene->r.y <= 0)
 		return (1);
-	scene->r.x = (scene->r.x > 1920) ? 1920 : scene->r.x;
-	scene->r.y = (scene->r.y > 1080) ? 1080 : scene->r.y;
 	scene->r.is = 1;
 	return (0);
 }

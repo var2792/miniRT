@@ -27,7 +27,7 @@ float		ft_atoi_float(char **str)
 			m = -1;
 		(*str)++;
 	}
-	while ((**str > 47 && **str < 58) && **str )
+	while ((**str > 47 && **str < 58) && **str)
 	{
 		if (f)
 		{

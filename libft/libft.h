@@ -33,6 +33,7 @@ void		divide_static(char **st);
 void		unite_stnext(char **line, char **st);
 
 int					ft_atoi(const char *str);
+int					ft_atoi_dinam(char **str);
 float				ft_atoi_float(char **str);
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);

@@ -48,3 +48,30 @@ int			ft_atoi(const char *str)
 	}
 	return (num);
 }
+
+int			ft_atoi_dinam(char **str)
+{
+	long int	num;
+	int			m;
+
+	num = 0;
+	m = 1;
+	while (ft_isspace(**str) && **str != '\0')
+		(*str)++;
+	if (**str == '-' || **str == '+')
+	{
+		if (**str == '-')
+			m = -1;
+		(*str)++;
+	}
+	while ((**str > 47 && **str < 58) && **str)
+	{
+		if (num == -2147483648 || num > 2147483647)
+			return (-1);
+		if (num == 2147483647 || num < -2147483648)
+			return (0);
+		num = num * 10 + m * (**str - 48);
+		(*str)++;
+	}
+	return (num);
+}

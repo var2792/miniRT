@@ -32,8 +32,8 @@ typedef struct	s_vector
 
 typedef struct	s_resplution
 {
-	unsigned int	x;
-	unsigned int	y;
+	int	x;
+	int	y;
 	int				is;
 }				t_resplution;
 
@@ -135,6 +135,8 @@ typedef struct	s_general
 	t_vector	pix;
 	float		cl;
 	int			num_cam;
+	int			sizex;
+	int			sizey;
 }				t_general;
 
 

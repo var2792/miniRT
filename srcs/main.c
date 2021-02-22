@@ -12,7 +12,6 @@ int		exit_program(t_general *gen)
 {
 	mlx_clear_window(gen->mlx.ptr, gen->mlx.win);
 	mlx_destroy_window(gen->mlx.ptr, gen->mlx.win);
-	free_gen(gen, 1);
 	exit(0);
 	return (0);
 }
@@ -30,10 +29,10 @@ void	free_gen(t_general *gen, int fl)
 		ft_lstclear(&(gen->objs.sq), &free);
 		ft_lstclear(&(gen->objs.tr), &free);
 		ft_lstclear(&(gen->objs.cy), &free);
-		//free(gen->img.img);
-		//free(gen->img.addr);
-		//free(gen->mlx.ptr);
-		//free(gen->mlx.win);
+		free(gen->img.img);
+		free(gen->img.addr);
+		free(gen->mlx.ptr);
+		free(gen->mlx.win);
 	}
 }
 
@@ -53,11 +52,13 @@ int		main(int argc, char **argv)
 	clock_t t2 = clock();
 	printf("\nEnd drawn with time is %f s\n", (double)(t2 - t1) / CLOCKS_PER_SEC);
 
-	/*t_vector check = ft_write_xyz(&check, 1, 1, 1);//0.5, 0.5, 1);
+	/*free_gen(&gen, 0);
+	t_vector check = ft_write_xyz(&check, 1, 0, 0);//0.5, 0.5, 1);
 	t_vector check0 = ft_write_xyz(&check0, 0, 0, 0);//0.5, 0.5, 1);
 	t_vector check2 = ft_write_xyz(&check2, 0, 1, 1);//0.5, 0.5, 1);
-	t_vector check3 = ft_write_xyz(&check3, 1, 1, 1);//0.5, 0.5, 1);
+	t_vector check3 = ft_write_xyz(&check3, 1, 0, 0);//0.5, 0.5, 1);
 	printf("check: %f, %f, %f\n", check3.x, check3.y, check3.z);
+	//scene.rotmat = rotation_matrix(cam->nm, objs.orig_cam, cam->cd);
 	gen.scene.rotmat = rotation_matrix(check2, check, check0);
 	check3 = mult_m_v(gen.scene.rotmat, check3);
 	printf("check: %f, %f, %f\n", check3.x, check3.y, check3.z);
@@ -68,4 +69,5 @@ int		main(int argc, char **argv)
 	mlx_hook(gen.mlx.win, 17, 1L << 17, exit_program, &gen);
 	//mlx_mouse_hook (gen.mlx.win, mouse_hook, 0);
 	mlx_loop(gen.mlx.ptr);
+	free_gen(&gen, 1);
 }
