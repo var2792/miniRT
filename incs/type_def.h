@@ -15,7 +15,8 @@ typedef struct	s_my_mlx
 	void		*win;
 }				t_my_mlx;
 
-typedef struct	s_data {
+typedef struct	s_data
+{
 	void		*img;
 	char		*addr;
 	int			bits_per_pixel;
@@ -137,6 +138,7 @@ typedef struct	s_general
 	int			num_cam;
 	int			sizex;
 	int			sizey;
+	char		*savename;
 }				t_general;
 
 

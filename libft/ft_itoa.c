@@ -82,7 +82,8 @@ char			*ft_itoa(int nbr)
 	else
 		len = 1 + ft_nbrlen(n);
 	str = NULL;
-	str = (char*)malloc(sizeof(char) * len);
+	if (!(str = (char*)malloc(sizeof(char) * len)))
+		return (NULL);
 	if (str != NULL)
 		str_and(str, len, n);
 	return (str);

@@ -23,7 +23,8 @@ void	point_with_objs(t_general *gen)
 
 void	print_pic(t_general *gen, t_camera *cam)
 {
-	gen->scene = parse_put_canvas(gen->objs, cam);
+	if (parse_put_canvas(&(gen->scene), gen->objs, cam))
+		return ;
 	ft_write_xyz(&(gen->pix), 0, 0, 0);
 	while (gen->pix.x < gen->objs.r.x)
 	{
@@ -46,7 +47,7 @@ void	print_pic(t_general *gen, t_camera *cam)
 	//printf("c.n.x = %f, c.n.y = %f, c.n.z = %f,\n", gen->objs.c[gen->num_cam].nm.x, gen->objs.c[gen->num_cam].nm.y, gen->objs.c[gen->num_cam].nm.z);
 }
 
-void	start_create(t_general *gen)
+void	start_create(t_general *gen, int sav)
 {
 	gen->mlx.ptr = mlx_init();
 	mlx_get_screen_size(gen->mlx.ptr, &(gen->sizex), &(gen->sizey));
@@ -57,7 +58,10 @@ void	start_create(t_general *gen)
 	gen->img.addr = mlx_get_data_addr(gen->img.img, &(gen->img.bits_per_pixel), &(gen->img.line_length), &(gen->img.endian));
 	//printf("\nAA\n\n");
 
-	print_pic(gen, gen->objs.c->content);
+	if (sav)
+		save_pic(gen, gen->objs.c->content);
+	else
+		print_pic(gen, gen->objs.c->content);
 
 
 }

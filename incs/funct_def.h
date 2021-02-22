@@ -4,11 +4,15 @@
 # include "type_def.h"
 # include "../mlx_linux/mlx.h"
 
+//save_pic
+void	save_pic(t_general *gen, t_camera *cam);
+char	*create_bmp_name(char *file);
 //sphere
 float	find_discr(t_vector vec1, t_vector vec2, float rad, float *t1);
 void	correct_color(t_vector *cl);
 float		check_orient(t_vector normal, t_vector l, t_vector cor_0, t_vector p);
 //main
+int		exit_program(t_general *gen);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int		exit_program(t_general *gen);
 //cylinder_utils
@@ -18,8 +22,9 @@ int				shadow_cy(t_cylinder *cy, t_light num_l, t_vector pt);
 int		see_cy(t_general gen, t_cylinder *cy, t_vector *p);
 int		belong_cy(t_general gen, t_cylinder cy, t_vector *p);
 //print_pic
+void	point_with_objs(t_general *gen);
 void	print_pic(t_general *gen, t_camera *cam);
-void	start_create(t_general *gen);
+void	start_create(t_general *gen, int sav);
 //key_press
 void	free_gen(t_general *gen, int fl);
 int	press_keys(int key, t_general *gen);
@@ -29,7 +34,7 @@ int errors_mes(int n, char **help);
 void	find_point_sq(t_square sq, t_vector (*P)[]);
 //PARSE_PUT_CANVAS
 t_vector	*rotation_matrix(t_vector cam, t_vector orig, t_vector coord);
-t_scene		parse_put_canvas(t_scobjs objs, t_camera *c);//(t_general gen);//
+int			parse_put_canvas(t_scene *scene, t_scobjs objs, t_camera *c);//(t_general gen);//
 t_vector	trans_pixv(t_general gen);
 //utils
 t_vector		ft_write_xyz(t_vector *vec, float x, float y, float z);

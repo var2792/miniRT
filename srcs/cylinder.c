@@ -70,8 +70,8 @@ float		check_shadow_cy(t_light num_l, int num_cy, t_scobjs objects, t_vector pt)
 			if (fabs(dot_prv(sum_vs(1, cy->cd, -1, num_l.cd), p) / len_vec(p)) <= cy->d / 2)
 				if (shadow_cy(cy, num_l, pt))
 					return (0);
-			//if (shadow_cyhead0(*cy, pt, num_l) || shadow_cyhead1(*cy, pt, num_l))
-				//return (0);
+			if (shadow_cyhead0(*cy, pt, num_l) || shadow_cyhead1(*cy, pt, num_l))
+				return (0);
 		}
 		temp = temp->next;
 		i++;

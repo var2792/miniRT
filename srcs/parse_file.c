@@ -96,5 +96,6 @@ int		parse_file(t_scobjs *objs, char *argv)
 		return (1);
 	if (!objs->r.is || !objs->c || !objs->a.is)
 		return (errors_mes(3, 0));
+	close(fd);
 	return (0);
 }

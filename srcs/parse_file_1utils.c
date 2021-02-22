@@ -51,7 +51,8 @@ int		parse_camera(char **line, t_scobjs *scene)
 	t_list *new;
 
 	(*line)++;
-	cont = malloc(sizeof(*cont));
+	if (!(cont = malloc(sizeof(*cont))))
+		return (errors_mes(7,0));
 	if (sep_fl(&(cont->cd.x), line, 0) || sep_fl(&(cont->cd.y), line, 1) || sep_fl(&(cont->cd.z), line, 1))
 		return (1);
 	if (sep_fl(&(cont->nm.x), line, 0) || sep_fl(&(cont->nm.y), line, 1) || sep_fl(&(cont->nm.z), line, 1))
@@ -71,7 +72,8 @@ int		parse_light(char **line, t_scobjs *scene)
 	t_list *new;
 
 	(*line)++;
-	cont = malloc(sizeof(*cont));
+	if (!(cont = malloc(sizeof(*cont))))
+		return (errors_mes(7,0));
 	if (sep_fl(&(cont->cd.x), line, 0) || sep_fl(&(cont->cd.y), line, 1) || sep_fl(&(cont->cd.z), line, 1))
 		return (1);
 	if ((cont->br = ft_atoi_float(line)) < 0 || cont->br > 1)

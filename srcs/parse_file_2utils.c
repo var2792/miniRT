@@ -6,7 +6,8 @@ int parse_sphere(char **line, t_scobjs *scene)
 	t_list *new;
 
 	(*line) += 2;
-	cont = malloc(sizeof(*cont));
+	if (!(cont = malloc(sizeof(*cont))))
+		return (errors_mes(7,0));
 	if (sep_fl(&(cont->cd.x), line, 0) || sep_fl(&(cont->cd.y), line, 1) || sep_fl(&(cont->cd.z), line, 1))
 		return (1);
 	cont->d = ft_atoi_float(line);
@@ -25,7 +26,8 @@ int parse_plane(char **line, t_scobjs *scene)
 	t_list *new;
 
 	(*line) += 2;
-	cont = malloc(sizeof(*cont));
+	if (!(cont = malloc(sizeof(*cont))))
+		return (errors_mes(7,0));
 	if (sep_fl(&(cont->cd.x), line, 0) || sep_fl(&(cont->cd.y), line, 1) || sep_fl(&(cont->cd.z), line, 1))
 		return (1);
 	if (sep_fl(&(cont->nm.x), line, 0) || sep_fl(&(cont->nm.y), line, 1) || sep_fl(&(cont->nm.z), line, 1))
@@ -47,7 +49,8 @@ int parse_square(char **line, t_scobjs *scene)
 	t_list *new;
 
 	(*line) += 2;
-	cont = malloc(sizeof(*cont));
+	if (!(cont = malloc(sizeof(*cont))))
+		return (errors_mes(7,0));
 	if (sep_fl(&(cont->cd.x), line, 0) || sep_fl(&(cont->cd.y), line, 1) || sep_fl(&(cont->cd.z), line, 1))
 		return (1);
 	if (sep_fl(&(cont->nm.x), line, 0) || sep_fl(&(cont->nm.y), line, 1) || sep_fl(&(cont->nm.z), line, 1))
@@ -78,7 +81,8 @@ int parse_cylinder(char **line, t_scobjs *scene)
 	t_list *new;
 
 	(*line) += 2;
-	cont = malloc(sizeof(*cont));
+	if (!(cont = malloc(sizeof(*cont))))
+		return (errors_mes(7,0));
 	if (sep_fl(&(cont->cd.x), line, 0) || sep_fl(&(cont->cd.y), line, 1) || sep_fl(&(cont->cd.z), line, 1))
 		return (1);
 	if (sep_fl(&(cont->nm.x), line, 0) || sep_fl(&(cont->nm.y), line, 1) || sep_fl(&(cont->nm.z), line, 1))
@@ -103,10 +107,10 @@ int parse_triangle(char **line, t_scobjs *scene)
 	t_list *new;
 
 	(*line) += 2;
-	cont = malloc(sizeof(*cont));
+	if (!(cont = malloc(sizeof(*cont))))
+		return (errors_mes(7,0));
 	if (sep_fl(&(cont->cd1.x), line, 0) || sep_fl(&(cont->cd1.y), line, 1) || sep_fl(&(cont->cd1.z), line, 1))
 		return (1);
-
 	if (sep_fl(&(cont->cd2.x), line, 0) || sep_fl(&(cont->cd2.y), line, 1) || sep_fl(&(cont->cd2.z), line, 1))
 		return (1);
 	if (sep_fl(&(cont->cd3.x), line, 0) || sep_fl(&(cont->cd3.y), line, 1) || sep_fl(&(cont->cd3.z), line, 1))

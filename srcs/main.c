@@ -22,6 +22,8 @@ void	free_gen(t_general *gen, int fl)
 
 	if (fl)
 	{
+		if (gen->savename != 0)
+			free(gen->savename);
 		ft_lstclear(&(gen->objs.c), &free);
 		ft_lstclear(&(gen->objs.l), &free);
 		ft_lstclear(&(gen->objs.sp), &free);
@@ -41,14 +43,23 @@ int		main(int argc, char **argv)
 	t_general	gen;
 	gen.cl = 0;
 	gen.num_cam = 0;
+	gen.savename = 0;
 
 	clock_t t1 = clock();
 	if (argc < 2 || argc > 3)
 		return (errors_mes(1, 0));
+	if (argc == 3)
+	{
+		if (ft_strncmp(argv[2], "-save", 6) != 0)
+			return (errors_mes(6, 0));
+		else
+			if (!(gen.savename = create_bmp_name(argv[1])))
+				return (errors_mes(7,0));
+	}
 	if (parse_file(&(gen.objs), argv[1]))
 		return (0);
 
-	start_create(&gen);
+	start_create(&gen, (argc == 3) ? 1 : 0);
 	clock_t t2 = clock();
 	printf("\nEnd drawn with time is %f s\n", (double)(t2 - t1) / CLOCKS_PER_SEC);
 

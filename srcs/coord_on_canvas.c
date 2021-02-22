@@ -54,19 +54,18 @@ t_vector	*rotation_matrix(t_vector cam, t_vector orig, t_vector coord)
 	return (mat);
 }
 
-t_scene	parse_put_canvas(t_scobjs objs, t_camera *cam) //(t_general gen) //
+int	parse_put_canvas(t_scene *scene, t_scobjs objs, t_camera *cam) //(t_general gen) //
 {
-	t_scene scene;
-
-	scene.cdo.x = cam->cd.x;
-	scene.cdo.y = cam->cd.y;
-	scene.cdo.z = cam->cd.z;
-	scene.viewport.x = tan(cam->fov / 2 * 3.1415926 / 180);//1;
-	scene.viewport.y = scene.viewport.x * objs.r.y / objs.r.x;
-	scene.viewport.z = 1;//(scene.viewport.x / tan(objects.c[0].fov / 2 * 3.1415926 / 180));
+	scene->cdo.x = cam->cd.x;
+	scene->cdo.y = cam->cd.y;
+	scene->cdo.z = cam->cd.z;
+	scene->viewport.x = tan(cam->fov / 2 * 3.1415926 / 180);//1;
+	scene->viewport.y = scene->viewport.x * objs.r.y / objs.r.x;
+	scene->viewport.z = 1;//(scene->viewport.x / tan(objects.c[0].fov / 2 * 3.1415926 / 180));
 	//printf("vx = %f, vy = %f, vz = %f\n", scene->viewport.x, scene->viewport.y, scene->viewport.z);
-	scene.rotmat = rotation_matrix(cam->nm, objs.orig_cam, cam->cd);
-	return (scene);
+	if (!(scene->rotmat = rotation_matrix(cam->nm, objs.orig_cam, cam->cd)))
+		return (errors_mes(7,0));
+	return (0);
 }
 
 t_vector	trans_pixv(t_general gen)
