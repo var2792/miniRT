@@ -1,4 +1,4 @@
-#include "operat_vecs.h"
+#include "../incs/funct_def.h"
 
 t_vector	mult_m_v(t_vector *mat, t_vector vec)
 {

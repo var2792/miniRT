@@ -1,15 +1,20 @@
-# include "parse_file.h"
+#include "../incs/funct_def.h"
 
-int		spase_com_sep(char **line)
+int		sep_fl(float *num, char **line, int fl)
 {
-	if (ft_check_isspace(**line) || **line == ',')
+	while (ft_check_isspace(**line))
 		(*line)++;
-	if (ft_check_isspace(**line) || **line == ',')
-		return (spase_com_sep(line));
+	if (fl && **line == ',')
+		(*line)++;
+	while (ft_check_isspace(**line))
+		(*line)++;
 	if (ft_isdigit(**line) || **line == '-' || **line == '+')
-		return (1);
-	else
+	{
+		*num = ft_atoi_float(line);
 		return (0);
+	}
+	else
+		return (1);
 
 }
 
@@ -33,12 +38,9 @@ int		parse_ambient(char **line, t_scobjs *scene)
 	if (scene->a.rat < 0 || scene->a.rat > 1)
 		return (1);
 	scene->a.rat = (scene->a.rat < 0.75) ? 0.1 : scene->a.rat;
-	scene->a.cl.x = ft_atoi_float(line);
-	spase_com_sep(line);
-	scene->a.cl.y = ft_atoi_float(line);
-	if (!spase_com_sep(line))
-		return  (1);
-	scene->a.cl.z = ft_atoi_float(line);
+	if (sep_fl(&(scene->a.cl.x), line, 0) || sep_fl(&(scene->a.cl.y), line, 1) || sep_fl(&(scene->a.cl.z), line, 1))
+		return (1);
+	//printf("%f %f %f\n", scene->a.cl.x, scene->a.cl.y, scene->a.cl.z);
 	if (check_color(scene->a.cl))
 		return (1);
 	scene->a.is = 1;
@@ -52,17 +54,10 @@ int		parse_camera(char **line, t_scobjs *scene)
 
 	(*line)++;
 	cont = malloc(sizeof(*cont));
-	cont->cd.x = ft_atoi_float(line);
-	spase_com_sep(line);
-	cont->cd.y = ft_atoi_float(line);
-	spase_com_sep(line);
-	cont->cd.z = ft_atoi_float(line);
-	cont->nm.x = ft_atoi_float(line);
-	spase_com_sep(line);
-	cont->nm.y = ft_atoi_float(line);
-	if (!spase_com_sep(line))
+	if (sep_fl(&(cont->cd.x), line, 0) || sep_fl(&(cont->cd.y), line, 1) || sep_fl(&(cont->cd.z), line, 1))
 		return (1);
-	cont->nm.z = ft_atoi_float(line);
+	if (sep_fl(&(cont->nm.x), line, 0) || sep_fl(&(cont->nm.y), line, 1) || sep_fl(&(cont->nm.z), line, 1))
+		return (1);
 	if (check_normal(cont->nm))
 		return (1);
 	if ((cont->fov = ft_atoi_float(line)) < 0 || cont->fov > 180)
@@ -79,23 +74,15 @@ int		parse_light(char **line, t_scobjs *scene)
 
 	(*line)++;
 	cont = malloc(sizeof(*cont));
-	cont->cd.x = ft_atoi_float(line);
-	spase_com_sep(line);
-	cont->cd.y = ft_atoi_float(line);
-	spase_com_sep(line);
-	cont->cd.z = ft_atoi_float(line);
+	if (sep_fl(&(cont->cd.x), line, 0) || sep_fl(&(cont->cd.y), line, 1) || sep_fl(&(cont->cd.z), line, 1))
+		return (1);
 	if ((cont->br = ft_atoi_float(line)) < 0 || cont->br > 1)
 		return (1);
-	cont->cl.x = ft_atoi_float(line);
-	spase_com_sep(line);
-	cont->cl.y = ft_atoi_float(line);
-	if (!spase_com_sep(line))
+	if (sep_fl(&(cont->cl.x), line, 0) || sep_fl(&(cont->cl.y), line, 1) || sep_fl(&(cont->cl.z), line, 1))
 		return (1);
-	cont->cl.z = ft_atoi_float(line);
 	if (check_color(cont->cl))
 		return (1);
 	new = ft_lstnew(cont);
 	ft_lstadd_back(&(scene->l), new);
 	return (0);
-	(void)scene;
 }

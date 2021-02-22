@@ -1,7 +1,7 @@
 #ifndef TYPE_DEF_H
 # define TYPE_DEF_H
 
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
