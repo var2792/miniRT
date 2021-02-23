@@ -24,7 +24,7 @@ int		belong_cy(t_general gen, t_cylinder cy, t_vector *p);
 //print_pic
 void	point_with_objs(t_general *gen);
 void	print_pic(t_general *gen, t_camera *cam);
-void	start_create(t_general *gen, int sav);
+//void	start_create(t_general *gen, int sav);
 //key_press
 void	free_gen(t_general *gen, int fl);
 int	press_keys(int key, t_general *gen);

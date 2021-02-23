@@ -21,6 +21,14 @@ void	point_with_objs(t_general *gen)
 			belong_to_cylinder(gen, gen->objs.cy->content);
 }
 
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+{
+	char*dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
+}
+
 void	print_pic(t_general *gen, t_camera *cam)
 {
 	if (parse_put_canvas(&(gen->scene), gen->objs, cam))
@@ -45,23 +53,4 @@ void	print_pic(t_general *gen, t_camera *cam)
 	mlx_put_image_to_window(gen->mlx.ptr, gen->mlx.win, gen->img.img, 0, 0);
 	printf("\nc.x = %f, c.y = %f, c.z = %f\n", cam->cd.x, cam->cd.y, cam->cd.z);
 	//printf("c.n.x = %f, c.n.y = %f, c.n.z = %f,\n", gen->objs.c[gen->num_cam].nm.x, gen->objs.c[gen->num_cam].nm.y, gen->objs.c[gen->num_cam].nm.z);
-}
-
-void	start_create(t_general *gen, int sav)
-{
-	gen->mlx.ptr = mlx_init();
-	mlx_get_screen_size(gen->mlx.ptr, &(gen->sizex), &(gen->sizey));
-	gen->objs.r.x = (gen->objs.r.y > gen->sizex) ? gen->sizex : gen->objs.r.y;
-	gen->objs.r.y = (gen->objs.r.y > gen->sizey) ? gen->sizey : gen->objs.r.y;
-	gen->mlx.win = mlx_new_window(gen->mlx.ptr, gen->objs.r.x, gen->objs.r.y, "miniRT");
-	gen->img.img = mlx_new_image(gen->mlx.ptr, gen->objs.r.x, gen->objs.r.y);
-	gen->img.addr = mlx_get_data_addr(gen->img.img, &(gen->img.bits_per_pixel), &(gen->img.line_length), &(gen->img.endian));
-	//printf("\nAA\n\n");
-
-	if (sav)
-		save_pic(gen, gen->objs.c->content);
-	else
-		print_pic(gen, gen->objs.c->content);
-
-
 }

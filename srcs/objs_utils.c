@@ -12,6 +12,7 @@ float	find_discr(t_vector vec1, t_vector vec2, float last, float *t1)
 	dis = k[1] * k[1] - 4 * k[0] * k[2];
 	if (dis >= 0 && !(k[0] == 0 && k[1] == 0))
 	{
+		//printf("%f %f %f\n", k[0], k[1], k[2]);
 		*t1 = (-k[1] + sqrt(dis))/ 2 / k[0];
 		t2 = (-k[1] - sqrt(dis))/ 2 / k[0];
 		if (*t1 > t2) //проверка что t[0] точно меньше t[1]

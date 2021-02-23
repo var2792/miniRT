@@ -86,6 +86,27 @@ int		see_cy(t_general gen, t_cylinder *cy, t_vector *p)
 	return (fl);
 }
 
+void	rot_all(t_general *gen, t_cylinder *cy, t_vector *new, t_vector *p)
+{
+	t_vector *rotmat;
+	t_vector nul;
+
+	ft_write_xyz(&nul, 0, 0, 0);
+	rotmat = rotation_matrix(*new, cy->nm, nul);
+	if (!p)
+	{
+		gen->scene.cdo = mult_m_v(rotmat, gen->scene.cdo);
+		gen->scene.cdv = mult_m_v(rotmat, gen->scene.cdv);
+		cy->cd = mult_m_v(rotmat, cy->cd);
+		ft_write_xyz(&nul, cy->nm.x, cy->nm.y, cy->nm.z);
+		ft_write_xyz(&(cy->nm), new->x, new->y, new->z);
+		ft_write_xyz(new, nul.x, nul.y, nul.z);
+	}
+	else
+		*p = mult_m_v(rotmat, *p);
+	free (rotmat);
+}
+
 int		belong_cy(t_general gen, t_cylinder cy, t_vector *p)
 {
 	//float k[3];
@@ -93,6 +114,15 @@ int		belong_cy(t_general gen, t_cylinder cy, t_vector *p)
 	int fl;
 
 	fl = 1;
+	// t_vector newnm;
+	// int	k;
+	// k = 0;
+	// if (fabs(cy.nm.x) > 0.01)
+	// {
+	// 	k = 1;
+	// 	ft_write_xyz(&newnm, 0, 0, 1);
+	// 	rot_all(&gen, &cy, &newnm, 0);
+	// }
 	if ((t[1] = find_discr(cross_prv(sum_vs(1, gen.scene.cdv, -1, gen.scene.cdo), cy.nm), sum_vs(1, cross_prv(gen.scene.cdo, cy.nm), -1, cross_prv(cy.cd, cy.nm)), dot_prv(cy.nm, cy.nm) * cy.d * cy.d / 4, &(t[0]))) < 1)
 	 	fl = 0;
 	// p = sum_vs(1, gen.scene.cdv, -1, gen.scene.cdo); //V-O = V
@@ -103,7 +133,7 @@ int		belong_cy(t_general gen, t_cylinder cy, t_vector *p)
 	// t[1] = k[1] * k[1] - 4 * k[0] * k[2];
 	// if (t[1] < 0 || (fabs(k[0]) < 0.01 && fabs(k[1]) < 0.01))
 	// 	fl = 0;
-	// ///if (fl > 0) 		printf("%f %f %f\n", k[0], k[1], k[2]);
+	// //if (fl > 0) 		printf("%f %f %f\n", k[0], k[1], k[2]);
 	// if (fabs(k[0]) < 0.01)
 	// {
 	// 	t[0] = (fl == 0) ? -5 : -k[2] / k[1];
@@ -132,5 +162,8 @@ int		belong_cy(t_general gen, t_cylinder cy, t_vector *p)
 		if (len_vec(sum_vs(1, *p, -1, cy.cd)) <= sqrt(cy.h * cy.h / 4 + cy.d * cy.d / 4))
 			fl = 3;
 	}
+
+	// if (k == 1)
+	// 	rot_all(&gen, &cy, &newnm, p);
 	return (fl);
 }

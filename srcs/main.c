@@ -1,13 +1,5 @@
 #include "../incs/funct_def.h"
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-	char*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-}
-
 int		exit_program(t_general *gen)
 {
 	mlx_clear_window(gen->mlx.ptr, gen->mlx.win);
@@ -36,6 +28,23 @@ void	free_gen(t_general *gen, int fl)
 		free(gen->mlx.ptr);
 		free(gen->mlx.win);
 	}
+}
+
+void	start_create(t_general *gen, int sav)
+{
+	gen->mlx.ptr = mlx_init();
+	mlx_get_screen_size(gen->mlx.ptr, &(gen->sizex), &(gen->sizey));
+	gen->objs.r.x = (gen->objs.r.y > gen->sizex) ? gen->sizex : gen->objs.r.y;
+	gen->objs.r.y = (gen->objs.r.y > gen->sizey) ? gen->sizey : gen->objs.r.y;
+	gen->mlx.win = mlx_new_window(gen->mlx.ptr, gen->objs.r.x, gen->objs.r.y, "miniRT");
+	gen->img.img = mlx_new_image(gen->mlx.ptr, gen->objs.r.x, gen->objs.r.y);
+	gen->img.addr = mlx_get_data_addr(gen->img.img, &(gen->img.bits_per_pixel), &(gen->img.line_length), &(gen->img.endian));
+	//printf("\nAA\n\n");
+
+	if (sav)
+		save_pic(gen, gen->objs.c->content);
+	else
+		print_pic(gen, gen->objs.c->content);
 }
 
 int		main(int argc, char **argv)
