@@ -16,11 +16,15 @@ int		exit_program(t_general *gen);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int		exit_program(t_general *gen);
 //cylinder_utils
-float		bright_nl(t_cylinder cy, t_light num_l, t_vector p, int fl);
+float		bright_cy(t_cylinder cy, t_light num_l, t_vector p, int fl);
 unsigned int	rescolcy(t_vector cycl, t_vector sum, t_vector acl, float br);
-int				shadow_cy(t_cylinder *cy, t_light num_l, t_vector pt);
-int		see_cy(t_general gen, t_cylinder *cy, t_vector *p);
-int		belong_cy(t_general gen, t_cylinder cy, t_vector *p);
+int				shadow_cy(t_cylinder cy, t_light num_l, t_vector pt);
+int		see_cy(t_general gen, t_cylinder cy, t_vector *p);
+int		belong_cy2(t_general gen, t_cylinder cy, t_vector *p);
+int		belong_cy(t_general gen, t_cylinder cy, t_vector *p); //cy
+//cylinder_utils2
+void	rot_cy_cord(t_general *gen, t_cylinder *cy, t_vector *new, t_vector *p);
+void	rot_shadow_cy(t_light *num_l, t_cylinder *cy, t_vector *new, t_vector *pt);
 //print_pic
 void	point_with_objs(t_general *gen);
 void	print_pic(t_general *gen, t_camera *cam);

@@ -40,6 +40,7 @@ int		belong_to_cyhead1(t_general gen, t_cylinder cy, t_vector *pcy, int fl)
 	if (t >= 1 && len_vec(sum_vs(1, p, -1, h)) <= cy.d / 2)
 		if ((fl > 1 && len_vec(sum_vs(1, p, -1, gen.scene.cdo)) <= len_vec(sum_vs(1, *pcy, -1, gen.scene.cdo))) || fl < 2)
 		{
+			//printf("Cy %f %f %f\n", h.x, h.y, h.z);
 			pcy->x = p.x;
 			pcy->y = p.y;
 			pcy->z = p.z;
@@ -62,7 +63,7 @@ int		shadow_cyhead0(t_cylinder cy, t_vector pcy, t_light num_l)
 	p = sum_vs(1, num_l.cd, t1, sum_vs(1, pcy, -1, num_l.cd));
 	if (len_vec(sum_vs(1, p, -1, h)) <= cy.d / 2)
 		if (len_vec(sum_vs(1, p, -1, num_l.cd)) <= len_vec(sum_vs(1, pcy, -1, num_l.cd)))
-		return (1);
+			return (1);
 	return (0);
 }
 

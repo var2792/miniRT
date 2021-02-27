@@ -1,5 +1,5 @@
 
-SRCS		= srcs/main.c srcs/key_press.c srcs/print_pic.c srcs/fatal_error_mes.c srcs/parse_file.c srcs/parse_file_1utils.c srcs/parse_file_2utils.c srcs/utils.c srcs/operat_vecs.c srcs/coord_on_canvas.c srcs/points_funs.c srcs/objs_selection.c srcs/sphere.c srcs/objs_utils.c srcs/plane.c srcs/square.c srcs/triangle.c srcs/cylinder.c srcs/cylinder_utils.c srcs/cylinder_heads.c  srcs/save_pic.c
+SRCS		= srcs/main.c srcs/key_press.c srcs/print_pic.c srcs/fatal_error_mes.c srcs/parse_file.c srcs/parse_file_1utils.c srcs/parse_file_2utils.c srcs/utils.c srcs/operat_vecs.c srcs/coord_on_canvas.c srcs/points_funs.c srcs/objs_selection.c srcs/sphere.c srcs/objs_utils.c srcs/plane.c srcs/square.c srcs/triangle.c srcs/cylinder.c srcs/cylinder_utils.c srcs/cylinder_utils2.c srcs/cylinder_heads.c  srcs/save_pic.c
 HEADER		= -I incs/type_def.h incs/funct_def.h
 
 OBJS		=	${SRCS:.c=.o}
