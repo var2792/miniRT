@@ -27,6 +27,8 @@ void			ft_null_scene(t_scobjs *scene)
 {
 	scene->r.is = 0;
 	scene->a.is = 0;
+	scene->a.rat=0;
+	ft_write_xyz(&(scene->a.cl), 255, 255, 255);
 	ft_write_xyz(&(scene->orig_cam), 0, 0, 1);
 	scene->c = NULL;
 	scene->l = NULL;
@@ -94,7 +96,7 @@ int		parse_file(t_scobjs *objs, char *argv)
 	ft_null_scene(objs);
 	if (parse_lines(fd, objs))
 		return (1);
-	if (!objs->r.is || !objs->c || !objs->a.is)
+	if (!objs->r.is)
 		return (errors_mes(3, 0));
 	close(fd);
 	return (0);

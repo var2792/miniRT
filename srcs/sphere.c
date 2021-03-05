@@ -9,20 +9,17 @@ int	belong_to_sphere(t_general *gen, t_sphere *sp)
 
 	fl = 1;
 	p = sum_vs(1, gen->scene.cdv, -1, gen->scene.cdo);
-	t[1] = len_vec(cross_prv(sum_vs(1, sp->cd, -1, gen->scene.cdo), p)) / len_vec(p);
-	if (t[1] <= sp->d * 2)
-	{
-		t[1] = find_discr(p, sum_vs(1, gen->scene.cdo, -1, sp->cd), sp->d * sp->d / 4, &(t[0]));
-		if (t[0] >= 1 && fl > 0)
-			p = sum_vs(1, gen->scene.cdo, t[0], p);
-		else if (t[1] >= 1 && fl > 0)
-			p = sum_vs(1, gen->scene.cdo, t[1], p);
+	t[1] = find_discr(p, sum_vs(1, gen->scene.cdo, -1, sp->cd), sp->d * sp->d / 4, &(t[0]));
+	if (t[0] >= 1 && fl > 0)
+		p = sum_vs(1, gen->scene.cdo, t[0], p);
+	else if (t[1] >= 1 && fl > 0)
+		p = sum_vs(1, gen->scene.cdo, t[1], p);
 
-		if (fl > 0)
-			if (check_see_objs(*gen, p, (int)gen->pix.z) || (t[0] <= 1 && t[1] <= 1))
-				fl = 0;
-		gen->cl = (fl == 1) ? light_change_sp(*gen, p, *sp, (int)gen->pix.z) : gen->cl;
-	}
+	if (fl > 0)
+		if (check_see_objs(*gen, p, (int)gen->pix.z) || (t[0] <= 1 && t[1] <= 1))
+			fl = 0;
+	gen->cl = (fl == 1) ? light_change_sp(*gen, p, *sp, (int)gen->pix.z) : gen->cl;
+
 	gen->pix.z += 1;
 	if ((lstsp = ft_lstnum(gen->objs.sp, (int)gen->pix.z)) != NULL)
 		gen->cl = belong_to_sphere(gen, lstsp->content);
@@ -59,11 +56,9 @@ int		check_see_sp(t_general gen, t_vector ptr, int num_sp)
 		{
 			sp = temp->content;
 			p = sum_vs(1, gen.scene.cdv, -1, gen.scene.cdo);
-			t[1] = len_vec(cross_prv(sum_vs(1, sp->cd, -1, gen.scene.cdo), p)) / len_vec(p);
-			if (t[1] <= sp->d * 2)
-				if ((t[1] = find_discr(p, sum_vs(1, gen.scene.cdo, -1, sp->cd), sp->d * sp->d / 4, &(t[0]))) > 0.01)
-					if (see_sp_util(gen.scene, ptr, t))
-						return (1);
+			if ((t[1] = find_discr(p, sum_vs(1, gen.scene.cdo, -1, sp->cd), sp->d * sp->d / 4, &(t[0]))) > 0.01)
+				if (see_sp_util(gen.scene, ptr, t))
+					return (1);
 		}
 		temp = temp->next;
 		i++;
@@ -85,11 +80,9 @@ float		check_shadow_sp(t_light num_l, int num_sp, t_scobjs objects, t_vector p)
 		if (i != num_sp)
 		{
 			sp = temp->content;
-			t[1] = len_vec(cross_prv(sum_vs(1, sp->cd, -1, num_l.cd), sum_vs(1, p, -1, num_l.cd))) / len_vec(sum_vs(1, p, -1, num_l.cd));
-			if (t[1] <= sp->d * 2)
-				if ((t[1] = find_discr(sum_vs(1, p, -1, num_l.cd), sum_vs(1, num_l.cd, -1, sp->cd), sp->d * sp->d / 4, &(t[0]))) > 0.01)
-					if ((t[0] > 0 && t[0] < 1) || (t[1] > 0 && t[1] < 1))
-						return (0);
+			if ((t[1] = find_discr(sum_vs(1, p, -1, num_l.cd), sum_vs(1, num_l.cd, -1, sp->cd), sp->d * sp->d / 4, &(t[0]))) > 0.01)
+				if ((t[0] > 0 && t[0] < 1) || (t[1] > 0 && t[1] < 1))
+					return (0);
 		}
 		temp = temp->next;
 		i++;

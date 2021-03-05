@@ -34,17 +34,17 @@ void	start_create(t_general *gen, int sav)
 {
 	gen->mlx.ptr = mlx_init();
 	mlx_get_screen_size(gen->mlx.ptr, &(gen->sizex), &(gen->sizey));
-	gen->objs.r.x = (gen->objs.r.y > gen->sizex) ? gen->sizex : gen->objs.r.y;
+	gen->objs.r.x = (gen->objs.r.x > gen->sizex) ? gen->sizex : gen->objs.r.x;
 	gen->objs.r.y = (gen->objs.r.y > gen->sizey) ? gen->sizey : gen->objs.r.y;
 	gen->mlx.win = mlx_new_window(gen->mlx.ptr, gen->objs.r.x, gen->objs.r.y, "miniRT");
 	gen->img.img = mlx_new_image(gen->mlx.ptr, gen->objs.r.x, gen->objs.r.y);
 	gen->img.addr = mlx_get_data_addr(gen->img.img, &(gen->img.bits_per_pixel), &(gen->img.line_length), &(gen->img.endian));
-	//printf("\nAA\n\n");
+	//printf("\nAA %i\n\n", sav);
 
 	if (sav)
-		save_pic(gen, gen->objs.c->content);
+		save_pic(gen, (!gen->objs.c) ? 0 : gen->objs.c->content);
 	else
-		print_pic(gen, gen->objs.c->content);
+		print_pic(gen, (!gen->objs.c) ? 0 : gen->objs.c->content);
 }
 
 int		main(int argc, char **argv)
@@ -59,7 +59,7 @@ int		main(int argc, char **argv)
 		return (errors_mes(1, 0));
 	if (argc == 3)
 	{
-		if (ft_strncmp(argv[2], "-save", 6) != 0)
+		if (ft_strncmp(argv[2], "--save", 7) != 0)
 			return (errors_mes(6, 0));
 		else
 			if (!(gen.savename = create_bmp_name(argv[1])))

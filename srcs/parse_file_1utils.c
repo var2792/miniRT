@@ -38,7 +38,6 @@ int		parse_ambient(char **line, t_scobjs *scene)
 	scene->a.rat = (scene->a.rat < 0.75) ? 0.1 : scene->a.rat;
 	if (sep_fl(&(scene->a.cl.x), line, 0) || sep_fl(&(scene->a.cl.y), line, 1) || sep_fl(&(scene->a.cl.z), line, 1))
 		return (1);
-	//printf("%f %f %f\n", scene->a.cl.x, scene->a.cl.y, scene->a.cl.z);
 	if (check_color(scene->a.cl))
 		return (1);
 	scene->a.is = 1;

@@ -14,8 +14,8 @@ int		belong_to_cylinder(t_general *gen, t_cylinder *cy)
 	fl = belong_to_cyhead0(*gen, *cy, &p, fl);
 	fl = belong_to_cyhead1(*gen, *cy, &p, fl);
 
-	//if (fl > 0 && check_see_objs(*gen, p, 400 + (int)gen->pix.z))
-		//fl = 0;
+	if (fl > 0 && check_see_objs(*gen, p, 400 + (int)gen->pix.z))
+		fl = 0;
 
 	//gen->cl = (fl > 1) ? ft_colorvec_unsint(1, cy->cl) : gen->cl;
 	gen->cl = (fl > 1) ? light_change_cy(*gen, p, (int)gen->pix.z, fl) : gen->cl;

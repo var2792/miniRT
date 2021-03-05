@@ -5,23 +5,20 @@ float		bright_cy(t_cylinder cy, t_light num_l, t_vector p, int fl)
 	float bright;
 	t_vector newnm;
 
-	/*if (fl != 4)
+	if (fl != 4)
 		{
-			if (fabs(cy.nm.x) > 0.01)
+			/*if (fabs(cy.nm.x) > 0.01)
 			{
 				if (len_vec(ft_write_xyz(&newnm, 0, cy.nm.y, cy.nm.z)) < 0.01)
 					ft_write_xyz(&newnm, 0, 1, 0);
 				rot_shadow_cy(&num_l, &cy, &newnm, &p);
-			}
+			}*/
 			bright = dot_prv(cy.nm, sum_vs(1, p, -1, cy.cd)) / dot_prv(cy.nm, cy.nm);
 			newnm = sum_vs(1, cy.cd, bright, cy.nm);
 			if ((bright = dot_prv(sum_vs(-1, p, 1, newnm), sum_vs( 1, p, -1, num_l.cd)) / len_vec(sum_vs(-1, p, 1, newnm)) / len_vec(sum_vs( 1, p, -1, num_l.cd))) < 0)
 				bright = 0;
-			//else
-				///bright = 1 - bright;
-			//printf("%f\n", bright);
 		}
-	else*/
+	else
 		bright = 20 / len_vec(sum_vs(1, p, -1, num_l.cd));
 	return (bright);
 }

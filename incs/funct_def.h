@@ -26,6 +26,7 @@ int		belong_cy(t_general gen, t_cylinder cy, t_vector *p); //cy
 void	rot_cy_cord(t_general *gen, t_cylinder *cy, t_vector *new, t_vector *p);
 void	rot_shadow_cy(t_light *num_l, t_cylinder *cy, t_vector *new, t_vector *pt);
 //print_pic
+void	show_null_file(t_general *gen, int sav);
 void	point_with_objs(t_general *gen);
 void	print_pic(t_general *gen, t_camera *cam);
 //void	start_create(t_general *gen, int sav);

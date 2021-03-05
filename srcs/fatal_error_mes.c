@@ -18,7 +18,7 @@ int errors_mes(int n, char **help)
 	if (n == 5)
 		ft_putstr_fd("Error: No file.\n", 1);
 	if (n == 6)
-		ft_putstr_fd("Error: Wrong -save argument.\n", 1);
+		ft_putstr_fd("Error: Wrong --save argument.\n", 1);
 	if (n == 7)
 		ft_putstr_fd("Error: Other problem.\n", 1);
 	return (1);
