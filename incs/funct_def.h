@@ -5,6 +5,7 @@
 # include "../mlx_linux/mlx.h"
 
 //save_pic
+int		bmp_image(t_general *gen);
 void	save_pic(t_general *gen, t_camera *cam);
 char	*create_bmp_name(char *file);
 //sphere

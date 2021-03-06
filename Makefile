@@ -6,7 +6,7 @@ OBJS		=	${SRCS:.c=.o}
 
 LIBFT		= libft
 
-CFLAGS		= -Wall -Wextra #-Werror
+CFLAGS		= -Wall -Wextra -Werror
 
 LFLAGS			= -L $(LIBFT) -lft
 

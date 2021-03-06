@@ -8,6 +8,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <time.h>
+# define EPS 0.0001
 
 typedef struct	s_my_mlx
 {

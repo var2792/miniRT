@@ -20,7 +20,7 @@ void	bitmap_file_header(t_general *gen, int padding_size, int fd)
 	file_header[5] = (unsigned char)(file_size >> 24);
 	file_header[10] = (unsigned char)(14
 		+ 40);
-	write(fd, file_header, 14);
+	fd += write(fd, file_header, 14);
 	free(file_header);
 }
 
@@ -44,7 +44,7 @@ void	bitmap_info_header(t_general *gen, int fd)
 	info_header[11] = (unsigned char)(gen->objs.r.y >> 24);
 	info_header[12] = (unsigned char)(1);
 	info_header[14] = (unsigned char)(gen->img.bits_per_pixel);
-	write(fd, info_header, 40);
+	fd += write(fd, info_header, 40);
 	free(info_header);
 }
 
@@ -54,6 +54,7 @@ int		bmp_image(t_general *gen)
 	int				fd;
 	int				padding_size;
 	unsigned char	padding[3];
+	ssize_t			nul;
 
 	i = gen->objs.r.y;
 	ft_bzero(padding, 3);
@@ -64,8 +65,8 @@ int		bmp_image(t_general *gen)
 	bitmap_info_header(gen, fd);
 	while (i >= 0)
 	{
-		write(fd, gen->img.addr + (i * gen->objs.r.x * gen->img.bits_per_pixel / 8), gen->img.line_length);
-		write(fd, padding, padding_size);
+		nul = write(fd, gen->img.addr + (i * gen->objs.r.x * gen->img.bits_per_pixel / 8), gen->img.line_length);
+		nul += write(fd, padding, padding_size);
 		i--;
 	}
 	close(fd);
@@ -98,8 +99,6 @@ void	save_pic(t_general *gen, t_camera *cam)
 		gen->pix.x += 1;
 	}
 	bmp_image(gen);
-	exit_program(gen);
-	free_gen(gen, 1);
 }
 
 char	*create_bmp_name(char *file)
@@ -109,7 +108,7 @@ char	*create_bmp_name(char *file)
 	int		i;
 
 	n = ft_strilen(file);
-	if ((newname = malloc(sizeof(char) * (n - 2 + 3))) == 0)
+	if ((newname = malloc(sizeof(char) * (n + 2))) == 0)
 		return (0);
 	i = -1;
 	while (++i < n - 2)
