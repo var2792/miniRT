@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_pic.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tarneld <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/07 21:55:19 by tarneld           #+#    #+#             */
+/*   Updated: 2021/03/07 22:37:28 by tarneld          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incs/funct_def.h"
 
 void	show_null_file(t_general *gen, int sav)
@@ -13,7 +25,6 @@ void	show_null_file(t_general *gen, int sav)
 		gen->pix.y = 0;
 		gen->pix.x += 1;
 	}
-
 	if (sav)
 	{
 		bmp_image(gen);
@@ -26,28 +37,27 @@ void	show_null_file(t_general *gen, int sav)
 
 void	point_with_objs(t_general *gen)
 {
-		gen->scene.cdv = trans_pixv(*gen);
-		gen->cl = -5;
-		//printf("\nAA\n\n");
-		if (gen->objs.sp != NULL)
-			belong_to_sphere(gen, gen->objs.sp->content);
-		gen->pix.z = 0;
-		if (gen->objs.pl != NULL)
-			belong_to_plane(gen, gen->objs.pl->content);
-		gen->pix.z = 0;
-		if (gen->objs.sq != NULL)
-			belong_to_square(gen, gen->objs.sq->content);
-		gen->pix.z = 0;
-		if (gen->objs.tr != NULL)
-			belong_to_triangle(gen, gen->objs.tr->content);
-		gen->pix.z = 0;
-		if (gen->objs.cy != NULL)
-			belong_to_cylinder(gen, gen->objs.cy->content);
+	gen->scene.cdv = trans_pixv(*gen);
+	gen->cl = -5;
+	if (gen->objs.sp != NULL)
+		belong_to_sphere(gen, gen->objs.sp->content);
+	gen->pix.z = 0;
+	if (gen->objs.pl != NULL)
+		belong_to_plane(gen, gen->objs.pl->content);
+	gen->pix.z = 0;
+	if (gen->objs.sq != NULL)
+		belong_to_square(gen, gen->objs.sq->content);
+	gen->pix.z = 0;
+	if (gen->objs.tr != NULL)
+		belong_to_triangle(gen, gen->objs.tr->content);
+	gen->pix.z = 0;
+	if (gen->objs.cy != NULL)
+		belong_to_cylinder(gen, gen->objs.cy->content);
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
-	char*dst;
+	char	*dst;
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
@@ -69,7 +79,7 @@ void	print_pic(t_general *gen, t_camera *cam)
 		{
 			point_with_objs(gen);
 			if (gen->cl >= 0)
-				my_mlx_pixel_put(&(gen->img), gen->pix.x, gen->pix.y, (int)(gen->cl));
+				my_mlx_pixel_put(&(gen->img), gen->pix.x, gen->pix.y, gen->cl);
 			else
 				my_mlx_pixel_put(&(gen->img), gen->pix.x, gen->pix.y, 0);
 			gen->pix.z = 0;
@@ -78,8 +88,5 @@ void	print_pic(t_general *gen, t_camera *cam)
 		gen->pix.y = 0;
 		gen->pix.x += 1;
 	}
-
 	mlx_put_image_to_window(gen->mlx.ptr, gen->mlx.win, gen->img.img, 0, 0);
-	printf("\nc.x = %f, c.y = %f, c.z = %f\n", cam->cd.x, cam->cd.y, cam->cd.z);
-	//printf("c.n.x = %f, c.n.y = %f, c.n.z = %f,\n", gen->objs.c[gen->num_cam].nm.x, gen->objs.c[gen->num_cam].nm.y, gen->objs.c[gen->num_cam].nm.z);
 }

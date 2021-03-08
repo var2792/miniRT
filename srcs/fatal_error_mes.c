@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fatal_error_mes.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tarneld <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/07 21:55:19 by tarneld           #+#    #+#             */
+/*   Updated: 2021/03/07 22:37:28 by tarneld          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incs/funct_def.h"
 
-int errors_mes(int n, char **help)
+int	errors_mes(int n, char **help)
 {
 	if (n == 1)
 		ft_putstr_fd("Error: Wrong function call.\n", 1);

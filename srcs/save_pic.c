@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   save_pic.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tarneld <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/07 21:55:19 by tarneld           #+#    #+#             */
+/*   Updated: 2021/03/07 22:37:28 by tarneld          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incs/funct_def.h"
 
 void	bitmap_file_header(t_general *gen, int padding_size, int fd)
@@ -7,11 +19,11 @@ void	bitmap_file_header(t_general *gen, int padding_size, int fd)
 
 	if (!(file_header = ft_calloc(14, sizeof(unsigned char))))
 	{
-		errors_mes(7,0);
+		errors_mes(7, 0);
 		return ;
 	}
-	file_size = 14 + 40
-		+ (gen->img.bits_per_pixel / 8 * gen->objs.r.x + padding_size) * gen->objs.r.y;
+	file_size = 54 + (gen->img.bits_per_pixel / 8 *
+	gen->objs.r.x + padding_size) * gen->objs.r.y;
 	file_header[0] = (unsigned char)('B');
 	file_header[1] = (unsigned char)('M');
 	file_header[2] = (unsigned char)(file_size);
@@ -30,7 +42,7 @@ void	bitmap_info_header(t_general *gen, int fd)
 
 	if (!(info_header = ft_calloc(40, sizeof(unsigned char))))
 	{
-		errors_mes(7,0);
+		errors_mes(7, 0);
 		return ;
 	}
 	info_header[0] = (unsigned char)(40);
@@ -65,7 +77,8 @@ int		bmp_image(t_general *gen)
 	bitmap_info_header(gen, fd);
 	while (i >= 0)
 	{
-		nul = write(fd, gen->img.addr + (i * gen->objs.r.x * gen->img.bits_per_pixel / 8), gen->img.line_length);
+		nul = write(fd, gen->img.addr + (i * gen->objs.r.x *
+		gen->img.bits_per_pixel / 8), gen->img.line_length);
 		nul += write(fd, padding, padding_size);
 		i--;
 	}
@@ -89,7 +102,7 @@ void	save_pic(t_general *gen, t_camera *cam)
 		{
 			point_with_objs(gen);
 			if (gen->cl >= 0)
-				my_mlx_pixel_put(&(gen->img), gen->pix.x, gen->pix.y, (int)(gen->cl));
+				my_mlx_pixel_put(&(gen->img), gen->pix.x, gen->pix.y, gen->cl);
 			else
 				my_mlx_pixel_put(&(gen->img), gen->pix.x, gen->pix.y, 0);
 			gen->pix.z = 0;

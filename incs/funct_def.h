@@ -45,6 +45,7 @@ t_vector	trans_pixv(t_general gen);
 //utils
 t_vector		ft_write_xyz(t_vector *vec, float x, float y, float z);
 unsigned int	ft_colorvec_unsint(float br, t_vector vec);
+unsigned int	rescolcy(t_vector cycl, t_vector sum, t_vector acl, float br);
 //PARSE_FILE
 int		parse_file(t_scobjs *objs, char *argv);
 int		parse_resplution(char **line, t_scobjs *scene);

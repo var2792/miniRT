@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_file.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tarneld <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/07 21:55:19 by tarneld           #+#    #+#             */
+/*   Updated: 2021/03/07 22:37:28 by tarneld          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incs/funct_def.h"
 
 int		ft_check_input_chars(char **line, t_scobjs *scene)
@@ -23,11 +35,11 @@ int		ft_check_input_chars(char **line, t_scobjs *scene)
 	return (1);
 }
 
-void			ft_null_scene(t_scobjs *scene)
+void	ft_null_scene(t_scobjs *scene)
 {
 	scene->r.is = 0;
 	scene->a.is = 0;
-	scene->a.rat=0;
+	scene->a.rat = 0;
 	ft_write_xyz(&(scene->a.cl), 255, 255, 255);
 	ft_write_xyz(&(scene->orig_cam), 0, 0, 1);
 	scene->c = NULL;
@@ -39,14 +51,14 @@ void			ft_null_scene(t_scobjs *scene)
 	scene->cy = NULL;
 }
 
-int check_name_file(char *argv)
+int		check_name_file(char *argv)
 {
 	int i;
 
 	i = 0;
 	while (argv[i] && argv[i] != '.')
 		i++;
-    if (!argv[i] || i < 1)
+	if (!argv[i] || i < 1)
 		return (1);
 	else if (argv[i + 1] && argv[i + 1] != 'r')
 		return (1);
@@ -59,10 +71,10 @@ int check_name_file(char *argv)
 
 int		parse_lines(int fd, t_scobjs *objs)
 {
-	int n;
-	int len;
-	char *line;
-	char *save_line;
+	int		n;
+	int		len;
+	char	*line;
+	char	*save_line;
 
 	n = 1;
 	while (n > 0)
