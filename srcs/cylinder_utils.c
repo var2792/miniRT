@@ -38,11 +38,15 @@ int		check_head_orient(t_vector pcy, t_cylinder cy, t_light num_l)
 float	perpend_heads(t_cylinder cy, t_vector p, t_light num_l)
 {
 	t_vector	h;
+	int			t;
 
-	if (check_head_orient(p, cy, num_l) == 0)
+	t = check_head_orient(p, cy, num_l);
+	if (t == 0)
 		h = sum_vs(1, cy.cd, -cy.h / 2 / sqrt(dot_prv(cy.nm, cy.nm)), cy.nm);
-	if (check_head_orient(p, cy, num_l) == 1)
+	if (t == 1)
 		h = sum_vs(1, cy.cd, cy.h / 2 / sqrt(dot_prv(cy.nm, cy.nm)), cy.nm);
+	if (t == 2)
+		return (1);
 	return (perpend_to_plane(h, cy.nm, num_l.cd));
 }
 
