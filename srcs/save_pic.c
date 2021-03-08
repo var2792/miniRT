@@ -88,11 +88,9 @@ int		bmp_image(t_general *gen)
 
 void	save_pic(t_general *gen, t_camera *cam)
 {
+	ft_putendl_fd("Started saving...", 1);
 	if (gen->objs.c == NULL)
-	{
-		show_null_file(gen, 1);
-		return ;
-	}
+		return (show_null_file(gen, 1));
 	if (parse_put_canvas(&(gen->scene), gen->objs, cam))
 		return ;
 	ft_write_xyz(&(gen->pix), 0, 0, 0);
@@ -112,6 +110,7 @@ void	save_pic(t_general *gen, t_camera *cam)
 		gen->pix.x += 1;
 	}
 	bmp_image(gen);
+	ft_putendl_fd("Finished saving.", 1);
 }
 
 char	*create_bmp_name(char *file)

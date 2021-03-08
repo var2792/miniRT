@@ -78,10 +78,7 @@ void	change_cam(int key, t_general *gen)
 int		press_keys(int key, t_general *gen)
 {
 	if (key == 65307)
-	{
-		ft_putstr_fd("\nThe window is closed by esc.\n", 1);
 		return (exit_program(gen));
-	}
 	if (key == 65363)
 		next_cam(gen);
 	if (key == 65361)
@@ -89,5 +86,15 @@ int		press_keys(int key, t_general *gen)
 	if (key == 119 || key == 115 || key == 97 ||
 	key == 100 || key == 122 || key == 120)
 		change_cam(key, gen);
+	if (key == 99)
+	{
+		ft_putstr_fd("Camera's coords: ", 1);
+		ft_putnbr_fd(gen->scene.cdo.x, 1);
+		ft_putchar_fd('\t', 1);
+		ft_putnbr_fd(gen->scene.cdo.y, 1);
+		ft_putchar_fd('\t', 1);
+		ft_putnbr_fd(gen->scene.cdo.z, 1);
+		ft_putchar_fd('\n', 1);
+	}
 	return (0);
 }

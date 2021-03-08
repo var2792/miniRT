@@ -1,5 +1,16 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: tarneld <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/03/07 21:57:51 by tarneld           #+#    #+#              #
+#    Updated: 2021/03/07 22:33:32 by tarneld          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-SRCS		= srcs/main.c srcs/key_press.c srcs/print_pic.c srcs/fatal_error_mes.c srcs/parse_file.c srcs/parse_file_1utils.c srcs/parse_file_2utils.c srcs/utils.c srcs/operat_vecs.c srcs/coord_on_canvas.c srcs/points_funs.c srcs/objs_selection.c srcs/sphere.c srcs/objs_utils.c srcs/plane.c srcs/square.c srcs/triangle.c srcs/cylinder.c srcs/cylinder_utils.c srcs/cylinder_utils2.c srcs/cylinder_heads.c  srcs/save_pic.c
+SRCS		= srcs/main.c srcs/key_press.c srcs/print_pic.c srcs/fatal_error_mes.c srcs/parse_file.c srcs/parse_file_1utils.c srcs/parse_file_2utils.c srcs/utils.c srcs/operat_vecs.c srcs/coord_on_canvas.c srcs/points_funs.c srcs/objs_selection.c srcs/sphere.c srcs/objs_utils.c srcs/plane.c srcs/square.c srcs/triangle.c srcs/cylinder.c srcs/cylinder_utils.c srcs/cylinder_see.c srcs/cylinder_shadow.c  srcs/save_pic.c
 HEADER		= -I incs/type_def.h incs/funct_def.h
 
 OBJS		=	${SRCS:.c=.o}

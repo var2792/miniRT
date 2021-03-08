@@ -24,7 +24,7 @@ size_t		ft_strlen(const char *str)
 	return (i);
 }
 
-int		ft_strilen(const char *str)
+int			ft_strilen(const char *str)
 {
 	unsigned long i;
 

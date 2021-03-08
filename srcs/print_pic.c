@@ -65,11 +65,9 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 void	print_pic(t_general *gen, t_camera *cam)
 {
+	ft_putendl_fd("Started drawing...", 1);
 	if (gen->objs.c == NULL)
-	{
-		show_null_file(gen, 0);
-		return ;
-	}
+		return (show_null_file(gen, 0));
 	if (parse_put_canvas(&(gen->scene), gen->objs, cam))
 		return ;
 	ft_write_xyz(&(gen->pix), 0, 0, 0);
@@ -89,4 +87,5 @@ void	print_pic(t_general *gen, t_camera *cam)
 		gen->pix.x += 1;
 	}
 	mlx_put_image_to_window(gen->mlx.ptr, gen->mlx.win, gen->img.img, 0, 0);
+	ft_putendl_fd("Finished drawing.", 1);
 }

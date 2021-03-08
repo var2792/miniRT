@@ -38,7 +38,14 @@ unsigned int	ft_colorvec_unsint(float br, t_vector vec)
 	return (br * num);
 }
 
-unsigned int	rescolcy(t_vector cycl, t_vector sum, t_vector acl, float br)
+void			correct_color(t_vector *cl)
+{
+	cl->x = (cl->x > 255) ? 255 : cl->x;
+	cl->y = (cl->y > 255) ? 255 : cl->y;
+	cl->z = (cl->z > 255) ? 255 : cl->z;
+}
+
+unsigned int	rescolobj(t_vector cycl, t_vector sum, t_vector acl, float br)
 {
 	t_vector cl;
 

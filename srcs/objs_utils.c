@@ -41,13 +41,6 @@ float	find_discr(t_vector vec1, t_vector vec2, float last, float *t1)
 	return (t2);
 }
 
-void	correct_color(t_vector *cl)
-{
-	cl->x = (cl->x > 255) ? 255 : cl->x;
-	cl->y = (cl->y > 255) ? 255 : cl->y;
-	cl->z = (cl->z > 255) ? 255 : cl->z;
-}
-
 float	check_orient(t_vector normal, t_vector l, t_vector cor_0, t_vector p)
 {
 	float		alfa;
@@ -62,4 +55,15 @@ float	check_orient(t_vector normal, t_vector l, t_vector cor_0, t_vector p)
 	if (alfa < 0)
 		return (0);
 	return (1);
+}
+
+float	perpend_to_plane(t_vector cd, t_vector nm, t_vector lig)
+{
+	t_vector	p;
+	float		t;
+
+	t = dot_prv(nm, lig) - dot_prv(nm, cd);
+	t /= dot_prv(nm, nm);
+	p = sum_vs(1, lig, t, nm);
+	return (len_vec(sum_vs(1, p, -1, lig)));
 }

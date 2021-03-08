@@ -136,8 +136,8 @@ int	parse_triangle(char **line, t_scobjs *scene)
 	if (sep_fl(&(cont->cl.x), line, 0) || sep_fl(&(cont->cl.y), line, 1)
 	|| sep_fl(&(cont->cl.z), line, 1) || check_color(cont->cl))
 		return (1);
-	cont->nm = cross_prv(sum_vs(1, cont->cd2, -1, cont->cd1),
-	sum_vs(1, cont->cd3, -1, cont->cd1));
+	cont->nm = cross_prv(sum_vs(1, cont->cd1, -1, cont->cd2),
+	sum_vs(1, cont->cd2, -1, cont->cd3));
 	cont->nm = sum_vs(1 / len_vec(cont->nm), cont->nm, 0, cont->nm);
 	new = ft_lstnew(cont);
 	ft_lstadd_back(&(scene->tr), new);

@@ -26,11 +26,11 @@ typedef struct		s_list
 
 # define BUFFER_SIZE 1
 
-int			get_next_line(int fd, char **line);
-int			ft_findchr(char *st, char c);
-char		*ft_join_free(char *s1, const char *s2);
-void		divide_static(char **st);
-void		unite_stnext(char **line, char **st);
+int					get_next_line(int fd, char **line);
+int					ft_findchr(char *st, char c);
+char				*ft_join_free(char *s1, const char *s2);
+void				divide_static(char **st);
+void				unite_stnext(char **line, char **st);
 
 int					ft_atoi(const char *str);
 int					ft_atoi_dinam(char **str);

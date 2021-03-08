@@ -12,33 +12,6 @@
 
 #include "../incs/funct_def.h"
 
-int		belong_to_sphere(t_general *gen, t_sphere *sp)
-{
-	float		t[2];
-	t_vector	p;
-	t_list		*lstsp;
-	int			fl;
-
-	fl = 1;
-	p = sum_vs(1, gen->scene.cdv, -1, gen->scene.cdo);
-	t[1] = find_discr(p, sum_vs(1, gen->scene.cdo, -1,
-	sp->cd), sp->d * sp->d / 4, &(t[0]));
-	if (t[0] >= 1 && fl > 0)
-		p = sum_vs(1, gen->scene.cdo, t[0], p);
-	else if (t[1] >= 1 && fl > 0)
-		p = sum_vs(1, gen->scene.cdo, t[1], p);
-	if (fl > 0)
-		if (check_see_objs(*gen, p, (int)gen->pix.z) ||
-		(t[0] < 1 - EPS && t[1] < 1 - EPS))
-			fl = 0;
-	gen->cl = (fl == 1) ? light_change_sp(*gen, p,
-	*sp, (int)gen->pix.z) : gen->cl;
-	gen->pix.z += 1;
-	if ((lstsp = ft_lstnum(gen->objs.sp, (int)gen->pix.z)) != NULL)
-		gen->cl = belong_to_sphere(gen, lstsp->content);
-	return (gen->cl);
-}
-
 int		see_sp_util(t_scene scene, t_vector ptr, float t[])
 {
 	t_vector	p;
@@ -131,5 +104,32 @@ float	light_change_sp(t_general gen, t_vector p, t_sphere sp, int num_sp)
 		sum_lig = sum_vs(1, sum_lig, num_l->br * res_br, num_l->cl);
 		temp = temp->next;
 	}
-	return (rescolcy(sp.cl, sum_lig, gen.objs.a.cl, res_br));
+	return (rescolobj(sp.cl, sum_lig, gen.objs.a.cl, res_br));
+}
+
+int		belong_to_sphere(t_general *gen, t_sphere *sp)
+{
+	float		t[2];
+	t_vector	p;
+	t_list		*lstsp;
+	int			fl;
+
+	fl = 1;
+	p = sum_vs(1, gen->scene.cdv, -1, gen->scene.cdo);
+	t[1] = find_discr(p, sum_vs(1, gen->scene.cdo, -1,
+	sp->cd), sp->d * sp->d / 4, &(t[0]));
+	if (t[0] > 1 && fl > 0)
+		p = sum_vs(1, gen->scene.cdo, t[0], p);
+	else if (t[1] > 1 && fl > 0)
+		p = sum_vs(1, gen->scene.cdo, t[1], p);
+	if (fl > 0)
+		if (check_see_objs(*gen, p, (int)gen->pix.z) ||
+		(t[0] < 1 - EPS && t[1] < 1 - EPS))
+			fl = 0;
+	gen->cl = (fl == 1) ? light_change_sp(*gen, p,
+	*sp, (int)gen->pix.z) : gen->cl;
+	gen->pix.z += 1;
+	if ((lstsp = ft_lstnum(gen->objs.sp, (int)gen->pix.z)) != NULL)
+		gen->cl = belong_to_sphere(gen, lstsp->content);
+	return (gen->cl);
 }

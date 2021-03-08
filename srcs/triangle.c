@@ -12,25 +12,6 @@
 
 #include "../incs/funct_def.h"
 
-int				belong_to_triangle(t_general *gen, t_triangle *tr)
-{
-	t_vector	p;
-	t_list		*lstsp;
-	float		t;
-
-	t = dot_prv(tr->nm, tr->cd1) - dot_prv(tr->nm, gen->scene.cdo);
-	t /= dot_prv(tr->nm, gen->scene.cdv) - dot_prv(tr->nm, gen->scene.cdo);
-	p = sum_vs(1, gen->scene.cdo, t,
-	sum_vs(1, gen->scene.cdv, -1, gen->scene.cdo));
-	if (t >= 1 && point_in_triangle(*tr, p))
-		if (!check_see_objs(*gen, p, 300 + (int)gen->pix.z))
-			gen->cl = light_change_tr(*gen, p, *tr, (int)gen->pix.z);
-	gen->pix.z += 1;
-	if ((lstsp = ft_lstnum(gen->objs.tr, (int)gen->pix.z)) != NULL)
-		gen->cl = belong_to_triangle(gen, lstsp->content);
-	return (gen->cl);
-}
-
 static float	equal_tpl(t_triangle tr, t_scene scene)
 {
 	float t;
@@ -112,12 +93,32 @@ t_triangle tr, int num_tr)
 	while (temp)
 	{
 		num_l = temp->content;
-		bright = 20 / len_vec(sum_vs(1, p, -1, num_l->cd));
+		bright = perpend_to_plane(tr.cd1, tr.nm, num_l->cd)
+		/ len_vec(sum_vs(1, p, -1, num_l->cd));
 		res_br += num_l->br * bright * (check_orient(tr.nm, num_l->cd,
 		gen.scene.cdo, p) ? check_shadow(*num_l, num_tr + 300,
 		gen.objs, p) : 0);
 		sum_lig = sum_vs(1, sum_lig, num_l->br * res_br, num_l->cl);
 		temp = temp->next;
 	}
-	return (rescolcy(tr.cl, sum_lig, gen.objs.a.cl, res_br));
+	return (rescolobj(tr.cl, sum_lig, gen.objs.a.cl, res_br));
+}
+
+int				belong_to_triangle(t_general *gen, t_triangle *tr)
+{
+	t_vector	p;
+	t_list		*lstsp;
+	float		t;
+
+	t = dot_prv(tr->nm, tr->cd1) - dot_prv(tr->nm, gen->scene.cdo);
+	t /= dot_prv(tr->nm, gen->scene.cdv) - dot_prv(tr->nm, gen->scene.cdo);
+	p = sum_vs(1, gen->scene.cdo, t,
+	sum_vs(1, gen->scene.cdv, -1, gen->scene.cdo));
+	if (t > 1 && point_in_triangle(*tr, p))
+		if (!check_see_objs(*gen, p, 300 + (int)gen->pix.z))
+			gen->cl = light_change_tr(*gen, p, *tr, (int)gen->pix.z);
+	gen->pix.z += 1;
+	if ((lstsp = ft_lstnum(gen->objs.tr, (int)gen->pix.z)) != NULL)
+		gen->cl = belong_to_triangle(gen, lstsp->content);
+	return (gen->cl);
 }

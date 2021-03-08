@@ -38,7 +38,7 @@ t_vector	cross_prv(t_vector vec1, t_vector vec2)
 
 	res.x = vec1.y * vec2.z - vec1.z * vec2.y;
 	res.y = -vec1.x * vec2.z + vec1.z * vec2.x;
-	res.z = vec1.x * vec2.y - vec1.z * vec2.x;
+	res.z = vec1.x * vec2.y - vec1.y * vec2.x;
 	return (res);
 }
 
