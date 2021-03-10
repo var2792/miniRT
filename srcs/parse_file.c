@@ -53,18 +53,23 @@ void	ft_null_scene(t_scobjs *scene)
 
 int		check_name_file(char *argv)
 {
-	int i;
+	int	i;
+	int	k;
 
 	i = 0;
-	while (argv[i] && argv[i] != '.')
+	if (argv[0] == '.' && argv[1] == '.' && argv[2] == '/')
+		k = 3;
+	else
+		k = 0;
+	while (argv[i + k] && argv[i + k] != '.')
 		i++;
-	if (!argv[i] || i < 1)
+	if (!argv[i + k] || i < 1 + k)
 		return (1);
-	else if (argv[i + 1] && argv[i + 1] != 'r')
+	else if (argv[i + k + 1] && argv[i + k + 1] != 'r')
 		return (1);
-	else if (argv[i + 2] && argv[i + 2] != 't')
+	else if (argv[i + k + 2] && argv[i + k + 2] != 't')
 		return (1);
-	else if (argv[i + 3] != '\0')
+	else if (argv[i + k + 3] != '\0')
 		return (1);
 	return (0);
 }

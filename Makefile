@@ -43,14 +43,14 @@ NAME		= miniRT
 .c.o:		${HEADER}
 			${CC} ${CFLAGS} ${SHDRS} -c $< -o $@
 
-${NAME}:	compilelibs ${OBJS}
+${NAME}:	${OBJS}
 			${CC} ${CFLAGS} ${OBJS} ${LFLAGS} ${SFLS} -o ${NAME}
 
-compilelibs:
+complibs:
 			@make -s -C $(LIBFT)
 			@make -s -C $(LIBMLX)
 
-all:		 ${NAME}
+all:		${NAME}
 
 clean:
 			${RM} ${OBJS} *.gch
@@ -62,7 +62,7 @@ fclean:		clean
 			@make -s -C $(LIBFT) fclean
 			@make -s -C $(LIBMLX) clean
 
-re:			fclean all
+re:			fclean complibs all
 
 .PHONY: 	all clean fclean re
 #valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./miniRT tests/work.rt
