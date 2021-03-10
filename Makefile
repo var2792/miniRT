@@ -44,11 +44,9 @@ NAME		= miniRT
 			${CC} ${CFLAGS} ${SHDRS} -c $< -o $@
 
 ${NAME}:	${OBJS}
+			make -s -C $(LIBFT)
+			make -s -C $(LIBMLX)
 			${CC} ${CFLAGS} ${OBJS} ${LFLAGS} ${SFLS} -o ${NAME}
-
-complibs:
-			@make -s -C $(LIBFT)
-			@make -s -C $(LIBMLX)
 
 all:		${NAME}
 
@@ -62,7 +60,7 @@ fclean:		clean
 			@make -s -C $(LIBFT) fclean
 			@make -s -C $(LIBMLX) clean
 
-re:			fclean complibs all
+re:			fclean all
 
 .PHONY: 	all clean fclean re
 #valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./miniRT tests/work.rt

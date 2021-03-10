@@ -111,9 +111,9 @@ int		parse_file(t_scobjs *objs, char *argv)
 	if ((fd = open(argv, O_RDWR)) < 0)
 		return (errors_mes(5, 0));
 	ft_null_scene(objs);
-	if (parse_lines(fd, objs))
-		return (1);
-	if (!objs->r.is)
+	//if (parse_lines(fd, objs))
+		//return (1);
+	if (parse_lines(fd, objs) || !objs->r.is || !objs->a.is)
 		return (errors_mes(3, 0));
 	close(fd);
 	return (0);

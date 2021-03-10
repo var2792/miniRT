@@ -43,6 +43,8 @@ int		parse_resplution(char **line, t_scobjs *scene)
 int		parse_ambient(char **line, t_scobjs *scene)
 {
 	(*line)++;
+	if (scene->a.is == 1)
+		return (1);
 	scene->a.rat = ft_atoi_float(line);
 	if (scene->a.rat < 0 || scene->a.rat > 1)
 		return (1);
