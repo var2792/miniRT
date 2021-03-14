@@ -57,10 +57,9 @@ int		check_name_file(char *argv)
 	int	k;
 
 	i = 0;
-	if (argv[0] == '.' && argv[1] == '.' && argv[2] == '/')
-		k = 3;
-	else
-		k = 0;
+	k = 0;
+	while (argv[k] == '.' && argv[k + 1] == '.' && argv[k + 2] == '/')
+		k += 3;
 	while (argv[i + k] && argv[i + k] != '.')
 		i++;
 	if (!argv[i + k] || i < 1 + k)
@@ -111,8 +110,8 @@ int		parse_file(t_scobjs *objs, char *argv)
 	if ((fd = open(argv, O_RDWR)) < 0)
 		return (errors_mes(5, 0));
 	ft_null_scene(objs);
-	//if (parse_lines(fd, objs))
-		//return (1);
+	if (parse_lines(fd, objs))
+		return (1);
 	if (parse_lines(fd, objs) || !objs->r.is || !objs->a.is)
 		return (errors_mes(3, 0));
 	close(fd);

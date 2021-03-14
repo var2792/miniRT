@@ -14,23 +14,18 @@
 
 int		check_head_orient(t_vector pcy, t_cylinder cy, t_light num_l)
 {
-	t_vector	p;
 	t_vector	h;
 	float		t;
 
 	h = sum_vs(1, cy.cd, -cy.h / 2 / sqrt(dot_prv(cy.nm, cy.nm)), cy.nm);
 	t = dot_prv(cy.nm, h) - dot_prv(cy.nm, num_l.cd);
 	t /= dot_prv(cy.nm, pcy) - dot_prv(cy.nm, num_l.cd);
-	p = sum_vs(1, num_l.cd, t, sum_vs(1, pcy, -1, num_l.cd));
-	if (len_vec(sum_vs(1, p, -1, num_l.cd))
-	< len_vec(sum_vs(1, pcy, -1, num_l.cd)) - EPS)
+	if (t > 1 - EPS && t < 1 + EPS)
 		return (0);
 	h = sum_vs(1, cy.cd, cy.h / 2 / sqrt(dot_prv(cy.nm, cy.nm)), cy.nm);
 	t = dot_prv(cy.nm, h) - dot_prv(cy.nm, num_l.cd);
 	t /= dot_prv(cy.nm, pcy) - dot_prv(cy.nm, num_l.cd);
-	p = sum_vs(1, num_l.cd, t, sum_vs(1, pcy, -1, num_l.cd));
-	if (len_vec(sum_vs(1, p, -1, num_l.cd))
-	< len_vec(sum_vs(1, pcy, -1, num_l.cd)) - EPS)
+	if (t > 1 - EPS && t < 1 + EPS)
 		return (1);
 	return (2);
 }
@@ -46,7 +41,7 @@ float	perpend_heads(t_cylinder cy, t_vector p, t_light num_l)
 	if (t == 1)
 		h = sum_vs(1, cy.cd, cy.h / 2 / sqrt(dot_prv(cy.nm, cy.nm)), cy.nm);
 	if (t == 2)
-		return (1);
+		return (0);
 	return (perpend_to_plane(h, cy.nm, num_l.cd));
 }
 

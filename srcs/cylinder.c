@@ -29,8 +29,7 @@ float	bright_cy(t_cylinder cy, t_light num_l, t_vector p, int fl)
 	}
 	else
 		bright = perpend_heads(cy, p, num_l)
-		/ len_vec(sum_vs(1, p, -1, num_l.cd))
-		* (check_head_orient(p, cy, num_l) == 2 ? 1 : 0);
+		/ len_vec(sum_vs(1, p, -1, num_l.cd));
 	return (bright);
 }
 
