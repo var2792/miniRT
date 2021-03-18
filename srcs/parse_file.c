@@ -112,7 +112,7 @@ int		parse_file(t_scobjs *objs, char *argv)
 	ft_null_scene(objs);
 	if (parse_lines(fd, objs))
 		return (1);
-	if (parse_lines(fd, objs) || !objs->r.is || !objs->a.is)
+	if (parse_lines(fd, objs) || !objs->r.is || !objs->a.is || !objs->c)
 		return (errors_mes(3, 0));
 	close(fd);
 	return (0);

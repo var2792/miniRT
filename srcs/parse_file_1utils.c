@@ -32,6 +32,8 @@ int		sep_fl(float *num, char **line, int fl)
 int		parse_resplution(char **line, t_scobjs *scene)
 {
 	(*line)++;
+	if (scene->r.is == 1)
+		return (1);
 	scene->r.x = ft_atoi_dinam(line);
 	scene->r.y = ft_atoi_dinam(line);
 	if (scene->r.x <= 0 || scene->r.y <= 0)
